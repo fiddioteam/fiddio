@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="fiddio">
+<head>
+  <meta charset="UTF-8">
+  <title>Fidd.io</title>
+</head>
+<body>
+
+  <div
+    ng-controller="AceController as ace"
+    ui-ace="{{ ace.editorOptions }}"
+    style="height: 350px;">
+  </div>
+
+  <script src="lib/ace-builds/src-min-noconflict/ace.js"></script>
+  <script src="lib/angular/angular.js"></script>
+  <script src="lib/angular-ui-ace/ui-ace.js"></script>
+  <script src="app/app.js"></script>
+</body>
+</html>
