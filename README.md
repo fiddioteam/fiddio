@@ -1,6 +1,9 @@
 # Fidd.io
+[![Build Status](https://travis-ci.org/deathbears/fiddio.svg?branch=master)](https://travis-ci.org/deathbears/fiddio)
+[![Dependency Status](https://david-dm.org/deathbears/fiddio.svg)](https://david-dm.org/deathbears/fiddio)
+[![devDependency Status](https://david-dm.org/deathbears/fiddio/dev-status.svg)](https://david-dm.org/deathbears/fiddio#info=devDependencies)
 
-> Bringing audio and live-coding playback to your fiddles
+<p><sup><strong>Bringing audio and live-coding playback to your fiddles</strong></sup></p>
 
 ## Team
 
