@@ -7,12 +7,14 @@
 <body>
 
   <div ng-controller="AceController as ace">
-    ng-controller="AceController as ace"
     <div
-      ui-ace="ace.editorOptions"
+      ui-ace="ace.recordOptions"
       style="height: 350px;">
     </div>
     <button ng-click="ace.uploadChanges()">Submit</button>
+    <button ng-if="!ace.currentlyRecording()" ng-click="ace.startRecording()">Start</button>
+    <button ng-if="ace.currentlyRecording()" ng-click="ace.stopRecording()">Stop</button>
+    <button ng-click="ace.setEditorText()">Clear</button>
   </div>
 
 

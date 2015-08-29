@@ -2,8 +2,25 @@ angular.module('fiddio')
 
 .factory('PlaybackMode', [ '$http', function($http) {
 
+  var _session, _document, _selection;
+
   var _recording = [];
-  
+
+  var playbackOptions = {
+    useWrapMode: true,
+    showGutter: true,
+    theme: 'solarized_dark',
+    mode: 'javascript',
+    onLoad: aceLoaded,
+    onChange: function(){}
+  };
+  function aceLoaded(){
+    _session = _editor.getSession();
+    _document = _session.getDocument();
+    _selection = _session.selection;
+
+    
+  }
   function play(){
     // start/sync mp3 and start Editor action loop
   }
@@ -35,5 +52,10 @@ angular.module('fiddio')
   }
   function leaveComment(){
     // make sure player is paused and leave text at video timestamp
+  }
+
+
+  return {
+    playbackOptions: playbackOptions
   }
 }]);
