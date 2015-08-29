@@ -33,6 +33,7 @@ angular.module( 'fiddio', [ 'ui.ace' ] )
       showGutter: true,
       theme: 'solarized_dark',
       mode: 'javascript',
+      firstLineNumber: 1,
       onLoad: vm.aceLoaded,
       onChange: vm.aceChanged
     }; // other options must be set with a function; see API docs
