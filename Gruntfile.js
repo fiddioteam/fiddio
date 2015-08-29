@@ -10,6 +10,7 @@ module.exports = function( grunt ) {
       dev: {
         options: {
           script: 'server/server.js',
+          node_env: 'development',
         }
       },
       production: {

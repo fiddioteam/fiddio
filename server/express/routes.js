@@ -2,7 +2,7 @@ var path = require('path');
 
 var routes = function(app, express) {
   // Serving static client files
-  var loc = app.isProd() ? 'public' : 'test';
+  var loc = process.isProd() ? 'public' : 'test';
 
   app.use(express.static(path.join(__dirname, '../../', loc)));
 

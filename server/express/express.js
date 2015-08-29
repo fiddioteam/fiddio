@@ -46,7 +46,9 @@ var passport = require('./passport')(app);
 app.use(bodyParser.json());
 
 // Body parser
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 // Initialize the routes
 require('./routes')(app, express);
