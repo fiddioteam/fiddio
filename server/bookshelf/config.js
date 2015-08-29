@@ -20,14 +20,14 @@ var buildTable = function(name, callback) {
   return db.knex.schema.hasTable(name)
   .then(function(exists) {
     if (exists) {
-      return Promise.reject(name + ' already exists');
+      return { name: name, created: false };
     } else {
       return db.knex.schema.createTable(name, callback)
       .then(function(qb) {
         if (qb) {
-          return name;
+          return { name: name, created: true };
         } else {
-          return Promise.reject('failed to create ' + name);
+          return { name: name, created: false };
         }
       });
     }
@@ -55,6 +55,7 @@ var issuesTable = buildTable('issues', function(table) {
   table.integer('user_id');
   table.integer('solution');
   table.boolean('closed');
+  table.string('short_url');
   table.timestamps();
 });
 
@@ -83,6 +84,7 @@ var commentsTable = buildTable('comments', function(table) {
   table.string('body');
   table.integer('user_id');
   table.integer('response_id');
+  table.integer('comment_id');
   table.timestamps();
 });
 
@@ -93,13 +95,6 @@ var starsTable = buildTable('stars', function(table) {
   table.boolean('active');
 });
 
-var commentsWatchesTable = buildTable('commentsWatches', function(table) {
-  table.increments('id').primary();
-  table.integer('user_id');
-  table.integer('comment_id');
-  table.boolean('active');
-});
-
 var issuesWatchesTable = buildTable('issuesWatches', function(table) {
   table.increments('id').primary();
   table.integer('user_id');
@@ -107,12 +102,6 @@ var issuesWatchesTable = buildTable('issuesWatches', function(table) {
   table.boolean('active');
 });
 
-var responsesWatchesTable = buildTable('responsesWatches', function(table) {
-  table.increments('id').primary();
-  table.integer('user_id');
-  table.integer('response_id');
-  table.boolean('active');
-});
 
 var tagsTable = buildTable('tags', function(table) {
   table.increments('id').primary();
@@ -125,12 +114,15 @@ var issues_tagsTable = buildTable('issues_tags', function(table) {
   table.integer('issue_id');
 });
 
-var tables = [usersTable, issuesTable, responsesTable, votesTable, commentsTable, starsTable, commentsWatchesTable, issuesWatchesTable, responsesWatchesTable, tagsTable, issues_tagsTable];
+var tables = [usersTable, issuesTable, responsesTable, votesTable, commentsTable, starsTable, issuesWatchesTable, tagsTable, issues_tagsTable];
 
 Promise.all(tables)
 .then(function(tables) {
   tables.forEach(function(table) {
-    process.verb('created table:', table);
+    if (table.created) {
+      process.verb('Bookshelf: created table', table.name);
+    } else {
+      process.verb('Bookshelf:', table.name, 'table already exists');
+    }
   });
 });
-
