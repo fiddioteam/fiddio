@@ -56,6 +56,7 @@ var issuesTable = buildTable('issues', function(table) {
   table.integer('solution');
   table.boolean('closed');
   table.string('short_url');
+  table.integer('star_count').notNullable();
   table.timestamps();
 });
 
@@ -66,7 +67,7 @@ var responsesTable = buildTable('responses', function(table) {
   table.string('audio_url');
   table.integer('user_id');
   table.integer('issue_id');
-  table.integer('vote_count');
+  table.integer('vote_count').notNullable();
   table.json('code_changes');
   table.timestamps();
 });

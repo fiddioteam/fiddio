@@ -25,14 +25,19 @@ var Vote = db.Model.extend({
 
     // create the model object
     // determines if already a vote in database
-    newVote.fetch()
+    return newVote.fetch({withRelated: ['response']})
     .then(function(vote) {
       if (!vote) {
         vote = newVote;
-      }
-      vote.set('upOrDown', upOrDown);
+      } else if (vote.get('upOrDown') != upOrDown) {
+        vote.set('upOrDown', upOrDown);
+      } else { return Promise.reject('did not change'); }
       return vote.save();
-    });
+    })
+    .then( function() {
+      return newVote.related('response').changeVotes(upOrDown);
+    })
+    .catch( function() {});
   },
 });
 
