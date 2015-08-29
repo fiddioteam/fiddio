@@ -26,10 +26,16 @@ var Star = db.Model.extend({
     .then(function(star) {
       if (!star) {
         star = newStar;
-      }
-      star.set('active', active);
+      } else if (star.get('active') != active) {
+        star.set('active', active);
+      } else { return Promise.reject('did not change'); }
+
       return star.save();
-    });
+    })
+    .then( function() {
+      return newVote.related('issue').changeStars(active || -1);
+    })
+    .catch( function() {});
   },
 });
 

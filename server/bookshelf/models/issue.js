@@ -3,10 +3,15 @@ var db      = require('../config'),
 
 require('./user');
 require('./response');
+require('./tag');
+require('./issuetag');
 
 var Issue = db.Model.extend({
   tableName: 'issues',
   hasTimestamps: true,
+  defaults: {
+    star_count: 0
+  },
   owner: function() {
     return this.belongsTo('User');
   },
@@ -15,6 +20,13 @@ var Issue = db.Model.extend({
   },
   isClosed: function() {
     return this.get('closed');
+  },
+  tags: function() {
+    return this.hasMany('Tag').through('IssueTag');
+  },
+  changeStars: function(upOrDown) {
+    this.set('star_count', this.get('star_count') + upOrDown);
+    return this.save();
   }
 }, {
   fetchIssuebyId: function(id) {
