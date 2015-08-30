@@ -2,12 +2,16 @@ var db      = require('../config'),
     Promise = require('bluebird');
 
 require('./issue');
+require('./star');
 
 var User = db.Model.extend({
   tableName: 'users',
   hasTimestamps: true,
   issues: function() {
     return this.hasMany('Issue');
+  },
+  stars: function() {
+    return this.hasMany('Star').through('Stars').withPivot('active');
   }
 }, {
   fetchUserbyId: function(id) {
@@ -18,12 +22,12 @@ var User = db.Model.extend({
     });
   },
 
-  fetchUser: function(email) {
+  fetchUser: function(email, notRequire) {
     // require true means if can't find user, reject the promise
     return new this({
       email: email
     }).fetch({
-      require: true
+      require: !notRequire
     });
   },
 
@@ -43,8 +47,8 @@ var User = db.Model.extend({
     });
   },
 
-  newUser: function() {
-    return new this();
+  newUser: function(options) {
+    return new this(options);
   },
 
   serializeUser: function(user, done) {
