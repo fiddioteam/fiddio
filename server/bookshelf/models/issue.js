@@ -27,6 +27,9 @@ var Issue = db.Model.extend({
   changeStars: function(upOrDown) {
     this.set('star_count', this.get('star_count') + upOrDown);
     return this.save();
+  },
+  stars: function() {
+    return this.hasMany('Star').through('Stars').withPivot('active');
   }
 }, {
   fetchIssuebyId: function(id) {
@@ -36,7 +39,6 @@ var Issue = db.Model.extend({
       require: true
     });
   },
-
   fetchIssue: function(short_url) {
     return new this({
       short_url: short_url
@@ -44,10 +46,17 @@ var Issue = db.Model.extend({
       require: true
     });
   },
-
-  newIssue: function() {
-    return new this();
+  newIssue: function(options) {
+    return new this(options);
   },
+  changeStarsbyId: function(issueId, upOrDown) {
+    return db.model('Issue')
+    .fetchIssuebyId(issueId)
+    .then(function(issue) {
+      issue.set('star_count', issue.get('star_count') + upOrDown);
+      return issue.save();
+    });
+  }
 });
 
 module.exports = db.model('Issue', Issue);
