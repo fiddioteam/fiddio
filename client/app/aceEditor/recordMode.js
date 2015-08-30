@@ -37,7 +37,7 @@ angular.module('fiddio')
     if (!currentlyRecording) { return; }
     console.log('updateText');
     var textMoment = {
-      action    : event[0].action, // 'Insert'  or 'Delete'
+      action    : event[0].action, // 'insert'  or 'remove'
       startR    : event[0].start.row,
       startC    : event[0].start.column,
       endR      : event[0].end.row,
@@ -45,7 +45,7 @@ angular.module('fiddio')
       lines     : event[0].lines, // an array - each row is a line of text
       timeStamp : Date.now()
     };
-    _recording.pop(); // pop redundant cursor change
+    // _recording.pop(); // pop redundant cursor change
     _recording.push(textMoment); // then push to an array
   }
 
@@ -56,9 +56,9 @@ angular.module('fiddio')
     var range = _selection.getRange();
     var cursorAction;
     if (range.start.row===range.end.row && range.start.column===range.end.column){
-      cursorAction = "cursorChange";
+      cursorAction = "cursor";
     } else {
-      cursorAction = "SelectionChange";
+      cursorAction = "selection";
     }
     var cursorMoment = {
       action       : cursorAction,
@@ -100,8 +100,9 @@ angular.module('fiddio')
     console.log('Uploading '+_recording.length+' changes to db');
     console.log(_recording);
     // upload array to db
-
+    var result = _recording;
     _recording = [];// clear array
+    return result;
   }
 
   return {
