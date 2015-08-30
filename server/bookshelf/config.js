@@ -9,6 +9,8 @@ var dbOptions = {
   }
 };
 
+//if (process.isDev()) { dbOptions.debug = true; }
+
 var knex = require('knex')(dbOptions);
 
 module.exports = db = require('bookshelf')(knex);
@@ -64,6 +66,7 @@ var responsesTable = buildTable('responses', function(table) {
   table.increments('id').primary();
   table.string('title');
   table.string('body');
+  table.text('code_snippet');
   table.string('audio_url');
   table.integer('user_id');
   table.integer('issue_id');
@@ -76,7 +79,7 @@ var votesTable = buildTable('votes', function(table) {
   table.increments('id').primary();
   table.integer('user_id');
   table.integer('response_id');
-  table.integer('up_down');
+  table.integer('up_down').notNullable();
   table.timestamps();
 });
 
@@ -93,7 +96,7 @@ var starsTable = buildTable('stars', function(table) {
   table.increments('id').primary();
   table.integer('user_id');
   table.integer('issue_id');
-  table.boolean('active');
+  table.boolean('active').notNullable();
 });
 
 var issuesWatchesTable = buildTable('issuesWatches', function(table) {

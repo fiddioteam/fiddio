@@ -1,16 +1,32 @@
 angular.module( 'fiddio', [ 'ui.ace' ] )
 
-  .controller( 'AceController', [ 'RecordMode', function(RecordMode) {
+  .controller( 'AceController', [ 'RecordMode', 'PlaybackMode', function(RecordMode, PlaybackMode) {
     var vm = this; // initializes the view-model var (`vm`) for use in the controllerAs syntax
+    console.log(RecordMode);
+    console.log(PlaybackMode);
 
-    vm.editorOptions = { // ui-ace provides access to some config options
-      useWrapMode: true,
-      showGutter: true,
-      theme: 'solarized_dark',
-      mode: 'javascript',
-      onLoad: RecordMode.aceLoaded,
-      onChange: RecordMode.updateText
-    }; // other options must be set with a function; see API docs
+    var recording;
 
-    vm.uploadChanges = RecordMode.uploadEditorChanges;
+    vm.currentlyRecording = RecordMode.getRecordingStatus;
+    vm.recordOptions = RecordMode.recordOptions;
+    vm.startRecording = function(){
+      RecordMode.startRecording(RecordMode.getRecordingStatus());
+      RecordMode.setRecordingStatus(true);
+    }
+    vm.stopRecording = function(){
+      RecordMode.stopRecording(RecordMode.getRecordingStatus());
+      RecordMode.setRecordingStatus(false);
+    }
+    vm.uploadChanges = function(){
+      recording = RecordMode.uploadEditorChanges(RecordMode.getRecordingStatus());
+      RecordMode.setEditorText();
+
+    };
+    vm.queueAction = function(){
+      PlaybackMode.queueEditorAction(recording);
+    }
+    vm.setEditorText = RecordMode.setEditorText;
+
+    vm.playbackOptions = PlaybackMode.playbackOptions;
+
   }]);

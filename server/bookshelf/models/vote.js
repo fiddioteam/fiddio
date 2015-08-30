@@ -6,6 +6,9 @@ require('./response');
 
 var Vote = db.Model.extend({
   tableName: 'votes',
+  defaults: {
+    up_down: 0
+  },
   user: function() {
     return this.belongsTo('User');
   },
@@ -13,32 +16,33 @@ var Vote = db.Model.extend({
     return this.hasOne('Response');
   },
   upOrDown: function() {
-    return this.get('upOrDown') || 0;
+    return this.get('upOrDown');
   },
   // only one vote per user
-  fetchOrCreate: function(user, response, upOrDown) {
+  fetchOrCreate: function(userId, responseId, upOrDown) {
     var options = {
-      user: user,
-      response: response
+      user: userId,
+      response: responseId
     };
+
     var newVote = new this(options);
 
     // create the model object
     // determines if already a vote in database
-    return newVote.fetch({withRelated: ['response']})
+    return newVote.fetch()
     .then(function(vote) {
       if (!vote) {
         vote = newVote;
-      } else if (vote.get('upOrDown') != upOrDown) {
-        vote.set('upOrDown', upOrDown);
-      } else { return Promise.reject('did not change'); }
-      return vote.save();
-    })
-    .then( function() {
-      return newVote.related('response').changeVotes(upOrDown);
-    })
-    .catch( function() {});
-  },
+      }
+
+      var prevVote = vote.get('upOrDown');
+      vote.set('upOrDown', upOrDown);
+
+      vote.save();
+
+      return db.model('Response').changeVotesbyId(responseId, prevVote, upOrDown);
+    });
+  }
 });
 
 module.exports = db.model('Vote', Vote);
