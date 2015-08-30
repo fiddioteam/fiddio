@@ -6,37 +6,45 @@ require('./issue');
 
 var Star = db.Model.extend({
   tableName: 'stars',
+  defaults: {
+    active: true
+  },
   user: function() {
     return this.belongsTo('User');
   },
   issue: function() {
-    return this.hasOne('Issue');
-  },
-  // only one star per user
-  fetchOrCreate: function(user, issue, active) {
+    return this.belongsTo('Issue');
+  }
+},{
+    // only one star per user
+  fetchOrCreate: function(userId, issueId, active) {
     var options = {
-      user: user,
-      issue: issue
+      user_id: userId,
+      issue_id: issueId
     };
-    var newStar = new this(options);
 
     // create the model object
     // determines if already a star in database
-    newStar.fetch()
-    .then(function(star) {
-      if (!star) {
-        star = newStar;
-      } else if (star.get('active') != active) {
-        star.set('active', active);
-      } else { return Promise.reject('did not change'); }
+    var newStar = new this(options);
 
-      return star.save();
-    })
-    .then( function() {
-      return newVote.related('issue').changeStars(active || -1);
-    })
-    .catch( function() {});
-  },
+    return newStar
+    .fetch()
+    .then(function(star) {
+      var changeCount = 0;
+
+      if (star) {
+        changeCount += active || -1;
+      } else {
+        star = newStar;
+        changeCount += active;
+      }
+
+      star.set('active', active);
+      star.save();
+
+      return db.model('Issue').changeStarsbyId(issueId, changeCount);
+    });
+  }
 });
 
 module.exports = db.model('Star', Star);

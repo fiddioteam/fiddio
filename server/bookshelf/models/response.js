@@ -16,8 +16,9 @@ var Response = db.Model.extend({
   issue: function() {
     return this.belongsTo('Issue');
   },
-  changeVotes: function(upOrDown) {
-    this.set('vote_count', this.get('vote_count') + upOrDown);
+  changeVotes: function(prevVote, upOrDown) {
+    //subtract previous vote, add new vote
+    this.set('vote_count', this.get('vote_count') - prevVote + upOrDown);
     return this.save();
   }
 }, {
@@ -32,6 +33,14 @@ var Response = db.Model.extend({
   newResponse: function(options) {
     return new this(options);
   },
+  changeVotesbyId: function(responseId, prevVote, upOrDown) {
+    return db.model('Response')
+    .fetchIssuebyId(responseId)
+    .then( function(response) {
+      response.set('vote_count', response.get('vote_count') - prevVote + upOrDown);
+      return response.save();
+    });
+  }
 });
 
 module.exports = db.model('Response', Response);
