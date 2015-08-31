@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="fiddio">
+<head>
+  <meta charset="UTF-8">
+  <title>Fidd.io</title>
+</head>
+<body>
+
+  <div ng-controller="AceController as ace">
+    <div
+      ui-ace="ace.recordOptions"
+      style="height: 350px;">
+    </div>
+    <div
+      ui-ace="ace.playbackOptions"
+      style="height: 350px;">
+    </div>
+    <button ng-click="ace.uploadChanges()">Submit</button>
+    <button ng-if="!ace.currentlyRecording()" ng-click="ace.startRecording()">Start</button>
+    <button ng-if="ace.currentlyRecording()" ng-click="ace.stopRecording()">Stop</button>
+    <button ng-click="ace.setEditorText()">Clear</button>
+    <button ng-click="ace.queueAction()">Play</button>
+  </div>
+
+
+  <script src="lib/ace-builds/src-min-noconflict/ace.js"></script>
+  <script src="lib/angular/angular.js"></script>
+  <script src="lib/angular-ui-ace/ui-ace.js"></script>
+  <script src="app/aceEditor/editor.js"></script>
+  <script src="app/aceEditor/recordMode.js"></script>
+  <script src="app/aceEditor/playbackMode.js"></script>
+</body>
+</html>
