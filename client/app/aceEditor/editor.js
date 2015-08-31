@@ -2,8 +2,6 @@ angular.module( 'fiddio', [ 'ui.ace' ] )
 
   .controller( 'AceController', [ 'RecordMode', 'PlaybackMode', function(RecordMode, PlaybackMode) {
     var vm = this; // initializes the view-model var (`vm`) for use in the controllerAs syntax
-    console.log(RecordMode);
-    console.log(PlaybackMode);
 
     var recording;
 
@@ -22,9 +20,9 @@ angular.module( 'fiddio', [ 'ui.ace' ] )
       RecordMode.setEditorText();
 
     };
-    vm.queueAction = function(){
-      PlaybackMode.queueEditorAction(recording);
-    }
+    vm.playRecording = function(){
+      PlaybackMode.playActions(recording);
+    };
     vm.setEditorText = RecordMode.setEditorText;
 
     vm.playbackOptions = PlaybackMode.playbackOptions;
