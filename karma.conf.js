@@ -15,9 +15,11 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'client/lib/ace-builds/src-min-noconflict/ace.js',
       'client/lib/angular/angular.js',
+      'client/lib/angular-ui-ace/ui-ace.js',
       'client/lib/angular-mocks/angular-mocks.js',
-      'app/**/*.js',
+      'client/app/**/*.js',
       'spec/unit/**/*.js'
     ],
 
@@ -36,7 +38,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
+    reporters: ['progress','html'],
 
 
     // web server port
@@ -49,7 +51,7 @@ module.exports = function(config) {
 
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    logLevel: config.LOG_INFO,
+    logLevel: config.LOG_DEBUG,
 
 
     // enable / disable watching file and executing tests whenever any file changes
@@ -58,11 +60,18 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
+    browsers: [],
 
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: false
+    singleRun: false,
+
+    plugins: [
+    // Karma will require() these plugins
+      'karma-jasmine',
+      'karma-chrome-launcher',
+      'karma-jasmine-html-reporter'
+    ]
   })
 }
