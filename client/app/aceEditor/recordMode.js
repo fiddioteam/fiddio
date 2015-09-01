@@ -89,7 +89,7 @@ angular.module('fiddio')
     console.log(_recording);
     // upload array to db
     var result = _recording;
-    _recording = [];// clear array
+    _recording = []; // clear array
     return result;
   }
 
