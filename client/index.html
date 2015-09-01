@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="fiddio">
+<head>
+  <meta charset="UTF-8">
+  <title>Fidd.io</title>
+</head>
+<body>
+  
+  <nav>
+    <ul>
+      <li><a ui-sref="home">Home</a></li>
+      <li><a ui-sref="record-response">Record</a></li>
+    </ul>
+  </nav>
+
+  <ui-view></ui-view>
+
+  <script src="lib/ace-builds/src-min-noconflict/ace.js"></script>
+  <script src="lib/angular/angular.js"></script>
+  <script src="lib/angular-ui-router/release/angular-ui-router.min.js"></script>
+  <script src="lib/angular-ui-ace/ui-ace.js"></script>
+  <script src="app/app.js"></script>
+  <script src="app/aceEditor/editor.js"></script>
+  <script src="app/aceEditor/recordMode.js"></script>
+  <script src="app/aceEditor/playbackMode.js"></script>
+</body>
+</html>
