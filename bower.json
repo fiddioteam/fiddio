@@ -29,7 +29,8 @@
   ],
   "dependencies": {
     "angular": "~1.4.4",
+    "angular-mocks": "~1.4.5",
     "angular-ui-ace": "bower",
-    "angular-mocks": "~1.4.5"
+    "angular-ui-router": "~0.2.15"
   }
 }

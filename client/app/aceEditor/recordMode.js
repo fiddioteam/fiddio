@@ -31,9 +31,10 @@ angular.module('fiddio')
   }
 
   function updateText(event) {
+    var action;
     if (!currentlyRecording) { return; }
     if (event.action === 'insert')
-      { var action = 0; } else { var action = 1; }
+      { action = 0; } else { action = 1; }
     _recording.push([
       action, // 'insert-0'  or 'remove-1'
       Date.now(),

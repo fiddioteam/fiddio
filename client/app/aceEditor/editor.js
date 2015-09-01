@@ -1,4 +1,4 @@
-angular.module( 'fiddio', [ 'ui.ace' ] )
+angular.module( 'fiddio' )
 
   .controller( 'AceController', [ 'RecordMode', 'PlaybackMode', function(RecordMode, PlaybackMode) {
     var vm = this; // initializes the view-model var (`vm`) for use in the controllerAs syntax
@@ -10,11 +10,11 @@ angular.module( 'fiddio', [ 'ui.ace' ] )
     vm.startRecording = function(){
       RecordMode.startRecording(RecordMode.getRecordingStatus());
       RecordMode.setRecordingStatus(true);
-    }
+    };
     vm.stopRecording = function(){
       RecordMode.stopRecording(RecordMode.getRecordingStatus());
       RecordMode.setRecordingStatus(false);
-    }
+    };
     vm.uploadChanges = function(){
       recording = RecordMode.uploadEditorChanges(RecordMode.getRecordingStatus());
       RecordMode.setEditorText();
