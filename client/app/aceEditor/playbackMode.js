@@ -9,14 +9,13 @@ angular.module('fiddio')
   var editorActions = [
     insertText,
     removeText,
-    moveCursor,
-    highlightText
+    moveCursor
   ]; // list of possible actions on moment objects
 
   var playbackOptions = {
     useWrapMode: true,
     showGutter: true,
-    theme: 'solarized_light',
+    theme: 'solarized_dark',
     mode: 'javascript',
     onLoad: aceLoaded
   };
@@ -27,16 +26,21 @@ angular.module('fiddio')
     _document = _session.getDocument();
     _selection = _session.selection;
     _aceEditor.setValue('',-1);
+    _aceEditor.$blockScrolling = Infinity;
   }
-  function playActions(recording,prevTime){
+  function playActions(recording,time){
+    time = time || 0;
+    var timeOutSpeed = 5;
     // start/sync mp3 and start Editor action loop
     if (!recording.length){return;}
-    var timeSlice = recording.shift();
-    prevTime = prevTime || timeSlice[1];
     setTimeout(function(){
-      editorActions[timeSlice[0]](timeSlice);
-      playActions(recording, timeSlice[1]);
-    },Math.max(0,timeSlice[1]-prevTime-10));
+      if (recording[0][1] <= time) {
+        var timeSlice = recording.shift();
+        editorActions[timeSlice[0]](timeSlice);
+      }
+
+      playActions(recording, time+=timeOutSpeed);
+    },timeOutSpeed);
   }
   function pause(){
     // pause mp3 and Editor action loop
@@ -47,6 +51,7 @@ angular.module('fiddio')
 
   function downloadRecording(dummyRecording){
     _recording = dummyRecording || []; // change later
+    // api call
   }
 
   function insertText(textObj){
@@ -61,29 +66,23 @@ angular.module('fiddio')
       start: {
         row: textObj[2],
         column: textObj[3]
-      },
-      end: {
+      }, end: {
         row: textObj[4],
         column: textObj[5]
       }
     });
   }
 
-  function highlightText(cursorObj){
+  function moveCursor(cursorObj){
     _selection.setSelectionRange({
       start: {
         row: cursorObj[4],
         column: cursorObj[5]
-      },
-      end: {
+      }, end: {
         row: cursorObj[6],
         column: cursorObj[7]
       }
-    }, false);
-    moveCursor(cursorObj);
-  }
-
-  function moveCursor(cursorObj){
+    }, cursorObj[3] === cursorObj[5]);
     _selection.moveCursorToPosition({
       row: cursorObj[2],
       column: cursorObj[3]
