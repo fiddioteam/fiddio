@@ -8,8 +8,13 @@ angular.module( 'fiddio', [ 'ui.ace' ] )
     vm.currentlyRecording = RecordMode.getRecordingStatus;
     vm.recordOptions = RecordMode.recordOptions;
     vm.startRecording = function(){
-      RecordMode.startRecording(RecordMode.getRecordingStatus());
-      RecordMode.setRecordingStatus(true);
+      // RecordMode.startRecording(RecordMode.getRecordingStatus());
+      RecordMode.startRecording().then(function(success){
+        RecordMode.setRecordingStatus(success);
+      });
+
+      // RecordMode.setRecordingStatus(true);
+      console.log('started recording...');
     }
     vm.stopRecording = function(){
       RecordMode.stopRecording(RecordMode.getRecordingStatus());
@@ -26,5 +31,8 @@ angular.module( 'fiddio', [ 'ui.ace' ] )
     vm.setEditorText = RecordMode.setEditorText;
 
     vm.playbackOptions = PlaybackMode.playbackOptions;
+
+    console.log('GET USER MEDIA?',navigator.getUserMedia);
+    console.log('SUCCESS FUNCTION?',RecordMode.success);
 
   }]);

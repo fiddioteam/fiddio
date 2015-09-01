@@ -1,8 +1,8 @@
 angular.module('fiddio')
 
-.factory('RecordMode', [ '$http', function($http) {
+.factory('RecordMode', [ '$http','$q', function($http,$q) {
 
-  var _aceEditor, _session, _document, _selection;
+  var _aceEditor, _session, _document, _selection, context, currentStream;
   var _recording = [];
   var currentlyRecording = false;
   var recordOptions = {
@@ -13,12 +13,30 @@ angular.module('fiddio')
     onLoad: aceLoaded,
   };
 
+  navigator.getUserMedia =
+    navigator.getUserMedia ||
+    navigator.webkitGetUserMedia ||
+    navigator.mozGetUserMedia ||
+    navigator.msGetUserMedia;
+
+  function success(stream){
+    currentStream = stream;
+    var audioContext = window.AudioContext || window.webkitAudioContext;
+    context = new audioContext();
+    audioInput = context.createMediaStreamSource(stream);
+    var recorder = context.createScriptProcessor(4096, 1, 1);
+    recorder.connect (context.destination);
+    _aceEditor.setReadOnly(false);
+    return true;
+  }
+
   function aceLoaded(_editor) {
     _aceEditor = _editor.env.editor;
     _session = _editor.getSession();
     _document = _session.getDocument();
     _selection = _session.selection;
     _aceEditor.setValue('',-1);
+    _aceEditor.$blockScrolling = Infinity;
     _aceEditor.setReadOnly(true);
     _session.on('change', updateText);
     _selection.on('changeCursor', updateCursor);
@@ -35,44 +53,43 @@ angular.module('fiddio')
     if (event.action === 'insert')
       { var action = 0; } else { var action = 1; }
     _recording.push([
-      action, // 'insert-0'  or 'remove-1'
-      Date.now(),
+      action, // '0 for insert'  or '1 for remove'
+      context.currentTime*1000 | 0,
       event.start.row,
       event.start.column,
       event.end.row,
       event.end.column,
       event.lines
-    ]); // then push to an array
+    ]);
   }
 
   function updateCursor(event){
     if (!currentlyRecording) { return; }
     var cursorPos = _selection.getCursor();
     var range = _selection.getRange();
-    var cursorAction;
-    if (range.start.row===range.end.row && range.start.column===range.end.column)
-      { cursorAction = 2; } else { cursorAction = 3; }
     _recording.push([
-      cursorAction, // "cursor-2" or "selection-3"
-      Date.now(),
+      2, // "2 for cursor"
+      context.currentTime*1000 | 0,
       cursorPos.row,
       cursorPos.column,
       range.start.row,
       range.start.column,
       range.end.row,
       range.end.column
-    ]); // push to array
+    ]);
   }
 
-  function startRecording(currentlyRecording){
-    if (currentlyRecording) { return; }
-    _aceEditor.setReadOnly(false);
 
+  function startRecording(currentlyRecording){
+    return $q(function(resolve,reject){ // put all of this promise stuff into startRecording()
+      navigator.getUserMedia({audio:true}, resolve, reject);
+    }).then(success);
   }
 
   function stopRecording(currentlyRecording){
     if (!currentlyRecording) { return; }
     _aceEditor.setReadOnly(true);
+    currentStream.stop();
   }
 
   function setRecordingStatus(value){
@@ -86,6 +103,7 @@ angular.module('fiddio')
   function uploadEditorChanges(currentlyRecording){
     if (currentlyRecording) { return; }
     console.log('Uploading '+_recording.length+' changes to db');
+    console.log(JSON.stringify(_recording).length);
     console.log(_recording);
     // upload array to db
     var result = _recording;
@@ -94,6 +112,7 @@ angular.module('fiddio')
   }
 
   return {
+    success: success,
     recordOptions: recordOptions,
     setEditorText: setEditorText,
     startRecording: startRecording,
