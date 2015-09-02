@@ -1,6 +1,6 @@
 angular.module( 'fiddio', [ 'ui.ace' ] )
 
-.controller( 'AceController', [ 'RecordMode', 'PlaybackMode', function(RecordMode, PlaybackMode) {
+.controller( 'AceController', [ '$window', 'RecordMode', 'PlaybackMode', function( $window, RecordMode, PlaybackMode) {
   var vm = this; // initializes the view-model var (`vm`) for use in the controllerAs syntax
 
   var recording;
@@ -17,7 +17,11 @@ angular.module( 'fiddio', [ 'ui.ace' ] )
     console.log('started recording...');
   };
   vm.stopRecording = function(){
-    RecordMode.stopRecording(RecordMode.getRecordingStatus());
+    RecordMode.stopRecording(RecordMode.getRecordingStatus(),
+      function(blob) {
+        console.log('blob!!', blob);
+        vm.playbackBlob = blob;
+      });
     RecordMode.setRecordingStatus(false);
   };
   vm.uploadChanges = function(){
@@ -26,7 +30,14 @@ angular.module( 'fiddio', [ 'ui.ace' ] )
 
   };
   vm.playRecording = function(){
-    PlaybackMode.playActions(recording);
+    if (!window.AudioContext) { window.AudioContext = window.webkitAudioContext; }
+    vm.playbackCtx = new AudioContext();
+    vm.player = new Audio();
+    vm.player.src = $window.URL.createObjectURL(vm.playbackBlob);
+    vm.playbackCtx.createMediaElementSource(vm.player).connect(vm.playbackCtx.destination);
+
+    vm.player.play();
+    PlaybackMode.playActions(recording, vm.playbackCtx);
   };
   vm.setEditorText = RecordMode.setEditorText;
 
