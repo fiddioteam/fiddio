@@ -83,10 +83,10 @@ angular.module('fiddio')
     }).then(success);
   }
 
-  function stopRecording(currentlyRecording){
+  function stopRecording(currentlyRecording, callback){
     if (!currentlyRecording) { return; }
     _aceEditor.setReadOnly(true);
-    recorder.stop();
+    recorder.stop(callback);
   }
 
   function setRecordingStatus(value){
