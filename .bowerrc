@@ -1,3 +1,6 @@
 {
-  "directory": "client/lib"
+  "directory": "client/lib",
+  "verbose": true,
+  "install": true,
+  "cleanup": true
 }

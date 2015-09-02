@@ -1,8 +1,8 @@
 angular.module('fiddio')
 
-.factory('RecordMode', [ '$http','$q', function($http,$q) {
+.factory('RecordMode', [ '$http','$q','FiddioRecorder', function($http,$q,FiddioRecorder) {
 
-  var _aceEditor, _session, _document, _selection, context, currentStream;
+  var _aceEditor, _session, _document, _selection, recorder;
   var _recording = [];
   var currentlyRecording = false;
   var recordOptions = {
@@ -20,12 +20,8 @@ angular.module('fiddio')
     navigator.msGetUserMedia;
 
   function success(stream){
-    currentStream = stream;
-    var audioContext = window.AudioContext || window.webkitAudioContext;
-    context = new audioContext();
-    audioInput = context.createMediaStreamSource(stream);
-    var recorder = context.createScriptProcessor(4096, 1, 1);
-    recorder.connect (context.destination);
+    recorder = new FiddioRecorder.recorder(stream);
+    recorder.record();
     _aceEditor.setReadOnly(false);
     return true;
   }
@@ -50,11 +46,12 @@ angular.module('fiddio')
 
   function updateText(event) {
     if (!currentlyRecording) { return; }
+    var action;
     if (event.action === 'insert')
-      { var action = 0; } else { var action = 1; }
+      { action = 0; } else { action = 1; }
     _recording.push([
       action, // '0 for insert'  or '1 for remove'
-      context.currentTime*1000 | 0,
+      recorder.context.currentTime*1000 | 0,
       event.start.row,
       event.start.column,
       event.end.row,
@@ -69,7 +66,7 @@ angular.module('fiddio')
     var range = _selection.getRange();
     _recording.push([
       2, // "2 for cursor"
-      context.currentTime*1000 | 0,
+      recorder.context.currentTime*1000 | 0,
       cursorPos.row,
       cursorPos.column,
       range.start.row,
@@ -89,7 +86,8 @@ angular.module('fiddio')
   function stopRecording(currentlyRecording){
     if (!currentlyRecording) { return; }
     _aceEditor.setReadOnly(true);
-    currentStream.stop();
+    recorder.stop();
+    recorder.exportAudio(function(){console.log('exporting...');});
   }
 
   function setRecordingStatus(value){

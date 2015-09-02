@@ -35,6 +35,7 @@ module.exports = function( grunt ) {
         options: {
           targetDir: './test/',
           production: false,
+          verbose: true,
           layout: function(type, component, source) {
             return path.parse(source).dir;
           }
@@ -65,7 +66,9 @@ module.exports = function( grunt ) {
           expand: true,
           cwd: 'test/',
           dest: 'test/',
-          src: [ '../bower.json', 'app/*.js', 'app/**/*.js', 'styles/**/*.css' ],
+          src: [ '../bower.json', 'app/*.js', 'app/**/*.js', 'styles/**/*.css',
+          '!app/fiddioRecorder/recorderWorkerMP3.js',
+          '!app/fiddioRecorder/Mp3LameEncoder.min.js' ],
         }, ],
       },
       production: {
@@ -77,7 +80,9 @@ module.exports = function( grunt ) {
           expand: true,
           cwd: 'public/',
           dest: 'public/',
-          src: [ '../bower.json', 'app/*.js', 'app/**/*.js', 'styles/**/*.css' ],
+          src: [ '../bower.json', 'app/*.js', 'app/**/*.js', 'styles/**/*.css',
+          '!app/fiddioRecorder/recorderWorkerMP3.js',
+          '!app/fiddioRecorder/Mp3LameEncoder.min.js' ],
         }, ],
       },
     },
