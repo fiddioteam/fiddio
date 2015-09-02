@@ -9,6 +9,7 @@ angular.module('fiddio')
     recorder: function(stream){
       if (!window.AudioContext) { window.AudioContext = window.webkitAudioContext; }
       this.context = new window.AudioContext();
+      this.context.sampleRate = 32000;
       this.source = this.context.createMediaStreamSource(stream);
       this.stream = stream;
 
@@ -26,7 +27,6 @@ angular.module('fiddio')
       this.node.onaudioprocess = function(e){
         if (!this.recording) return;
 
-        console.log('DATA!!!!', e.inputBuffer.getChannelData(0));
         worker.postMessage({
           command: 'record',
           buffer: [
@@ -47,10 +47,14 @@ angular.module('fiddio')
       this.stop = function(){
         this.recording = false;
 
+        if (this.stream.getAudioTracks) {
+          this.stream.getAudioTracks().forEach(function(track) {
+            track.stop();
+          });
+        } else if (this.stream.stop) { this.stream.stop(); }
+
         this.exportAudio(function(blob){
           console.log('WE GOTZ THE DATAS!');
-          this.source.disconnect();
-          this.node.disconnect();
         });
       };
 
@@ -68,7 +72,6 @@ angular.module('fiddio')
 
       worker.onmessage = function(e) {
         var blob = e.data;
-        console.log(blob);
         if (currCallback) { currCallback(blob); }
       };
 

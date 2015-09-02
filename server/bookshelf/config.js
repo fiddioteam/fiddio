@@ -57,7 +57,6 @@ var issuesTable = buildTable('issues', function(table) {
   table.integer('user_id');
   table.integer('solution');
   table.boolean('closed');
-  table.string('short_url');
   table.integer('star_count').notNullable();
   table.timestamps();
 });

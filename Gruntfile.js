@@ -1,4 +1,5 @@
 var path = require('path');
+var fs = require('fs');
 
 module.exports = function( grunt ) {
 
@@ -37,6 +38,8 @@ module.exports = function( grunt ) {
           production: false,
           verbose: true,
           layout: function(type, component, source) {
+            if (fs.lstatSync(source).isDirectory()) { return source; }
+
             return path.parse(source).dir;
           }
         },
@@ -46,6 +49,8 @@ module.exports = function( grunt ) {
           targetDir: './public/',
           production: true,
           layout: function(type, component, source) {
+            if (fs.lstatSync(source).isDirectory()) { return source; }
+
             return path.parse(source).dir;
           }
         },
@@ -68,7 +73,7 @@ module.exports = function( grunt ) {
           dest: 'test/',
           src: [ '../bower.json', 'app/*.js', 'app/**/*.js', 'styles/**/*.css',
           '!app/fiddioRecorder/recorderWorkerMP3.js',
-          '!app/fiddioRecorder/Mp3LameEncoder.min.js' ],
+          '!app/fiddioRecorder/Mp3LameEncoder.js' ],
         }, ],
       },
       production: {
@@ -82,7 +87,7 @@ module.exports = function( grunt ) {
           dest: 'public/',
           src: [ '../bower.json', 'app/*.js', 'app/**/*.js', 'styles/**/*.css',
           '!app/fiddioRecorder/recorderWorkerMP3.js',
-          '!app/fiddioRecorder/Mp3LameEncoder.min.js' ],
+          '!app/fiddioRecorder/Mp3LameEncoder.js' ],
         }, ],
       },
     },

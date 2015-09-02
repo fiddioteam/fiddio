@@ -25,7 +25,7 @@ this.onmessage = function(e) {
 // The channels is set to mono and listenning to channel 1 which is the left channel.
 // There is some problem with stereo channel support.
 function init(sampleRate) {
-  encoder = new Mp3LameEncoder(sampleRate, 128, 1, 3);
+  encoder = new Mp3LameEncoder(sampleRate, 64, 1, 3);
 }
 
 function record(buffer) {
