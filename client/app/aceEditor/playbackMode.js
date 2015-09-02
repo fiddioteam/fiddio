@@ -97,5 +97,5 @@ angular.module('fiddio')
   return {
     playbackOptions: playbackOptions,
     playActions: playActions
-  }
+  };
 }]);

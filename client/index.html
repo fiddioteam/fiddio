@@ -2,6 +2,10 @@
 <html lang="en" ng-app="fiddio">
 <head>
   <meta charset="UTF-8">
+  <!-- injector:bower:css -->
+  <!-- endinjector -->
+  <!-- injector:css -->
+  <!-- endinjector -->
   <title>Fidd.io</title>
 </head>
 <body>
@@ -21,13 +25,15 @@
     <button ng-click="ace.setEditorText()">Clear</button>
     <button ng-click="ace.playRecording()">Play</button>
   </div>
-
-
+  
   <script src="lib/ace-builds/src-min-noconflict/ace.js"></script>
-  <script src="lib/angular/angular.js"></script>
-  <script src="lib/angular-ui-ace/ui-ace.js"></script>
-  <script src="app/aceEditor/editor.js"></script>
+  <!-- injector:bower:js -->
+  <!-- endinjector -->
+  <!-- injector:js -->
+  <!-- endinjector -->
+  <!--<script src="app/aceEditor/editor.js"></script>
   <script src="app/aceEditor/recordMode.js"></script>
   <script src="app/aceEditor/playbackMode.js"></script>
+  <script src="app/fiddioRecorder/"></script> -->
 </body>
 </html>
