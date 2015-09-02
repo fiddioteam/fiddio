@@ -87,7 +87,6 @@ angular.module('fiddio')
     if (!currentlyRecording) { return; }
     _aceEditor.setReadOnly(true);
     recorder.stop();
-    recorder.exportAudio(function(){console.log('exporting...');});
   }
 
   function setRecordingStatus(value){
