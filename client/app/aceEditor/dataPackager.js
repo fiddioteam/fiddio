@@ -18,8 +18,14 @@ angular.module('fiddio')
     return _responseData;
   }
 
+  function uploadQuestion(question) {
+    // api POST
+    console.log("Inside DataPackager uploadQuestion method", question);
+  }
+
   return {
     uploadResponse: uploadResponse,
-    downloadResponse: downloadResponse
+    downloadResponse: downloadResponse,
+    uploadQuestion: uploadQuestion
   };
 }]);

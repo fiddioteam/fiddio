@@ -35,6 +35,14 @@ angular.module('fiddio', ['ui.ace', 'ui.router'])
         templateUrl: '../templates/submitQuestion.html',
         controller: 'SubmitQuestion as submit'
       })
+      .state('record-response', {
+        url: '/answer',
+        templateUrl: '../templates/recordResponse.html',
+        resolve: {
+          func: function() { console.log("Inside of answer resolve"); }
+        },
+        controller: 'AceController as ace'
+      })
       .state('question', {
         url: '/:questionID',
         templateUrl: '../templates/questionView.html',
@@ -45,16 +53,11 @@ angular.module('fiddio', ['ui.ace', 'ui.router'])
               return question;
             })
             .catch(function(err) {
-              console.log('Error?', err);
+              console.log('Error: ', err);
             });
           }]
         },
         controller: 'QuestionView as qv'
-      })
-      .state('record-response', {
-        url: '/answer',
-        templateUrl: '../templates/recordResponse.html',
-        controller: 'AceController as ace'
       });
 
   })
@@ -73,10 +76,8 @@ angular.module('fiddio', ['ui.ace', 'ui.router'])
 
     factory.findById = function(id) {
       return this.all().then(function(data) {
-        console.log('data', id, data);
         for (var i = 0; i < data.length; i++) {
           if (data[i].id === id) {
-            console.log('data[i] is ', data[i]);
             return data[i];
           }
         }
