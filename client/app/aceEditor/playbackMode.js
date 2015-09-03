@@ -1,8 +1,8 @@
 angular.module('fiddio')
 
-.factory('PlaybackMode', [ '$http', function($http) {
+.factory('PlaybackMode', [ '$window', 'DataPackager', function($window, DataPackager) {
 
-  var _aceEditor, _session, _document, _selection;
+  var _aceEditor, _session, _document, _selection, _playbackContext, _player, _questionData;
 
   var _recording = [];
 
@@ -27,6 +27,20 @@ angular.module('fiddio')
     _selection = _session.selection;
     _aceEditor.setValue('',-1);
     _aceEditor.$blockScrolling = Infinity;
+    _aceEditor.setOption("showPrintMargin", false);
+  }
+
+  function startPlayback(){
+    _questionData = DataPackager.downloadQuestion();
+    if (!window.AudioContext) { window.AudioContext = window.webkitAudioContext; }
+    _playbackContext = new AudioContext();
+    _player = new Audio();
+    _player.src = $window.URL.createObjectURL(_questionData.mp3Blob);
+    _playbackContext
+      .createMediaElementSource(_player)
+      .connect(_playbackContext.destination);
+    _player.play();
+    playActions(_questionData.editorChanges, _playbackContext);
   }
 
   function playActions(recording,context){
@@ -39,7 +53,6 @@ angular.module('fiddio')
         var timeSlice = recording.shift();
         editorActions[timeSlice[0]](timeSlice);
       }
-
       playActions(recording, context);
     },timeOutSpeed);
   }
@@ -48,11 +61,6 @@ angular.module('fiddio')
   }
   function reset(){
     // restart mp3 and start Editor action loop
-  }
-
-  function downloadRecording(dummyRecording){
-    _recording = dummyRecording || []; // change later
-    // api call
   }
 
   function insertText(textObj){
@@ -96,6 +104,7 @@ angular.module('fiddio')
 
 
   return {
+    startPlayback: startPlayback,
     playbackOptions: playbackOptions,
     playActions: playActions
   };

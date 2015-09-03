@@ -2,3 +2,19 @@
   <h1>Fiddio</h1>
   <p>Bringing audio and live-coding playback to your fiddles</p>
 </header>
+
+<div ng-controller="AceController as ace">
+  <div
+    ui-ace="ace.recordOptions"
+    style="height: 300px;">
+  </div>
+  <div
+    ui-ace="ace.playbackOptions"
+    style="height: 300px;">
+  </div>
+  <button ng-click="ace.uploadChanges()">Submit</button>
+  <button ng-if="!ace.currentlyRecording()" ng-click="ace.startRecording()">Start</button>
+  <button ng-if="ace.currentlyRecording()" ng-click="ace.stopRecording()">Stop</button>
+  <button ng-click="ace.setEditorText()">Clear</button>
+  <button ng-click="ace.playRecording()">Play</button>
+</div>
