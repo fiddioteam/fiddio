@@ -1,5 +1,8 @@
 angular.module('fiddio')
-  .controller('BrowseQuestions', [function(){
+  .controller('BrowseQuestions', [ 'questions', function(questions){
     var vm = this;
-    console.log('BrowseQuestions loaded');
+    console.log('Questions is ', questions);
+
+    vm.questions = questions;
+    
   }]);

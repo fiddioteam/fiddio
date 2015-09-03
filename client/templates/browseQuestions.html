@@ -1,7 +1,9 @@
 <h1>Browse Questions</h1>
 <p>There's going to be a list of questions here</p>
 <ul>
-  <li><a ui-sref="#">Question #1</a></li>
-  <li><a ui-sref="#">Question #2</a></li>
-  <li><a ui-sref="#">Question #3</a></li>
+  <li ng-repeat="question in browse.questions">
+    <span><strong>{{ question.user }}:</strong> {{ question.title }} –</span> 
+    <a ui-sref="question({ questionID: question.id })">Question {{ question.id }}</a>
+  </li>
 </ul>
+
