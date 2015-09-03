@@ -2,23 +2,24 @@ angular.module('fiddio')
 
 .factory('DataPackager', [ '$http', function($http) {
 
-  var _questionData;
+  var _responseData;
 
-  function uploadQuestion(editorChanges, mp3Blob){
-    _questionData = {
+  function uploadResponse(editorChanges, mp3Blob, blobLength){
+    _responseData = {
       editorChanges: editorChanges,
-      mp3Blob: mp3Blob
+      mp3Blob: mp3Blob,
+      blobLength: blobLength
     };
     // api POST
   }
 
-  function downloadQuestion(){
+  function downloadResponse(){
     // api GET
-    return _questionData;
+    return _responseData;
   }
 
   return {
-    uploadQuestion: uploadQuestion,
-    downloadQuestion: downloadQuestion
+    uploadResponse: uploadResponse,
+    downloadResponse: downloadResponse
   };
 }]);
