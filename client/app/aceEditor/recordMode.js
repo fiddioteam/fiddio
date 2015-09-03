@@ -2,7 +2,7 @@ angular.module('fiddio')
 
 .factory('RecordMode', [ '$q','FiddioRecorder','DataPackager', function($q, FiddioRecorder, DataPackager) {
 
-  var _aceEditor, _session, _document, _selection, _recorder, _audioBlob;
+  var _aceEditor, _session, _document, _selection, _recorder, _audioBlob, _blobLength;
   var _recording = [];
   var currentlyRecording = false;
   var recordOptions = {
@@ -93,6 +93,7 @@ angular.module('fiddio')
       _aceEditor.setReadOnly(true);
       _recorder.stop(function(blob){
         _audioBlob = blob;
+        _blobLength = _recorder.context.currentTime*1000 | 0;
         resolve();
       });
     });
@@ -110,7 +111,7 @@ angular.module('fiddio')
     if (currentlyRecording) { return; }
     console.log('Uploading '+_recording.length+' changes to db');
     if (_recording.length > 0){
-      DataPackager.uploadQuestion(_recording, _audioBlob);
+      DataPackager.uploadResponse(_recording, _audioBlob, _blobLength);
     }
     _recording = [];
   }
