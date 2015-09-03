@@ -4840,7 +4840,7 @@ function copyTempDouble(ptr) {
           'bmp': 'image/bmp',
           'ogg': 'audio/ogg',
           'wav': 'audio/wav',
-          'mp3': 'audio/mp3'
+          'mp3': 'audio/mpeg'
         }[name.substr(name.lastIndexOf('.')+1)];
       },getUserMedia:function (func) {
         if(!window.getUserMedia) {
@@ -46658,9 +46658,8 @@ run();
 
   Encoder.prototype.finish = function(mimeType) {
     var nBytes = lame_encode_flush(this.gfp, this.dstPtr, this.dstSz);
-    console.log('mp3', this.mp3Buffers);
     this.mp3Buffers.push(new Uint8Array(this.dstBuf.subarray(0, nBytes)));
-    var blob = new Blob(this.mp3Buffers, {type: mimeType || 'audio/mp3'});
+    var blob = new Blob(this.mp3Buffers, {type: mimeType || 'audio/mpeg'});
     this.cleanup();
     return blob;
   };

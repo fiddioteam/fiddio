@@ -28,18 +28,19 @@ angular.module('fiddio')
     _aceEditor.setValue('',-1);
     _aceEditor.$blockScrolling = Infinity;
   }
-  function playActions(recording,time){
-    time = time || 0;
+
+  function playActions(recording,context){
     var timeOutSpeed = 5;
     // start/sync mp3 and start Editor action loop
     if (!recording.length){return;}
     setTimeout(function(){
-      if (recording[0][1] <= time) {
+      var time = context.currentTime * 1000|0;
+      if ( recording[0][1] <= time) {
         var timeSlice = recording.shift();
         editorActions[timeSlice[0]](timeSlice);
       }
 
-      playActions(recording, time+=timeOutSpeed);
+      playActions(recording, context);
     },timeOutSpeed);
   }
   function pause(){
