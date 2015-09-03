@@ -1,6 +1,6 @@
 angular.module('fiddio')
 
-.factory('RecordMode', [ '$http','$q','FiddioRecorder', function($http,$q,FiddioRecorder) {
+.factory('RecordMode', [ '$q','FiddioRecorder','DataPackager', function($q, FiddioRecorder, DataPackager) {
 
   var _aceEditor, _session, _document, _selection, recorder;
   var _recording = [];
