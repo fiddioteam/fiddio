@@ -47,7 +47,6 @@ angular.module('fiddio')
   function updateText(event) {
     var action;
     if (!currentlyRecording) { return; }
-    var action;
     if (event.action === 'insert')
       { action = 0; } else { action = 1; }
     _recording.push([
