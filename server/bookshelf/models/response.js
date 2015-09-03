@@ -2,7 +2,7 @@ var db      = require('../config'),
     Promise = require('bluebird');
 
 require('./user');
-require('./issue');
+require('./question');
 
 var Response = db.Model.extend({
   tableName: 'responses',
@@ -13,8 +13,8 @@ var Response = db.Model.extend({
   owner: function() {
     return this.belongsTo('User');
   },
-  issue: function() {
-    return this.belongsTo('Issue');
+  question: function() {
+    return this.belongsTo('Question');
   },
   changeVotes: function(prevVote, upOrDown) {
     //subtract previous vote, add new vote
@@ -35,7 +35,7 @@ var Response = db.Model.extend({
   },
   changeVotesbyId: function(responseId, prevVote, upOrDown) {
     return db.model('Response')
-    .fetchIssuebyId(responseId)
+    .fetchQuestionbyId(responseId)
     .then( function(response) {
       response.set('vote_count', response.get('vote_count') - prevVote + upOrDown);
       return response.save();

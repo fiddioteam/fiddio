@@ -2,7 +2,7 @@ var db      = require('../config'),
     Promise = require('bluebird');
 
 require('./user');
-require('./issue');
+require('./question');
 
 var Star = db.Model.extend({
   tableName: 'stars',
@@ -12,15 +12,15 @@ var Star = db.Model.extend({
   user: function() {
     return this.belongsTo('User');
   },
-  issue: function() {
-    return this.belongsTo('Issue');
+  question: function() {
+    return this.belongsTo('Question');
   }
 },{
     // only one star per user
-  fetchOrCreate: function(userId, issueId, active) {
+  fetchOrCreate: function(userId, questionId, active) {
     var options = {
       user_id: userId,
-      issue_id: issueId
+      question_id: questionId
     };
 
     // create the model object
@@ -42,7 +42,7 @@ var Star = db.Model.extend({
       star.set('active', active);
       star.save();
 
-      return db.model('Issue').changeStarsbyId(issueId, changeCount);
+      return db.model('Question').changeStarsbyId(questionId, changeCount);
     });
   }
 });

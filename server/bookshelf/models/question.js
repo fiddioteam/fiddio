@@ -4,10 +4,10 @@ var db      = require('../config'),
 require('./user');
 require('./response');
 require('./tag');
-require('./issuetag');
+require('./questiontag');
 
-var Issue = db.Model.extend({
-  tableName: 'issues',
+var Question = db.Model.extend({
+  tableName: 'questions',
   hasTimestamps: true,
   defaults: {
     star_count: 0
@@ -22,7 +22,7 @@ var Issue = db.Model.extend({
     return this.get('closed');
   },
   tags: function() {
-    return this.hasMany('Tag').through('IssueTag');
+    return this.hasMany('Tag').through('QuestionTag');
   },
   changeStars: function(upOrDown) {
     this.set('star_count', this.get('star_count') + upOrDown);
@@ -32,31 +32,31 @@ var Issue = db.Model.extend({
     return this.hasMany('Star').through('Stars').withPivot('active');
   }
 }, {
-  fetchIssuebyId: function(id) {
+  fetchQuestionbyId: function(id) {
     return new this({
       id: id
     }).fetch({
       require: true
     });
   },
-  fetchIssue: function(short_url) {
+  fetchQuestion: function(short_url) {
     return new this({
       short_url: short_url
     }).fetch({
       require: true
     });
   },
-  newIssue: function(options) {
+  newQuestion: function(options) {
     return new this(options);
   },
-  changeStarsbyId: function(issueId, upOrDown) {
-    return db.model('Issue')
-    .fetchIssuebyId(issueId)
-    .then(function(issue) {
-      issue.set('star_count', issue.get('star_count') + upOrDown);
-      return issue.save();
+  changeStarsbyId: function(questionId, upOrDown) {
+    return db.model('Question')
+    .fetchQuestionbyId(questionId)
+    .then(function(Question) {
+      question.set('star_count', question.get('star_count') + upOrDown);
+      return question.save();
     });
   }
 });
 
-module.exports = db.model('Issue', Issue);
+module.exports = db.model('Question', Question);

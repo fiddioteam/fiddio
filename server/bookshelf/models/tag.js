@@ -1,11 +1,11 @@
 var db      = require('../config');
 
-require('./issue');
+require('./question');
 
 var Tag = db.Model.extend({
   tableName: 'tags',
-  issues: function() {
-    return this.belongsToMany('Issue').through('IssueTag');
+  questions: function() {
+    return this.belongsToMany('Question').through('QuestionTag');
   }
 });
 

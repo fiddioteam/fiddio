@@ -1,14 +1,14 @@
 var db      = require('../config'),
     Promise = require('bluebird');
 
-require('./issue');
+require('./question');
 require('./star');
 
 var User = db.Model.extend({
   tableName: 'users',
   hasTimestamps: true,
-  issues: function() {
-    return this.hasMany('Issue');
+  questions: function() {
+    return this.hasMany('Question');
   },
   stars: function() {
     return this.hasMany('Star').through('Stars').withPivot('active');
