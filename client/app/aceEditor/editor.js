@@ -21,7 +21,7 @@ angular.module('fiddio')
       function(blob) {
         console.log('blob!!', blob);
         vm.playbackBlob = blob;
-      });
+    });
     RecordMode.setRecordingStatus(false);
   };
   vm.uploadChanges = function(){
