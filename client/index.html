@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="fiddio">
+<head>
+  <meta charset="UTF-8">
+  <!-- injector:bower:css -->
+  <!-- endinjector -->
+  <!-- injector:css -->
+  <!-- endinjector -->
+  <title>Fidd.io</title>
+</head>
+<body>
+  
+  <nav>
+    <ul>
+      <li><a ui-sref="home">Home</a></li>
+      <li><a ui-sref="browse-questions">Browse Questions</a></li>
+      <li><a ui-sref="submit-question">Ask</a></li>
+    </ul>
+  </nav>
+
+  <ui-view></ui-view>
+
+  <script src="lib/ace-builds/src-min-noconflict/ace.js"></script>
+  <!-- injector:bower:js -->
+  <!-- endinjector -->
+  <!-- injector:js -->
+  <!-- endinjector -->
+</body>
+</html>
