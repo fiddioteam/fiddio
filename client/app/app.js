@@ -1,4 +1,16 @@
-angular.module( 'fiddio', [ 'ui.ace', 'ui.router' ] )
+angular.module('fiddio', ['ui.ace', 'ui.router'])
+
+  .run(['$rootScope', '$state', '$stateParams',
+      function ($rootScope,   $state,   $stateParams) {
+        // It's very handy to add references to $state and $stateParams to the $rootScope
+        // so that you can access them from any scope within your applications.For example,
+        // <li ng-class="{ active: $state.includes('contacts.list') }"> will set the <li>
+        // to active whenever 'contacts.list' or one of its decendents is active.
+        $rootScope.$state = $state;
+        $rootScope.$stateParams = $stateParams;
+      }]
+  )
+
   .config(function($stateProvider, $urlRouterProvider) {
 
     $urlRouterProvider.otherwise('/home');
@@ -11,17 +23,33 @@ angular.module( 'fiddio', [ 'ui.ace', 'ui.router' ] )
       .state('browse-questions', {
         url: '/questions',
         templateUrl: '../templates/browseQuestions.html',
-        controller: 'BrowseQuestions'
-      })
-      .state('browse-questions.question', {
-        url: '/questions/:id',
-        templateUrl: '../templates/questionView.html',
-        controller: 'QuestionView as question'
+        resolve: {
+          questions: ['questions', function(questions) {
+            return questions.all();
+          }]
+        },
+        controller: 'BrowseQuestions as browse'
       })
       .state('submit-question', {
         url: '/ask',
         templateUrl: '../templates/submitQuestion.html',
         controller: 'SubmitQuestion as submit'
+      })
+      .state('question', {
+        url: '/:questionID',
+        templateUrl: '../templates/questionView.html',
+        resolve: {
+          question: ['questions', '$stateParams', function(questions, $stateParams) {
+            return questions.findById(parseInt($stateParams.questionID))
+            .then(function(question) {
+              return question;
+            })
+            .catch(function(err) {
+              console.log('Error?', err);
+            });
+          }]
+        },
+        controller: 'QuestionView as qv'
       })
       .state('record-response', {
         url: '/answer',
@@ -29,4 +57,31 @@ angular.module( 'fiddio', [ 'ui.ace', 'ui.router' ] )
         controller: 'AceController as ace'
       });
 
-  });
+  })
+
+// a RESTful factory for retrieving contacts from a .json file
+  .factory('questions', ['$http', function($http) {
+    var path = 'questions.json';
+    var questions = $http.get(path).then(function(response) {
+      return response.data.questions;
+    });
+    var factory = {};
+
+    factory.all = function() {
+     return questions;
+    };
+
+    factory.findById = function(id) {
+      return this.all().then(function(data) {
+        console.log('data', id, data);
+        for (var i = 0; i < data.length; i++) {
+          if (data[i].id === id) {
+            console.log('data[i] is ', data[i]);
+            return data[i];
+          }
+        }
+      });
+    };
+
+    return factory;
+  }]);
