@@ -9,7 +9,7 @@ module.exports.resolveUrl = function() {
 
 module.exports.getId = function(req) {
   return module.exports.getUrlParamNums(req, 'id').id;
-}
+};
 
 module.exports.getUrlParamNums = function(req) {
   return [].slice.apply(arguments,1)
@@ -27,4 +27,4 @@ module.exports.hasSession = function(req, res, next) {
   if (req.user) {
     next();
   } else { res.sendStatus(403); }
-}
+};
