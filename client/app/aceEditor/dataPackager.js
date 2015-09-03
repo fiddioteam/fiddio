@@ -2,9 +2,20 @@ angular.module('fiddio')
 
 .factory('DataPackager', [ '$http', function($http) {
 
-  function uploadQuestion(){}
+  var _questionData;
 
-  function downloadQuestion(){}
+  function uploadQuestion(editorChanges, mp3Blob){
+    _questionData = {
+      editorChanges: editorChanges,
+      mp3Blob: mp3Blob
+    };
+    // api POST
+  }
+
+  function downloadQuestion(){
+    // api GET
+    return _questionData;
+  }
 
   return {
     uploadQuestion: uploadQuestion,

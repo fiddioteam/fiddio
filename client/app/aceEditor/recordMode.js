@@ -2,7 +2,7 @@ angular.module('fiddio')
 
 .factory('RecordMode', [ '$q','FiddioRecorder','DataPackager', function($q, FiddioRecorder, DataPackager) {
 
-  var _aceEditor, _session, _document, _selection, recorder;
+  var _aceEditor, _session, _document, _selection, _recorder, _audioBlob;
   var _recording = [];
   var currentlyRecording = false;
   var recordOptions = {
@@ -20,10 +20,9 @@ angular.module('fiddio')
     navigator.msGetUserMedia;
 
   function success(stream){
-    recorder = new FiddioRecorder.recorder(stream);
-    recorder.record();
+    _recorder = new FiddioRecorder.recorder(stream);
+    _recorder.record();
     _aceEditor.setReadOnly(false);
-    return true;
   }
 
   function aceLoaded(_editor) {
@@ -33,15 +32,20 @@ angular.module('fiddio')
     _selection = _session.selection;
     _aceEditor.setValue('',-1);
     _aceEditor.$blockScrolling = Infinity;
+    _aceEditor.setOption("showPrintMargin", false);
     _aceEditor.setReadOnly(true);
     _session.on('change', updateText);
     _selection.on('changeCursor', updateCursor);
   }
 
   function setEditorText(lines){
-    // clear everything
     _aceEditor.setValue('',-1);
-    // insert lines.join('\n')
+    if (lines){
+      _document.insert({
+        row: 0,
+        column: 0
+      }, lines.join('\n'));
+    }
   }
 
   function updateText(event) {
@@ -51,7 +55,7 @@ angular.module('fiddio')
       { action = 0; } else { action = 1; }
     _recording.push([
       action, // '0 for insert'  or '1 for remove'
-      recorder.context.currentTime*1000 | 0,
+      _recorder.context.currentTime*1000 | 0,
       event.start.row,
       event.start.column,
       event.end.row,
@@ -66,7 +70,7 @@ angular.module('fiddio')
     var range = _selection.getRange();
     _recording.push([
       2, // "2 for cursor"
-      recorder.context.currentTime*1000 | 0,
+      _recorder.context.currentTime*1000 | 0,
       cursorPos.row,
       cursorPos.column,
       range.start.row,
@@ -78,15 +82,20 @@ angular.module('fiddio')
 
 
   function startRecording(currentlyRecording){
-    return $q(function(resolve,reject){ // put all of this promise stuff into startRecording()
+    return $q(function(resolve,reject){
       navigator.getUserMedia({audio:true}, resolve, reject);
     }).then(success);
   }
 
-  function stopRecording(currentlyRecording, callback){
-    if (!currentlyRecording) { return; }
-    _aceEditor.setReadOnly(true);
-    recorder.stop(callback);
+  function stopRecording(currentlyRecording){
+    return $q(function(resolve,reject){
+      if (!currentlyRecording) { return; }
+      _aceEditor.setReadOnly(true);
+      _recorder.stop(function(blob){
+        _audioBlob = blob;
+        resolve();
+      });
+    });
   }
 
   function setRecordingStatus(value){
@@ -100,12 +109,10 @@ angular.module('fiddio')
   function uploadEditorChanges(currentlyRecording){
     if (currentlyRecording) { return; }
     console.log('Uploading '+_recording.length+' changes to db');
-    console.log(JSON.stringify(_recording).length);
-    console.log(_recording);
-    // upload array to db
-    var result = _recording;
-    _recording = []; // clear array
-    return result;
+    if (_recording.length > 0){
+      DataPackager.uploadQuestion(_recording, _audioBlob);
+    }
+    _recording = [];
   }
 
   return {
