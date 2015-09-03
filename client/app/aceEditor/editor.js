@@ -1,15 +1,15 @@
-angular.module( 'fiddio', [ 'ui.ace' ] )
+angular.module('fiddio')
 
 .controller( 'AceController', [ '$window', 'RecordMode', 'PlaybackMode', function( $window, RecordMode, PlaybackMode) {
   var vm = this; // initializes the view-model var (`vm`) for use in the controllerAs syntax
 
-  var recording;
+    var recording;
 
-  vm.currentlyRecording = RecordMode.getRecordingStatus;
-  vm.recordOptions = RecordMode.recordOptions;
-  vm.startRecording = function(){
-    // RecordMode.startRecording(RecordMode.getRecordingStatus());
-    RecordMode.startRecording().then(function(success){
+    vm.currentlyRecording = RecordMode.getRecordingStatus;
+    vm.recordOptions = RecordMode.recordOptions;
+    vm.startRecording = function(){
+      // RecordMode.startRecording(RecordMode.getRecordingStatus());
+      RecordMode.startRecording().then(function(success){
       RecordMode.setRecordingStatus(success);
     });
 
@@ -41,9 +41,9 @@ angular.module( 'fiddio', [ 'ui.ace' ] )
   };
   vm.setEditorText = RecordMode.setEditorText;
 
-  vm.playbackOptions = PlaybackMode.playbackOptions;
+    vm.playbackOptions = PlaybackMode.playbackOptions;
 
-  console.log('GET USER MEDIA?',navigator.getUserMedia);
-  console.log('SUCCESS FUNCTION?',RecordMode.success);
+    console.log('GET USER MEDIA?',navigator.getUserMedia);
+    console.log('SUCCESS FUNCTION?',RecordMode.success);
 
-}]);
+  }]);
