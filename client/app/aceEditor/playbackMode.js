@@ -1,8 +1,8 @@
 angular.module('fiddio')
 
-.factory('PlaybackMode', [ '$http', function($http) {
+.factory('PlaybackMode', [ '$window', 'DataPackager', function($window, DataPackager) {
 
-  var _aceEditor, _session, _document, _selection;
+  var _aceEditor, _session, _document, _selection, _playbackContext, _player, _responseData;
 
   var _recording = [];
 
@@ -27,19 +27,32 @@ angular.module('fiddio')
     _selection = _session.selection;
     _aceEditor.setValue('',-1);
     _aceEditor.$blockScrolling = Infinity;
+    _aceEditor.setOption("showPrintMargin", false);
   }
-  function playActions(recording,time){
-    time = time || 0;
+
+  function startPlayback(){
+    _responseData = DataPackager.downloadResponse();
+    if (!window.AudioContext) { window.AudioContext = window.webkitAudioContext; }
+    _playbackContext = new AudioContext();
+    _player = new Audio();
+    _player.src = $window.URL.createObjectURL(_responseData.mp3Blob);
+    _playbackContext
+      .createMediaElementSource(_player)
+      .connect(_playbackContext.destination);
+    _player.play();
+    playActions(_responseData.editorChanges, _playbackContext);
+  }
+
+  function playActions(recording,context){
     var timeOutSpeed = 5;
-    // start/sync mp3 and start Editor action loop
     if (!recording.length){return;}
     setTimeout(function(){
-      if (recording[0][1] <= time) {
+      var time = context.currentTime * 1000|0;
+      if ( recording[0][1] <= time) {
         var timeSlice = recording.shift();
         editorActions[timeSlice[0]](timeSlice);
       }
-
-      playActions(recording, time+=timeOutSpeed);
+      playActions(recording, context);
     },timeOutSpeed);
   }
   function pause(){
@@ -47,11 +60,6 @@ angular.module('fiddio')
   }
   function reset(){
     // restart mp3 and start Editor action loop
-  }
-
-  function downloadRecording(dummyRecording){
-    _recording = dummyRecording || []; // change later
-    // api call
   }
 
   function insertText(textObj){
@@ -95,6 +103,7 @@ angular.module('fiddio')
 
 
   return {
+    startPlayback: startPlayback,
     playbackOptions: playbackOptions,
     playActions: playActions
   };
