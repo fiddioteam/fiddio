@@ -2,6 +2,7 @@ var db      = require('../../bookshelf/config'),
     utility = require('../../utility');
 
 require('../../bookshelf/models/response');
+require('../../bookshelf/models/comment');
 require('../../bookshelf/collections/comments');
 
 module.exports = function(app, router) {
@@ -17,22 +18,12 @@ module.exports = function(app, router) {
     });
   });
 
-  router.get('/questions/:id/responses', function(req, res, next) {
+  router.get('/response/:id/comments', function(req, res, next) {
     var id = utility.getUrlParamNums(req, 'id').id;
 
-    db.collection('Responses').fetchbyQuestion(id)
-    .then( function(responses) {
-      res.json({ responses: responses.toJSON() });
+    db.collection('Comments').fetchbyResponse(id)
+    .then( function(comments) {
+      res.json({ comments: comments.toJSON() });
     });
-  });
-
-  router.get('/questions/user/:userid', function(req, res, next) {
-    var userid = utility.getUrlParamNums(req, 'id').userid;
-
-    db.collection('Questions').fetchbyUser(params.userid)
-    .then( function(questions) {
-      res.json({ questions: questions.toJSON() });
-    });
-
   });
 };

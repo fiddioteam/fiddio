@@ -9,7 +9,7 @@ var Responses = db.Collection.extend({
   Model: db.model('Response')
 }, {
   fetchbyQuestion: function(questionId) {
-    return db.collection('responses')
+    return db.collection('Responses')
     .forge()
     .where('question_id', '=', questionId)
     .fetch();

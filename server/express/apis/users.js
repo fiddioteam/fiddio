@@ -17,7 +17,7 @@ module.exports = function(app, router) {
 
   });
 
-  router.get('/userInfo', function(req, res, next) {
+  router.get('/user/info', function(req, res, next) {
     if (!req.user) {
       res.end();
     } else {

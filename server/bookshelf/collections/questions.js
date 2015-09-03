@@ -8,7 +8,8 @@ var Questions = db.Collection.extend({
   Model: db.model('Question')
 }, {
   fetchStarredbyUser: function(userId) {
-    return db.collection('Questions').forge()
+    return db.collection('Questions')
+    .forge()
     .query(function(qb) {
       qb.join('stars', function() {
         this.on('stars.question_id', '=', 'questions.id')

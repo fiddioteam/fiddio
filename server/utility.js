@@ -7,6 +7,10 @@ module.exports.resolveUrl = function() {
   }, arguments[0]);
 };
 
+module.exports.getId = function(req) {
+  return module.exports.getUrlParamNums(req, 'id').id;
+}
+
 module.exports.getUrlParamNums = function(req) {
   return [].slice.apply(arguments,1)
   .reduce( function(memo, arg) {
@@ -18,3 +22,9 @@ module.exports.getUrlParamNums = function(req) {
     return memo;
   }, {});
 };
+
+module.exports.hasSession = function(req, res, next) {
+  if (req.user) {
+    next();
+  } else { res.sendStatus(403); }
+}
