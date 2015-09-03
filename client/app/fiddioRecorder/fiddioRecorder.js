@@ -1,14 +1,14 @@
 angular.module('fiddio')
 
-.factory('FiddioRecorder',[function(){
+.factory('FiddioRecorder',['$window', function($window){
 
   // var WORKER_WAV_PATH = 'recorderWorker.js';
   var WORKER_MP3_PATH = 'app/fiddioRecorder/recorderWorkerMP3.js';
 
   return {
     recorder: function(stream){
-      if (!window.AudioContext) { window.AudioContext = window.webkitAudioContext; }
-      this.context = new window.AudioContext();
+      if (!$window.AudioContext) { $window.AudioContext = $window.webkitAudioContext; }
+      this.context = new AudioContext();
       this.context.sampleRate = 32000;
       this.source = this.context.createMediaStreamSource(stream);
       this.stream = stream;
@@ -29,10 +29,7 @@ angular.module('fiddio')
 
         worker.postMessage({
           command: 'record',
-          buffer: [
-            e.inputBuffer.getChannelData(0)
-            // e.inputBuffer.getChannelData(1)
-          ]
+          buffer: [e.inputBuffer.getChannelData(0)]
         });
       }.bind(this);
 
@@ -44,7 +41,7 @@ angular.module('fiddio')
         this.recording = false;
       };
 
-      this.stop = function(){
+      this.stop = function(callback){
         this.recording = false;
 
         if (this.stream.getAudioTracks) {
@@ -53,9 +50,7 @@ angular.module('fiddio')
           });
         } else if (this.stream.stop) { this.stream.stop(); }
 
-        this.exportAudio(function(blob){
-          console.log('WE GOTZ THE DATAS!');
-        });
+        this.exportAudio(callback);
       };
 
       this.cancel = function(){
