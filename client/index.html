@@ -9,27 +9,21 @@
   <title>Fidd.io</title>
 </head>
 <body>
+  
+  <nav>
+    <ul>
+      <li><a ui-sref="home">Home</a></li>
+      <li><a ui-sref="record-response">Record</a></li>
+    </ul>
+  </nav>
 
-  <div ng-controller="AceController as ace">
-    <div
-      ui-ace="ace.recordOptions"
-      style="height: 300px;">
-    </div>
-    <div
-      ui-ace="ace.playbackOptions"
-      style="height: 300px;">
-    </div>
-    <button ng-click="ace.uploadChanges()">Submit</button>
-    <button ng-if="!ace.currentlyRecording()" ng-click="ace.startRecording()">Start</button>
-    <button ng-if="ace.currentlyRecording()" ng-click="ace.stopRecording()">Stop</button>
-    <button ng-click="ace.setEditorText()">Clear</button>
-    <button ng-click="ace.playRecording()">Play</button>
-  </div>
+  <ui-view></ui-view>
 
   <script src="lib/ace-builds/src-min-noconflict/ace.js"></script>
   <!-- injector:bower:js -->
   <!-- endinjector -->
   <!-- injector:js -->
+  <script src="app/app.js"></script>
   <!-- endinjector -->
 </body>
 </html>

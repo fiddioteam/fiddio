@@ -51,6 +51,11 @@
     "grunt-notify": "^0.4.1",
     "grunt-open": "^0.2.3",
     "grunt-util": "^0.5.3",
-    "jshint-stylish": "^2.0.1"
+    "jasmine-core": "^2.3.4",
+    "jshint-stylish": "^2.0.1",
+    "karma": "^0.13.9",
+    "karma-chrome-launcher": "^0.2.0",
+    "karma-jasmine": "^0.3.6",
+    "karma-jasmine-html-reporter": "^0.1.8"
   }
 }

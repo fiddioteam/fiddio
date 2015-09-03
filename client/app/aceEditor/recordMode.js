@@ -45,6 +45,7 @@ angular.module('fiddio')
   }
 
   function updateText(event) {
+    var action;
     if (!currentlyRecording) { return; }
     var action;
     if (event.action === 'insert')
@@ -104,7 +105,7 @@ angular.module('fiddio')
     console.log(_recording);
     // upload array to db
     var result = _recording;
-    _recording = [];// clear array
+    _recording = []; // clear array
     return result;
   }
 
