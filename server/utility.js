@@ -7,12 +7,14 @@ module.exports.resolveUrl = function() {
   }, arguments[0]);
 };
 
-module.exports.getUrlParamNum = function(req, param) {
-  var id = parseInt(req.params[param]);
-
-  if (_.isNaN(id) || !_.isNumber(id)) {
-    id = parseInt(url.parse(req.url, true).query[param]);
-  }
-
-  return id;
+module.exports.getUrlParamNums = function(req) {
+  return [].slice.apply(arguments,1)
+  .reduce( function(memo, arg) {
+    id = req.params[arg];
+    if (_.isNaN(id) || !_.isNumber(id)) {
+      id = parseInt(url.parse(req.url, true).query[arg]);
+    }
+    memo[arg] = id;
+    return memo;
+  }, {});
 };

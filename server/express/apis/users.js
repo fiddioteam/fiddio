@@ -1,7 +1,21 @@
 var passport = require('passport'),
-    url      = require('url');
+    url      = require('url'),
+    db       = require('../../bookshelf/config'),
+    utility  = require('../../utility');
+
+require('../../bookshelf/collections/questions');
 
 module.exports = function(app, router) {
+
+  router.get('/users/:userid/questions', function(req, res, next) {
+    var userid = utility.getUrlParamNums(req, 'id').userid;
+
+    db.collection('Questions').fetchbyUser(params.userid)
+    .then( function(questions) {
+      res.json({ questions: questions.toJSON() });
+    });
+
+  });
 
   router.get('/userInfo', function(req, res, next) {
     if (!req.user) {
