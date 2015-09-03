@@ -33,6 +33,7 @@
     "knex": "^0.8.6",
     "lodash": "^3.10.1",
     "morgan": "^1.6.1",
+    "multer": "^1.0.3",
     "passport": "^0.3.0",
     "passport-facebook": "^2.0.0",
     "passport-github2": "^0.1.9",

@@ -10,7 +10,8 @@ var Question = db.Model.extend({
   tableName: 'questions',
   hasTimestamps: true,
   defaults: {
-    star_count: 0
+    star_count: 0,
+    closed: false
   },
   owner: function() {
     return this.belongsTo('User');
@@ -30,6 +31,10 @@ var Question = db.Model.extend({
   },
   stars: function() {
     return this.hasMany('Star').through('Stars').withPivot('active');
+  },
+  markSolution: function(responseId) {
+    this.set('solution', responseId);
+    return this.save();
   }
 }, {
   fetchQuestionbyId: function(id) {
@@ -39,13 +44,13 @@ var Question = db.Model.extend({
       require: true
     });
   },
-  fetchQuestion: function(short_url) {
-    return new this({
-      short_url: short_url
-    }).fetch({
-      require: true
-    });
-  },
+  // fetchQuestion: function(short_url) {
+  //   return new this({
+  //     short_url: short_url
+  //   }).fetch({
+  //     require: true
+  //   });
+  // },
   newQuestion: function(options) {
     return new this(options);
   },

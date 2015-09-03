@@ -3,27 +3,10 @@ var passport = require('passport'),
     db       = require('../../bookshelf/config'),
     utility  = require('../../utility');
 
+require('../../bookshelf/models/user');
 require('../../bookshelf/collections/questions');
 
 module.exports = function(app, router) {
-
-  router.get('/users/:userid/questions', function(req, res, next) {
-    var userid = utility.getUrlParamNums(req, 'id').userid;
-
-    db.collection('Questions').fetchbyUser(params.userid)
-    .then( function(questions) {
-      res.json({ questions: questions.toJSON() });
-    });
-
-  });
-
-  router.get('/user/info', function(req, res, next) {
-    if (!req.user) {
-      res.end();
-    } else {
-      res.json(req.user.toJSON());
-    }
-  });
 
   router.get('/fb', function(req, res, next) {
     req.session.redirect = url.parse(req.url, true).query.redirect;
@@ -82,4 +65,51 @@ module.exports = function(app, router) {
       });
     })(req, res, next);
   });
+
+  function getQuestions(req, res, next) {
+    db.collection('Questions')
+    .fetchbyUser(req.body.id)
+    .then( function(questions) {
+      res.json({ questions: questions.toJSON() });
+    })
+    .catch( function(err) {
+      res.sendStatus(400); // Bad Request!
+    });
+  }
+
+function getStarredQuestions(req, res, next) {
+    db.collection('Questions')
+    .fetchStarredbyUser(req.body.id)
+    .then( function(questions) {
+      res.json({ questions: questions.toJSON() });
+    })
+    .catch( function(err) {
+      res.sendStatus(400); // Bad Request!
+    });
+  }
+
+  function getUserInfo(req, res, next) {
+    db.model('User')
+    .fetchUserbyId(req.body.id)
+    .then( function(user) {
+      res.json(user.toJSON());
+    })
+    .catch( function(err) {
+      res.sendStatus(400); // Bad Request!
+    });
+  }
+
+  function userHandler(req, res, next) {
+    req.body.id = utility.getUrlParamNums(req, 'user_id').user_id;
+    if (!req.body.id && req.user) { req.body.id = req.user.id; }
+
+    next();
+  }
+
+  router.get('/user/info', userHandler, getUserInfo);
+  router.get('/users/questions', userHandler, getQuestions);
+  router.get('/user/:user_id/info', userHandler, getUserInfo);
+  router.get('/users/questions/stars', userHandler, getStarredQuestions);
+  router.get('/users/:user_id/questions', userHandler, getQuestions);
+  router.get('/users/:user_id/questions/stars', userHandler, getStarredQuestions);
 };

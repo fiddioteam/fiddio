@@ -2,6 +2,7 @@ var db      = require('../config'),
     Promise = require('bluebird');
 
 require('./user');
+require('./question');
 require('./response');
 
 var Comment = db.Model.extend({
@@ -10,11 +11,24 @@ var Comment = db.Model.extend({
   owner: function() {
     return this.belongsTo('User');
   },
+  type: function() {
+    return this.get('type');
+  },
+  parent: function() {
+    return {
+      'question': parent_question,
+      'response': parent_response,
+      'comment': parent_comment
+    }[this.type()]();
+  },
   response: function() {
     return this.belongsTo('Response');
   },
   comment: function() {
     return this.belongsTo('Comment');
+  },
+  question: function() {
+    return this.belongsTo('Question');
   },
   comments: function() {
     return this.hasMany('Comment');
@@ -27,7 +41,6 @@ var Comment = db.Model.extend({
       require: true
     });
   },
-
   newComment: function(options) {
     return new this(options);
   },

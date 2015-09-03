@@ -29,7 +29,6 @@ var Response = db.Model.extend({
       require: true
     });
   },
-
   newResponse: function(options) {
     return new this(options);
   },

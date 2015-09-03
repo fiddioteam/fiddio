@@ -20,6 +20,8 @@ var Vote = db.Model.extend({
   },
   // only one vote per user
   fetchOrCreate: function(userId, responseId, upOrDown) {
+    upOrDown = Math.min( Math.max(upOrDown, -1), 1 ); // Limit upOrDown to -1, 0, 1.
+
     var options = {
       user: userId,
       response: responseId

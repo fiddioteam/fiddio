@@ -53,11 +53,10 @@ var questionsTable = buildTable('questions', function(table) {
   table.increments('id').primary();
   table.string('title');
   table.string('body');
-  table.text('code_snippet');
+  table.text('code');
   table.integer('user_id');
   table.integer('solution');
-  table.boolean('closed');
-  table.string('short_url');
+  table.boolean('closed').notNullable();
   table.integer('star_count').notNullable();
   table.timestamps();
 });
@@ -66,8 +65,8 @@ var responsesTable = buildTable('responses', function(table) {
   table.increments('id').primary();
   table.string('title');
   table.string('body');
-  table.text('code_snippet');
-  table.string('audio_url');
+  table.text('code');
+  //table.string('audio_url');
   table.integer('user_id');
   table.integer('question_id');
   table.integer('vote_count').notNullable();
@@ -87,8 +86,9 @@ var commentsTable = buildTable('comments', function(table) {
   table.increments('id').primary();
   table.string('body');
   table.integer('user_id');
-  table.integer('response_id');
-  table.integer('comment_id');
+  table.string('parent_type'); //This is automatically generated
+  table.integer('parent_id');
+  table.float('timeslice');
   table.timestamps();
 });
 

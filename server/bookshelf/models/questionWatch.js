@@ -13,10 +13,10 @@ var QuestionWatch = db.Model.extend({
     return this.hasOne('Question');
   },
   // only one star per user
-  fetchOrCreate: function(user, question, active) {
+  fetchOrCreate: function(userId, questionId, active) {
     var options = {
-      user: user,
-      question: question
+      user: userId,
+      question: questionId
     };
     var newQuestionWatch = new this(options);
 

@@ -8,41 +8,55 @@ require('../../bookshelf/collections/comments');
 
 module.exports = function(app, router) {
 
-  var postFromResponse = function(req, res, next) {
-    var id = utility.getId(req);
+  function getComment(req, res, next) {
+    db.model('Comment')
+    .fetchCommentbyId(req.body.id)
+    .then( function(comment) {
+      res.json(comment.toJSON());
+    })
+    .catch( function(err) {
+      res.sendStatus(400); // Bad Request!
+    });
+  }
 
-    postComment(db.model('Response').fetchResponsebyId(id)
-    .fetch( function(response) {
+  function postFromResponse(req, res, next) {
+    postComment(db.model('Response')
+    .fetchResponsebyId(req.body.id)
+    .then( function(response) {
       if (response) {
         return { response_id: response.id };
       } else { return Promise.reject('Bad response id'); }
     }), req, res, next);
-  };
+  }
 
-  var postFromComment = function(req, res, next) {
-    var id = utility.getId(req);
-
-    postComment( db.model('Comment').fetchCommentbyId(id)
-    .fetch( function(comment) {
+  function postFromComment(req, res, next) {
+    postComment( db.model('Comment')
+    .fetchCommentbyId(req.body.id)
+    .then( function(comment) {
       if (comment) {
         return { comment_id: comment.id };
       } else { return Promise.reject('Bad comment id'); }
     }), req, res, next );
-  };
+  }
 
-  var postFromQuery = function(req, res, next) {
-    var response_id = parseInt( url.parse(req.url, true).query.response_id );
-    var comment_id = parseInt( url.parse(req.url, true).query.comment_id );
+  function getCommentHandler(req, res, next) {
+    req.body.id = utility.getUrlParamNums(req, 'comment_id').comment_id;
+    next();
+  }
 
-    if (response_id) { req.body.id = response_id; postFromResponse(req,res,next); }
-    else if (comment_id) { req.body.id = comment_id; postFromComment(req,res,next); }
-  };
+  function postCommentHandler(req, res, next) {
+    var params = utility.getUrlParamNums(req, 'response_id', 'comment_id');
 
-  var postComment = function(promise, req, res, next) {
+    if (params.response_id) { req.body.id = params.response_id; postFromResponse(req, res, next); }
+    else if (params.comment_id) { req.body.id = params.comment_id; postFromComment(req, res, next); }
+  }
+
+  function postComment(promise, req, res, next) {
     promise.then( function(options) {
 
       options.user_id = req.user.id;
       options.body = req.body.body;
+      options.timeslice = req.body.timeslice;
 
       return db.model('Comment')
       .newComment(options)
@@ -54,11 +68,13 @@ module.exports = function(app, router) {
     .then( function(comment) {
       res.json(comment.toJSON());
     });
-  };
+  }
 
-  router.post('/response/:id/comment', utility.hasSession, postFromResponse);
-  router.post('/response/comment', utility.hasSession, postFromResponse); // id specified in query as ?id=1
-  router.post('/comment/:id/comment', utility.hasSession, postFromComment);
-  router.post('/comment/comment', utility.hasSession, postFromComment); // id specified in query as ?id=1
-  router.post('/comment', utility.hasSession, posFromQuery); // response_id or comment_id should be in req.body
+  router.get('/comment', getCommentHandler, getComment );
+  router.get('/comment/:comment_id', getCommentHandler, getComment );
+
+  router.post('/comment', utility.hasSession, postCommentHandler); // id specified in req.body as response_id or comment_id
+  router.post('/response/:response_id/comment', utility.hasSession, postCommentHandler);
+  router.post('/comment/:comment_id/comment', utility.hasSession, postCommentHandler);
+
 };
