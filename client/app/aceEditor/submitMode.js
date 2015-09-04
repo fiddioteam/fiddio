@@ -1,6 +1,6 @@
 angular.module('fiddio')
   .factory('SubmitMode', [function() {
-    
+
     var _aceEditor, _session, _document;
 
     var submitOptions = {

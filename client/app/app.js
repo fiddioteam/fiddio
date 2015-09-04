@@ -1,4 +1,4 @@
-angular.module('fiddio', ['ui.ace', 'ui.router'])
+angular.module('fiddio', ['ui.ace', 'ui.router', 'ngFileUpload'])
 
   .run(['$rootScope', '$state', '$stateParams',
       function ($rootScope,   $state,   $stateParams) {

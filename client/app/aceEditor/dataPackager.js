@@ -1,16 +1,33 @@
 angular.module('fiddio')
 
-.factory('DataPackager', [ '$http', function($http) {
+.factory('DataPackager', [ '$http', 'Upload', '$timeout', '$rootScope', function($http, Upload, $timeout, $rootScope) {
 
   var _responseData;
 
-  function uploadResponse(editorChanges, mp3Blob, blobLength){
+  function uploadResponse(code, editorChanges, mp3Blob, blobLength){
     _responseData = {
-      editorChanges: editorChanges,
-      mp3Blob: mp3Blob,
-      blobLength: blobLength
+      code_changes: editorChanges,
+      //mp3Blob: mp3Blob,
+      duration: blobLength,
+      code: code,
+      question_id: $rootScope.$stateParams.questionID
     };
-    // api POST
+
+    Upload.upload({
+      url: '/api/response',
+      method: 'POST',
+      //headers: {},
+      fields: _responseData,
+      file: mp3Blob,
+      fileFormDataName: 'response'
+    })
+    .then( function(res) {
+      $timeout( function() {
+        $rootScope.$state.go('response', { responseId: res.data.id });
+      });
+    }, function(res) {
+      if (res.status > 0) { $scope.errorMsg = res.status + ': ' + res.data; }
+    });
   }
 
   function downloadResponse(){

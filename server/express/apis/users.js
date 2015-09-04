@@ -106,6 +106,24 @@ function getStarredQuestions(req, res, next) {
     next();
   }
 
+  function createUser(req, res, next) {
+    db.model('User').fetchUser(req.body.email, true)
+    .then( function(user) {
+      if (!user) {
+        return db.model('User').newUser({
+          first_name: req.body.first_name,
+          last_name: req.body.last_name,
+          email: req.body.email
+        }).save();
+      }
+    })
+    .then( function(user) {
+      res.json(user.toJSON());
+    });
+  }
+
+  router.post('/register/user', createUser);
+
   router.get('/user/info', userHandler, getUserInfo);
   router.get('/users/questions', userHandler, getQuestions);
   router.get('/user/:user_id/info', userHandler, getUserInfo);

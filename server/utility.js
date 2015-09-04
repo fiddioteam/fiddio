@@ -30,7 +30,7 @@ module.exports.getUrlParamNums = function(req) {
 };
 
 module.exports.hasSession = function(req, res, next) {
-  if (req.user) {
+  //if (req.user) {
     next();
-  } else { res.sendStatus(403); }
+  //} else { res.sendStatus(403); }
 };

@@ -63,7 +63,7 @@ var questionsTable = buildTable('questions', function(table) {
 
 var responsesTable = buildTable('responses', function(table) {
   table.increments('id').primary();
-  table.string('title');
+  //table.string('title');
   table.string('body');
   table.text('code');
   //table.string('audio_url');
@@ -71,6 +71,7 @@ var responsesTable = buildTable('responses', function(table) {
   table.integer('question_id');
   table.integer('vote_count').notNullable();
   table.json('code_changes');
+  table.float('duration');
   table.timestamps();
 });
 
