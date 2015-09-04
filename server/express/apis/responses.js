@@ -72,9 +72,10 @@ module.exports = function(app, router) {
     .fetchQuestionbyId(req.body.id)
     .then( function(question) {
       return db.model('Response').newResponse({
-        title: req.body.title,
+        //title: req.body.title,
         body: req.body.body,
         code: req.body.code,
+        duration: req.body.duration,
         user_id: req.user.id,
         code_changes: JSON.stringify(req.body.code_changes) // WORK?
       });
@@ -105,10 +106,10 @@ module.exports = function(app, router) {
   router.get('/response/:response_id', getResponseId, getResponse);
   router.get('/response/:response_id/comments', getResponseId, getComments);
 
-  router.post('/response', utility.hasSession, getQuestionId, upload.single('audio'), postResponse);
+  router.post('/response', utility.hasSession, getQuestionId, upload.single('response'), postResponse);
   router.post('/response/mark', utility.hasSession, getResponseId, postMark);
   router.post('/response/vote', utility.hasSession, getResponseId, postVote);
-  router.post('/response/:question_id', utility.hasSession, getQuestionId, upload.single('audio'), postResponse);
+  router.post('/response/:question_id', utility.hasSession, getQuestionId, upload.single('response'), postResponse);
   router.post('/response/:response_id/mark', utility.hasSession, getResponseId, postMark);
   router.post('/response/:response_id/vote', utility.hasSession, getResponseId, postVote);
 };

@@ -8,7 +8,13 @@ require('../models/comment');
 var Comments = db.Collection.extend({
   Model: db.model('Comment')
 }, {
-  fetchbyResponse: function(questionId) {
+  fetchbyResponse: function(responseId) {
+    return db.collection('Comments')
+    .forge()
+    .where('response_id', '=', responseId)
+    .fetch();
+  },
+  fetchbyQuestion: function(questionId) {
     return db.collection('Comments')
     .forge()
     .where('response_id', '=', questionId)

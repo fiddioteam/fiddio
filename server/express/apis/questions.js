@@ -25,6 +25,13 @@ module.exports = function(app, router) {
     });
   }
 
+  function getComments(req, res, next) {
+    db.collection('Comments').fetchbyQuestion(req.body.id)
+    .then( function(comments) {
+      res.json({ comments: comments.toJSON() });
+    });
+  }
+
   function postStar(req, res, next) {
     var star = utility.getUrlParamNums(req, 'star').star;
 

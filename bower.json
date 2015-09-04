@@ -28,10 +28,12 @@
     "tests"
   ],
   "dependencies": {
+    "ace-builds": "^1.2.0",
     "angular": "~1.4.4",
     "angular-mocks": "~1.4.5",
     "angular-ui-ace": "bower",
     "angular-ui-router": "~0.2.15",
-    "ace-builds":"^1.2.0"
+    "ng-file-upload": "~7.0.17",
+    "ng-file-upload-shim": "~7.0.17"
   }
 }

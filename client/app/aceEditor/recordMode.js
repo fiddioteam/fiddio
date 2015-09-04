@@ -94,6 +94,7 @@ angular.module('fiddio')
       _recorder.stop(function(blob){
         _audioBlob = blob;
         _blobLength = _recorder.context.currentTime*1000 | 0;
+        _code = _document.getAllLines().join('\n');
         resolve();
       });
     });
@@ -111,7 +112,7 @@ angular.module('fiddio')
     if (currentlyRecording) { return; }
     console.log('Uploading '+_recording.length+' changes to db');
     if (_recording.length > 0){
-      DataPackager.uploadResponse(_recording, _audioBlob, _blobLength);
+      DataPackager.uploadResponse(_code, _recording, _audioBlob, _blobLength);
     }
     _recording = [];
   }
