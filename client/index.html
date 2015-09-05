@@ -9,12 +9,13 @@
   <title>Fidd.io</title>
 </head>
 <body>
-  
-  <nav>
+
+  <nav ng-controller="NavController as nav">
     <ul>
       <li><a ui-sref="home">Home</a></li>
       <li><a ui-sref="browse-questions">Browse</a></li>
-      <li><a ui-sref="submit-question">Ask</a></li>
+      <li><a href ng-click="nav.authenticateUser('gh')">Ask</a></li>
+      <li><a href="/api/gh">Login</a></li>
     </ul>
   </nav>
 

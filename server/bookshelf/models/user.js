@@ -17,9 +17,7 @@ var User = db.Model.extend({
   fetchUserbyId: function(id) {
     return new this({
       id: id
-    }).fetch({
-      columns: ['first_name', 'last_name']
-    });
+    }).fetch({ require: true });
   },
 
   fetchUser: function(email, notRequire) {
@@ -53,14 +51,15 @@ var User = db.Model.extend({
 
   serializeUser: function(user, done) {
     if (user) {
-      done( null, user.get('email'));
+      process.verb('WE HAZ USER?', user.get('id'));
+      done( null, user.get('id'));
     } else {
       done(null, false);
     }
   },
 
-  deserializeUser: function(email, done) {
-    db.model('User').fetchUser(email)
+  deserializeUser: function(id, done) {
+    db.model('User').fetchUserbyId(id)
     .then(function(user) {
       done(null, user ? user : false);
     })
@@ -85,8 +84,7 @@ var User = db.Model.extend({
 
       if (user) {
         user.set('fb_id', profile.id);
-        user.set('first_name', profile.name.givenName);
-        user.set('last_name', profile.name.familyName);
+        user.set('name', profile.name.givenName + ' ' + profile.name.familyName);
         if (profile.emails && profile.emails.length > 0) {
           user.set('email', profile.emails[0].value);
         }
@@ -113,14 +111,15 @@ var User = db.Model.extend({
     })
     .catch(function(error) {
       var user = req.user || db.model('User').newUser();
+      process.verb('profile', profile);
 
       if (user) {
         user.set('gh_id', profile.id);
-        // user.set('first_name', profile.name.givenName);
-        // user.set('last_name', profile.name.familyName);
-        // if (profile.emails && profile.emails.length > 0) {
-          // user.set('email', profile.emails[0].value);
-        //}
+        if (profile.emails && profile.emails.length > 0) {
+          user.set('email', profile.emails[0].value);
+        }
+        user.set('name', profile.displayName);
+        user.set('profile_pic', profile.avatar_url);
 
         user.save();
 
