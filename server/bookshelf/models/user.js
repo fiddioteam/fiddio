@@ -51,19 +51,18 @@ var User = db.Model.extend({
 
   serializeUser: function(user, done) {
     if (user) {
-      process.verb('WE HAZ USER?', user.get('id'));
-      done( null, user.get('id'));
+      done( null, user.get('email'));
     } else {
       done(null, false);
     }
   },
 
   deserializeUser: function(id, done) {
-    db.model('User').fetchUserbyId(id)
-    .then(function(user) {
+    db.model('User').fetchUser(email)
+    .then( function(user) {
       done(null, user ? user : false);
     })
-    .catch(function(error) {
+    .catch( function(error) {
       done(error);
     });
   },
@@ -79,7 +78,7 @@ var User = db.Model.extend({
 
       return done(null, false);
     })
-    .catch(function(error) {
+    .catch( function(error) {
       var user = req.user || db.model('User').newUser();
 
       if (user) {
@@ -89,12 +88,13 @@ var User = db.Model.extend({
           user.set('email', profile.emails[0].value);
         }
 
-        user.save();
-
-        return done(null, user);
+        return user.save();
       }
 
-      return done(null, false);
+      return false;
+    })
+    .then( function(user) {
+      done(null, user);
     });
   },
 
@@ -121,12 +121,13 @@ var User = db.Model.extend({
         user.set('name', profile.displayName);
         user.set('profile_pic', profile.avatar_url);
 
-        user.save();
-
-        return done(null, user);
+        return user.save();
       }
 
-      return done(null, false);
+      return false;
+    })
+    .then( function(user) {
+      done(null, user);
     });
   }
 });
