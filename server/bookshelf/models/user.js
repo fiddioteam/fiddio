@@ -50,15 +50,11 @@ var User = db.Model.extend({
   },
 
   serializeUser: function(user, done) {
-    if (user) {
-      done( null, user.get('email'));
-    } else {
-      done(null, false);
-    }
+    done(null, user ? user.get('email') : false);
   },
 
-  deserializeUser: function(id, done) {
-    db.model('User').fetchUser(email)
+  deserializeUser: function(email, done) {
+    db.model('User').fetchUser(email, true)
     .then( function(user) {
       done(null, user ? user : false);
     })
@@ -68,29 +64,31 @@ var User = db.Model.extend({
   },
 
   fbAuthentication: function(req, accessToken, refreshToken, profile, done) {
-    var self = this;
-
     db.model('User').fetchUserbyFBId(profile.id)
     .then(function(user) {
+      //If the user wasn't found, we will go to the catch block.
       if (!req.user || req.user.get('email') === user.get('email')) {
-        return done(null, user);
+        // Return the user from the ORM so it can be passed to done()
+        return user;
       }
 
-      return done(null, false);
+      // We found a user, but it is not the right one.  Return false meaning not authorized.
+      return false;
     })
     .catch( function(error) {
-      var user = req.user || db.model('User').newUser();
+      var user = req.user || db.model('User').newUser({ name: profile.name.givenName + ' ' + profile.name.familyName });
 
       if (user) {
         user.set('fb_id', profile.id);
-        user.set('name', profile.name.givenName + ' ' + profile.name.familyName);
         if (profile.emails && profile.emails.length > 0) {
           user.set('email', profile.emails[0].value);
         }
 
+        // Return the saved user from the ORM so it can be passed to done()
         return user.save();
       }
 
+      // This should never happen.
       return false;
     })
     .then( function(user) {
@@ -99,26 +97,22 @@ var User = db.Model.extend({
   },
 
   ghAuthentication: function(req, accessToken, refreshToken, profile, done) {
-    var self = this;
-
     db.model('User').fetchUserbyGHId(profile.id)
     .then(function(user) {
       if (!req.user || req.user.get('email') === user.get('email')) {
-        return done(null, user);
+        return user;
       }
 
-      return done(null, false);
+      return false;
     })
     .catch(function(error) {
-      var user = req.user || db.model('User').newUser();
-      process.verb('profile', profile);
+      var user = req.user || db.model('User').newUser({ name: profile.displayName || '' });
 
       if (user) {
         user.set('gh_id', profile.id);
         if (profile.emails && profile.emails.length > 0) {
           user.set('email', profile.emails[0].value);
         }
-        user.set('name', profile.displayName);
         user.set('profile_pic', profile.avatar_url);
 
         return user.save();
