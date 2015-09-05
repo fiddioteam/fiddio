@@ -52,13 +52,14 @@ var usersTable = buildTable('users', function(table) {
 
 var questionsTable = buildTable('questions', function(table) {
   table.increments('id').primary();
-  table.string('title');
-  table.string('body');
-  table.text('code');
+  table.string('title').notNullable();
+  table.string('body').notNullable();
+  table.text('code').notNullable();
   table.integer('user_id');
   table.integer('solution');
   table.boolean('closed').notNullable();
   table.integer('star_count').notNullable();
+  table.integer('response_count').notNullable();
   table.timestamps();
 });
 

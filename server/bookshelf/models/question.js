@@ -11,19 +11,26 @@ var Question = db.Model.extend({
   hasTimestamps: true,
   defaults: {
     star_count: 0,
-    closed: false
+    closed: false,
+    response_count: 0,
+    code: '',
+    title: '',
+    body: ''
   },
   owner: function() {
     return this.belongsTo('User');
   },
   solution: function() {
-    return this.hasOne('Response');
+    return this.hasOne('Response', 'solution');
   },
   isClosed: function() {
     return this.get('closed');
   },
   tags: function() {
     return this.hasMany('Tag').through('QuestionTag');
+  },
+  responses: function() {
+    return this.hasMany('Response');
   },
   changeStars: function(upOrDown) {
     this.set('star_count', this.get('star_count') + upOrDown);
@@ -34,6 +41,10 @@ var Question = db.Model.extend({
   },
   markSolution: function(responseId) {
     this.set('solution', responseId);
+    return this.save();
+  },
+  addResponse: function() {
+    this.set('response_count', this.get('response_count')+1);
     return this.save();
   }
 }, {

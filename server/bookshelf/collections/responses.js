@@ -6,7 +6,7 @@ require('../models/question');
 require('../models/response');
 
 var Responses = db.Collection.extend({
-  Model: db.model('Response')
+  model: db.model('Response')
 }, {
   fetchbyQuestion: function(questionId) {
     return db.collection('Responses')

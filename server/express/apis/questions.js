@@ -4,6 +4,7 @@ var db      = require('../../bookshelf/config'),
 require('../../bookshelf/models/question');
 require('../../bookshelf/models/star');
 require('../../bookshelf/models/questionWatch');
+require('../../bookshelf/collections/questions');
 require('../../bookshelf/collections/responses');
 
 module.exports = function(app, router) {
@@ -15,6 +16,13 @@ module.exports = function(app, router) {
     })
     .catch( function(err) {
       process.verb('Error:', err);
+    });
+  }
+
+  function getQuestions(req, res, next) {
+    db.collection('Questions').fetchQuestionsHead()
+    .then( function(questions) {
+      res.json({ questions: questions.toJSON() });
     });
   }
 
@@ -73,6 +81,8 @@ module.exports = function(app, router) {
     req.body.id = utility.getUrlParamNums(req, 'question_id').question_id;
     next();
   }
+
+  router.get('/questions', getQuestions);
 
   router.get('/question/responses', questionHandler, getResponses); // question_id is in query
   router.get('/question/comments', questionHandler, getComments); // question_id is in query
