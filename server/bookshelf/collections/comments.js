@@ -6,7 +6,7 @@ require('../models/response');
 require('../models/comment');
 
 var Comments = db.Collection.extend({
-  Model: db.model('Comment')
+  model: db.model('Comment')
 }, {
   fetchbyResponse: function(responseId) {
     return db.collection('Comments')
