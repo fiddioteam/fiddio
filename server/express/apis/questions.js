@@ -79,6 +79,7 @@ module.exports = function(app, router) {
 
   function questionHandler(req, res, next) {
     req.body.id = utility.getUrlParamNums(req, 'question_id').question_id;
+    process.verb('QUESTION HANDLER',req.body.id, req.params);
     next();
   }
 

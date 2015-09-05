@@ -1,4 +1,4 @@
 <h1>Question Title: {{ qv.question.title }}</h1>
-<h3>User: {{ qv.question.user }}</h3>
-<p>{{ qv.question.text }}</p>
+<h3>User: {{ qv.question.owner.name }}</h3>
+<p>{{ qv.question.body }}</p>
 <a ng-click="qv.authenticateUser('gh')">Answer</a>

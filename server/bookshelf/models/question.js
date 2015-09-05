@@ -52,7 +52,8 @@ var Question = db.Model.extend({
     return new this({
       id: id
     }).fetch({
-      require: true
+      require: true,
+      withRelated: ['owner']
     });
   },
   // fetchQuestion: function(short_url) {

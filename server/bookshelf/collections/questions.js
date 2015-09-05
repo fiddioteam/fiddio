@@ -10,7 +10,7 @@ var Questions = db.Collection.extend({
   fetchQuestionsHead: function() {
     return db.collection('Questions')
      .forge().fetch({
-       columns: ['title', 'response_count', 'star_count', 'user_id'],
+       columns: ['title', 'response_count', 'star_count', 'user_id', 'id'],
        withRelated: 'owner'
      });
   },
