@@ -1,9 +1,9 @@
 angular.module('fiddio')
   .factory('DisplayMode', [function() {
 
-    var _aceEditor, _session, _document;
+    var _aceEditor, _session, _document, _code;
 
-    var submitOptions = {
+    var displayOptions = {
       useWrapMode: true,
       showGutter: true,
       theme: 'solarized_dark',
@@ -20,15 +20,21 @@ angular.module('fiddio')
       _aceEditor.setReadOnly(true);
       _aceEditor.$blockScrolling = Infinity;
       _aceEditor.setOption('showPrintMargin', false);
+      _document.insert({row: 0, column: 0}, _code);
+
     }
     function getCode(){
       // console.log(_document.getValue());
       return _document.getAllLines().join('\n');
     }
+    function setCode(code){
+      _code = code;
+    }
 
     return {
-      submitOptions: submitOptions,
-      getCode: getCode
+      displayOptions: displayOptions,
+      getCode: getCode,
+      setCode: setCode
     };
 
   }]);
