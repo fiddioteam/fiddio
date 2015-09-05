@@ -3,7 +3,7 @@ var db      = require('../../bookshelf/config'),
     fs      = Promise.promisifyAll(require('fs')),
     path    = require('path'),
     utility = require('../../utility'),
-    upload  = require('multer')({ dest: '../../uploads/' });
+    upload  = require('multer')({ dest: './uploads/' });
 
 require('../../bookshelf/models/user');
 require('../../bookshelf/models/response');
@@ -68,27 +68,32 @@ module.exports = function(app, router) {
   function postResponse(req, res, next) {
     if (!req.file) { res.sendStatus(409); } // Conflict!
 
-    db.model('Question')
-    .fetchQuestionbyId(req.body.id)
-    .then( function(question) {
-      return db.model('Response').newResponse({
-        //title: req.body.title,
-        body: req.body.body,
-        code: req.body.code,
-        duration: req.body.duration,
-        user_id: req.user.id,
-        code_changes: JSON.stringify(req.body.code_changes) // WORK?
+    else {
+      db.model('Question')
+      .fetchQuestionbyId(req.body.id)
+      .then( function(question) {
+        return db.model('Response').newResponse({
+          //title: req.body.title,
+          body: req.body.body,
+          code: req.body.code,
+          duration: req.body.duration,
+          user_id: req.user.id,
+          code_changes: JSON.stringify(req.body.code_changes)
+        }).save();
+      })
+      .then( function(response) {
+        return [response, fs.renameAsync(req.file.path, path.join(req.file.destination, response.id + '.mp3'))];
+      })
+      .spread( function(response,error){
+        if (error) { process.verb('Error on rename', error); }
+        else {
+          res.json(response.toJSON());
+        }
+      })
+      .catch( function(err) {
+         next(err);
       });
-    })
-    .then( function(response) {
-      return fs.renameAsync(req.file.path, path.join(req.file.destination, response.id + '.mp3'));
-    })
-    .then( function(){
-      res.json(response.toJSON());
-    })
-    .catch( function(err) {
-      res.sendStatus(400); // Bad Request!
-    });
+    }
   }
 
   function getQuestionId(req, res, next) {
@@ -106,10 +111,10 @@ module.exports = function(app, router) {
   router.get('/response/:response_id', getResponseId, getResponse);
   router.get('/response/:response_id/comments', getResponseId, getComments);
 
-  router.post('/response', utility.hasSession, getQuestionId, upload.single('response'), postResponse);
+  router.post('/response', utility.hasSession, upload.single('response'), getQuestionId, postResponse);
   router.post('/response/mark', utility.hasSession, getResponseId, postMark);
   router.post('/response/vote', utility.hasSession, getResponseId, postVote);
-  router.post('/response/:question_id', utility.hasSession, getQuestionId, upload.single('response'), postResponse);
+  router.post('/response/:question_id', utility.hasSession, upload.single('response'), getQuestionId, postResponse);
   router.post('/response/:response_id/mark', utility.hasSession, getResponseId, postMark);
   router.post('/response/:response_id/vote', utility.hasSession, getResponseId, postVote);
 };

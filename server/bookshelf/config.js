@@ -41,8 +41,9 @@ var usersTable = buildTable('users', function(table) {
   table.string('email').unique();
   table.string('fb_id').unique();
   table.string('gh_id').unique();
-  table.string('first_name');
-  table.string('last_name');
+  table.string('name').notNullable();
+  //table.string('first_name');
+  //table.string('last_name');
   table.string('profile_pic');
   table.integer('rank_points');
   table.integer('flags');

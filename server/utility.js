@@ -14,7 +14,7 @@ module.exports.getId = function(req) {
 module.exports.getUrlParamNums = function(req) {
   var method = req.method; //'GET', or 'POST'
 
-  return [].slice.apply(arguments,1)
+  return [].slice.call(arguments,1)
     .reduce( function(memo, arg) {
       id = req.params[arg];
       if (_.isNaN(id) || !_.isNumber(id)) {
@@ -30,7 +30,7 @@ module.exports.getUrlParamNums = function(req) {
 };
 
 module.exports.hasSession = function(req, res, next) {
-  //if (req.user) {
+  if (req.user) {
     next();
-  //} else { res.sendStatus(403); }
+  } else { res.sendStatus(403); }
 };

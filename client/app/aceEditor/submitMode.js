@@ -21,6 +21,7 @@ angular.module('fiddio')
       _aceEditor.setOption('showPrintMargin', false);
     }
     function getCode(){
+      // console.log(_document.getValue());
       return _document.getAllLines().join('\n');
     }
 

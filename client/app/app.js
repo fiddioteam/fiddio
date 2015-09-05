@@ -1,13 +1,14 @@
 angular.module('fiddio', ['ui.ace', 'ui.router', 'ngFileUpload'])
 
-  .run(['$rootScope', '$state', '$stateParams',
-      function ($rootScope,   $state,   $stateParams) {
+  .run(['$rootScope', '$state', '$stateParams', 'UserData',
+      function ($rootScope, $state, $stateParams, UserData) {
         // It's very handy to add references to $state and $stateParams to the $rootScope
         // so that you can access them from any scope within your applications.For example,
         // <li ng-class="{ active: $state.includes('contacts.list') }"> will set the <li>
         // to active whenever 'contacts.list' or one of its decendents is active.
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
+        UserData.loadData();
       }]
   )
 
@@ -16,6 +17,9 @@ angular.module('fiddio', ['ui.ace', 'ui.router', 'ngFileUpload'])
     $urlRouterProvider.otherwise('/home');
 
     $stateProvider
+      .state('auth', {
+        url: '/auth'
+      })
       .state('home', {
         url: '/home',
         templateUrl: '../templates/home.html'
@@ -30,13 +34,13 @@ angular.module('fiddio', ['ui.ace', 'ui.router', 'ngFileUpload'])
         },
         controller: 'BrowseQuestions as browse'
       })
-      .state('submit-question', {
+      .state('ask', {
         url: '/ask',
         templateUrl: '../templates/submitQuestion.html',
         controller: 'SubmitQuestion as submit'
       })
-      .state('record-response', {
-        url: '/answer',
+      .state('answer', {
+        url: '/question/:questionID/answer',
         templateUrl: '../templates/recordResponse.html',
         resolve: {
           func: function() { console.log("Inside of answer resolve"); }
@@ -44,7 +48,7 @@ angular.module('fiddio', ['ui.ace', 'ui.router', 'ngFileUpload'])
         controller: 'AceController as ace'
       })
       .state('question', {
-        url: '/:questionID',
+        url: '/question/:questionID',
         templateUrl: '../templates/questionView.html',
         resolve: {
           question: ['questions', '$stateParams', function(questions, $stateParams) {

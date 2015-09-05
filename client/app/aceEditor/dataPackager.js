@@ -5,6 +5,8 @@ angular.module('fiddio')
   var _responseData;
 
   function uploadResponse(code, editorChanges, mp3Blob, blobLength){
+
+    console.log('BLOB',mp3Blob);
     _responseData = {
       code_changes: editorChanges,
       //mp3Blob: mp3Blob,
@@ -23,10 +25,11 @@ angular.module('fiddio')
     })
     .then( function(res) {
       $timeout( function() {
-        $rootScope.$state.go('response', { responseId: res.data.id });
+        $rootScope.$state.go('question', { questionID: $rootScope.$stateParams.questionID});
       });
     }, function(res) {
-      if (res.status > 0) { $scope.errorMsg = res.status + ': ' + res.data; }
+      console.log('Error!', res);
+      //if (res.status > 0) { $rootScope.$scope.errorMsg = res.status + ': ' + res.data; }
     });
   }
 
@@ -38,6 +41,11 @@ angular.module('fiddio')
   function uploadQuestion(question) {
     // api POST
     console.log("Inside DataPackager uploadQuestion method", question);
+    $http({method:'POST', url:'/api/question', data: question})
+    .success(function(data, status, headers, config){
+      console.log(data, status, headers, config);
+    });
+
   }
 
   return {

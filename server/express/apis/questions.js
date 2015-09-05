@@ -64,6 +64,8 @@ module.exports = function(app, router) {
       user_id: req.user.id,
     }).save().then( function(question) {
       res.json(question.toJSON());
+    }).catch(function(err){
+      process.verb('no', err);
     });
   }
 

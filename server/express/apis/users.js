@@ -38,7 +38,7 @@ module.exports = function(app, router) {
   });
 
   router.get('/gh', function(req, res, next) {
-    req.session.redirect = url.parse(req.url, true).query.redirect;
+    //req.session.redirect = url.parse(req.url, true).query.redirect;
     next();
   },
   passport.authenticate('github', {
@@ -57,11 +57,8 @@ module.exports = function(app, router) {
         if (err) {
           return next(err);
         }
-        if (redirect) {
-          res.redirect( '/#' + redirect );
-        } else {
-          res.redirect('/');
-        }
+
+        res.redirect( '/#/auth' );
       });
     })(req, res, next);
   });
@@ -92,10 +89,12 @@ function getStarredQuestions(req, res, next) {
     db.model('User')
     .fetchUserbyId(req.body.id)
     .then( function(user) {
-      res.json(user.toJSON());
+      var userJSON = user.toJSON();
+      userJSON.authenticated = true;
+      res.json(userJSON);
     })
     .catch( function(err) {
-      res.sendStatus(400); // Bad Request!
+      res.json({ authenticated: false });
     });
   }
 
@@ -111,8 +110,7 @@ function getStarredQuestions(req, res, next) {
     .then( function(user) {
       if (!user) {
         return db.model('User').newUser({
-          first_name: req.body.first_name,
-          last_name: req.body.last_name,
+          name: req.body.name,
           email: req.body.email
         }).save();
       }
