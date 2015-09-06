@@ -12,7 +12,7 @@
 
 - __Erik Eppel__: Product Owner
 - __Femi Saliu__: Scrum Master
-- __Development Team Members__: Thomas Greenhalgh, Kamron Batman
+- __Thomas Greenhalgh, Kamron Batman__: Development Team
 
 ## Table of Contents
 
