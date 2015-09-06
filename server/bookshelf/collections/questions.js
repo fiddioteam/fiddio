@@ -10,7 +10,7 @@ var Questions = db.Collection.extend({
   fetchQuestionsHead: function() {
     return db.collection('Questions')
      .forge().fetch({
-       columns: ['title', 'response_count', 'star_count', 'user_id'],
+       columns: ['title', 'response_count', 'star_count', 'user_id', 'id'],
        withRelated: 'owner'
      });
   },
@@ -32,7 +32,9 @@ var Questions = db.Collection.extend({
   fetchbyUser: function(userId) {
     return db.collection('questions')
     .forge()
-    .where('user_id', '=', userId)
+    .query(function(qb){
+      qb.where('user_id', '=', userId);
+    })
     .fetch();
   }
 });

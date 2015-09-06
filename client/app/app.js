@@ -28,8 +28,8 @@ angular.module('fiddio', ['ui.ace', 'ui.router', 'ngFileUpload'])
         url: '/questions',
         templateUrl: '../templates/browseQuestions.html',
         resolve: {
-          questions: ['questions', function(questions) {
-            return questions.all();
+          questions: ['QuestionsData', function(QuestionsData) {
+            return QuestionsData.downloadQuestionsData();
           }]
         },
         controller: 'BrowseQuestions as browse'
@@ -51,42 +51,36 @@ angular.module('fiddio', ['ui.ace', 'ui.router', 'ngFileUpload'])
         url: '/question/:questionID',
         templateUrl: '../templates/questionView.html',
         resolve: {
-          question: ['questions', '$stateParams', function(questions, $stateParams) {
-            return questions.findById(parseInt($stateParams.questionID))
-            .then(function(question) {
-              return question;
-            })
-            .catch(function(err) {
-              console.log('Error: ', err);
-            });
+          question: ['QuestionsData','$stateParams', 'DataPackager', function(QuestionsData, $stateParams, DataPackager) {
+            return QuestionsData.downloadFullQuestion($stateParams.questionID);
           }]
         },
         controller: 'QuestionView as qv'
       });
 
-  })
+  });
 
 // a RESTful factory for retrieving contacts from a .json file
-  .factory('questions', ['$http', function($http) {
-    var path = 'questions.json';
-    var questions = $http.get(path).then(function(response) {
-      return response.data.questions;
-    });
-    var factory = {};
+  // .factory('questions', ['$http', function($http) {
+  //   var path = 'questions.json';
+  //   var questions = $http.get(path).then(function(response) {
+  //     return response.data.questions;
+  //   });
+  //   var factory = {};
 
-    factory.all = function() {
-     return questions;
-    };
+  //   factory.all = function() {
+  //    return questions;
+  //   };
 
-    factory.findById = function(id) {
-      return this.all().then(function(data) {
-        for (var i = 0; i < data.length; i++) {
-          if (data[i].id === id) {
-            return data[i];
-          }
-        }
-      });
-    };
+  //   factory.findById = function(id) {
+  //     return this.all().then(function(data) {
+  //       for (var i = 0; i < data.length; i++) {
+  //         if (data[i].id === id) {
+  //           return data[i];
+  //         }
+  //       }
+  //     });
+  //   };
 
-    return factory;
-  }]);
+  //   return factory;
+  // }]);

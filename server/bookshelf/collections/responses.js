@@ -8,10 +8,12 @@ require('../models/response');
 var Responses = db.Collection.extend({
   model: db.model('Response')
 }, {
-  fetchbyQuestion: function(questionId) {
+  fetchbyQuestionId: function(questionId) {
     return db.collection('Responses')
     .forge()
-    .where('question_id', '=', questionId)
+    .query(function(qb){
+      qb.where('question_id', '=', questionId);
+    })
     .fetch();
   }
 });
