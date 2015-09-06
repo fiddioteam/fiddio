@@ -1,9 +1,0 @@
-<div>
-  <div
-    ui-ace="ace.recordOptions"
-    style="height: 300px;">
-  </div>
-  <button ng-if="!ace.currentlyRecording()" ng-click="ace.startRecording()">Start</button>
-  <button ng-if="ace.currentlyRecording()" ng-click="ace.stopRecording()">Stop</button>
-  <button ng-click="ace.uploadChanges()">Submit</button>
-</div>

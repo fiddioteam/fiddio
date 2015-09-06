@@ -1,6 +1,6 @@
 angular.module('fiddio')
 
-.factory('PlaybackMode', [ '$window', 'DataPackager','$rootScope', function($window, DataPackager,$rootScope) {
+.factory('PlayerFactory', [ '$window', 'DataPackager','$rootScope', function($window, DataPackager,$rootScope) {
 
   var _aceEditor, _session, _document, _selection, _playbackContext, _player, _responseData;
 

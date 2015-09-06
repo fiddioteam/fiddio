@@ -36,16 +36,16 @@ angular.module('fiddio', ['ui.ace', 'ui.router', 'ngFileUpload'])
       })
       .state('ask', {
         url: '/ask',
-        templateUrl: '../templates/submitQuestion.html',
-        controller: 'SubmitQuestion as submit'
+        templateUrl: '../templates/askQuestion.html',
+        controller: 'AskQuestion as ask'
       })
       .state('answer', {
         url: '/question/:questionID/answer',
-        templateUrl: '../templates/recordResponse.html',
+        templateUrl: '../templates/answerQuestion.html',
         resolve: {
           func: function() { console.log("Inside of answer resolve"); }
         },
-        controller: 'AceController as ace'
+        controller: 'AnswerController as answer'
       })
       .state('question', {
         url: '/question/:questionID',
@@ -55,7 +55,7 @@ angular.module('fiddio', ['ui.ace', 'ui.router', 'ngFileUpload'])
             return QuestionsData.downloadFullQuestion($stateParams.questionID);
           }]
         },
-        controller: 'QuestionView as qv'
+        controller: 'QuestionController as qv'
       });
 
   });

@@ -1,5 +1,5 @@
 angular.module('fiddio')
-  .factory('DisplayMode', [function() {
+  .factory('QuestionDisplayFactory', [function() {
 
     var _aceEditor, _session, _document, _code;
 

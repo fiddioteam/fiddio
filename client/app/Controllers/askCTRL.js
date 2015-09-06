@@ -1,10 +1,10 @@
 angular.module('fiddio')
-  .controller('SubmitQuestion', ['SubmitMode', 'DataPackager', function(SubmitMode, DataPackager){
+  .controller('AskQuestion', ['AskFactory', 'DataPackager', function(AskFactory, DataPackager){
     var vm = this;
-    vm.submitOptions = SubmitMode.submitOptions;
+    vm.askOptions = AskFactory.askOptions;
 
     vm.submitQuestion = function() {
-      vm.question.code = SubmitMode.getCode();
+      vm.question.code = AskFactory.getCode();
       // call to DataPackager method
       DataPackager.uploadQuestion(vm.question);
       // trigger state change

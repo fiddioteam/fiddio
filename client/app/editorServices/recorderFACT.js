@@ -1,6 +1,6 @@
 angular.module('fiddio')
 
-.factory('RecordMode', [ '$q','FiddioRecorder','DataPackager', function($q, FiddioRecorder, DataPackager) {
+.factory('RecorderFactory', [ '$q','FiddioRecorder','DataPackager', function($q, FiddioRecorder, DataPackager) {
 
   var _aceEditor, _session, _document, _selection, _recorder, _audioBlob, _blobLength;
   var _recording = [];
