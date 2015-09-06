@@ -1,0 +1,39 @@
+{
+  "name": "fiddio",
+  "version": "1.0.0",
+  "homepage": "https://github.com/fiddio/fiddio",
+  "authors": [
+    "Kamron Batman",
+    "Femi Saliu",
+    "Erik Eppel",
+    "Thomas Greenhalgh"
+  ],
+  "description": "code fiddles meet \"video\"",
+  "main": "client/app/app.js",
+  "moduleType": [
+    "node"
+  ],
+  "keywords": [
+    "code",
+    "fiddle",
+    "help",
+    "sharing"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "ace-builds": "^1.2.0",
+    "angular": "~1.4.4",
+    "angular-mocks": "~1.4.5",
+    "angular-ui-ace": "bower",
+    "angular-ui-router": "~0.2.15",
+    "ng-file-upload": "~7.0.17",
+    "ng-file-upload-shim": "~7.0.17"
+  }
+}

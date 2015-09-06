@@ -1,0 +1,14 @@
+<h1>Submit Question</h1>
+<p>Having trouble with your code? Ask the Fiddio community for help</p>
+
+  <div
+    ui-ace="submit.submitOptions"
+    style="height: 300px;">
+  </div>
+  <form novalidate>
+    <input type="text" placeholder="Title" ng-model="submit.question.title">
+    <textarea name="" id="" cols="30" rows="10" placeholder="Desription" ng-model="submit.question.body"></textarea>
+    <input type="submit" ng-click="submit.submitQuestion(question)" value="Submit">
+  </form>
+
+
