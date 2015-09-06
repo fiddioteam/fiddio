@@ -2,7 +2,7 @@
 
 ## General Workflow
 
-1. Fork the repo
+1. [Fork the repo](https://help.github.com/articles/fork-a-repo/)
 1. Cut a namespaced feature branch from master
   - bug/...
   - feat/...
@@ -10,14 +10,14 @@
   - doc/...
   - refactor/...
 1. Make commits to your feature branch. Prefix each commit like so:
-  - (feat) Added a new feature
-  - (fix) Fixed inconsistent tests [Fixes #0]
+  - [Feat] Adds a new feature
+  - [Fix] Fixes inconsistent tests [Fixes #0]
   - (refactor) ...
-  - (cleanup) ...
-  - (test) ...
-  - (doc) ...
-1. When you've finished with your fix or feature, Rebase upstream changes into your branch. submit a [pull request][]
-   directly to master. Include a description of your changes.
+  - [Cleanup] ...
+  - [Test] ...
+  - [Docs] ...
+1. When you've finished with your fix or feature, Rebase upstream changes into your branch. Submit a [pull request](https://help.github.com/articles/using-pull-requests/)
+   directly to dev. Include a description of your changes.
 1. Your pull request will be reviewed by another maintainer. The point of code
    reviews is to help keep the codebase clean and of high quality and, equally
    as important, to help you grow as a programmer. If your code reviewer
@@ -33,7 +33,7 @@
 Use github’s interface to make a fork of the repo, then add that repo as an upstream remote:
 
 ```
-git remote add upstream https://github.com/hackreactor-labs/<NAME_OF_REPO>.git
+git remote add upstream https://github.com/deathbears/<NAME_OF_REPO>.git
 ```
 
 ### Cut a namespaced feature branch from master
@@ -56,12 +56,12 @@ git checkout -b `your-branch-name`
 ### Make commits to your feature branch. 
 
 Prefix each commit like so
-  - (feat) Added a new feature
-  - (fix) Fixed inconsistent tests [Fixes #0]
+  - [Feat] Adds a new feature
+  - [Fix] Fixes inconsistent tests [Fixes #0]
   - (refactor) ...
-  - (cleanup) ...
-  - (test) ...
-  - (doc) ...
+  - [Cleanup] ...
+  - [Test] ...
+  - [Docs] ...
 
 Make changes and commits on your branch, and make sure that you
 only make changes that are relevant to this branch. If you find
@@ -70,7 +70,7 @@ changes.
 
 #### Commit Message Guidelines
 
-- Commit messages should be written in the present tense; e.g. "Fix continuous
+- Commit messages should be written in the present tense; e.g. "Fixes continuous
   integration script".
 - The first line of your commit message should be a brief summary of what the
   commit changes. Aim for about 70 characters max. Remember: This is a summary,
@@ -95,7 +95,7 @@ before doing this. If there are no conflicts, this should just roll all
 of your changes back on top of the changes from upstream, leading to a
 nice, clean, linear commit history.
 
-If there are conflicting changes, git will start yelling at you part way
+If there are conflicting changes, git will start yelling at you part of the way
 through the rebasing process. Git will pause rebasing to allow you to sort
 out the conflicts. You do this the same way you solve merge conflicts,
 by checking all of the files git says have been changed in both histories
@@ -138,19 +138,18 @@ Thanks for contributing!
 ### Guidelines
 
 1. Uphold the current code standard:
-    - Keep your code [DRY][].
-    - Apply the [boy scout rule][].
+    - Keep your code [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself).
     - Follow [STYLE-GUIDE.md](STYLE-GUIDE.md)
-1. Run the [tests][] before submitting a pull request.
+1. Run the tests before submitting a pull request.
 1. Tests are very, very important. Submit tests if your pull request contains
    new, testable behavior.
-1. Your pull request is comprised of a single ([squashed][]) commit.
+1. Your pull request is comprised of a single ([squashed](https://help.github.com/articles/about-git-rebase/)) commit.
 
 ## Checklist:
 
 This is just to help you organize your process
 
-- [ ] Did I cut my work branch off of master (don't cut new branches from existing feature brances)?
+- [ ] Did I cut my work branch off of master? (Don't cut new branches from existing feature branches.)
 - [ ] Did I follow the correct naming convention for my branch?
 - [ ] Is my branch focused on a single main change?
  - [ ] Do all of my changes directly relate to this change?
