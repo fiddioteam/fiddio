@@ -1,6 +1,6 @@
 angular.module('fiddio')
 
-.factory('PlaybackMode', [ '$window', 'DataPackager', function($window, DataPackager) {
+.factory('PlaybackMode', [ '$window', 'DataPackager','$rootScope', function($window, DataPackager,$rootScope) {
 
   var _aceEditor, _session, _document, _selection, _playbackContext, _player, _responseData;
 
@@ -31,7 +31,7 @@ angular.module('fiddio')
   }
 
   function startPlayback(){
-    _responseData = DataPackager.downloadResponse();
+    _responseData = DataPackager.downloadResponseData(); // we need to parse this
     if (!window.AudioContext) { window.AudioContext = window.webkitAudioContext; }
     _playbackContext = new AudioContext();
     _player = new Audio();

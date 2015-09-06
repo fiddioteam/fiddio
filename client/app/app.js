@@ -51,7 +51,7 @@ angular.module('fiddio', ['ui.ace', 'ui.router', 'ngFileUpload'])
         url: '/question/:questionID',
         templateUrl: '../templates/questionView.html',
         resolve: {
-          question: ['QuestionsData','$stateParams', function(QuestionsData, $stateParams) {
+          question: ['QuestionsData','$stateParams', 'DataPackager', function(QuestionsData, $stateParams, DataPackager) {
             return QuestionsData.downloadFullQuestion($stateParams.questionID);
           }]
         },

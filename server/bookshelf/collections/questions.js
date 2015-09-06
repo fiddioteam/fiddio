@@ -32,7 +32,9 @@ var Questions = db.Collection.extend({
   fetchbyUser: function(userId) {
     return db.collection('questions')
     .forge()
-    .where('user_id', '=', userId)
+    .query(function(qb){
+      qb.where('user_id', '=', userId);
+    })
     .fetch();
   }
 });

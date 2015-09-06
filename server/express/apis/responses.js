@@ -78,7 +78,7 @@ module.exports = function(app, router) {
           code: req.body.code,
           duration: req.body.duration,
           user_id: req.user.id,
-          question_id: question_id,
+          question_id: req.body.id,
           code_changes: JSON.stringify(req.body.code_changes)
         }).save()];
       })
