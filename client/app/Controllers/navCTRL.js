@@ -3,7 +3,6 @@ angular.module('fiddio')
     var vm = this;
 
     vm.authenticateUser = function(type) {
-      console.log("Inside authenticateUser in HomeController");
       Authentication.resolveAuth(type, 'site.ask')
       .finally(function() {
         console.log('UserData', UserData.authenticated);
