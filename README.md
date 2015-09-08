@@ -32,7 +32,7 @@
 - [Node.js](https://nodejs.org/)
 - [Express](http://expressjs.com/)
 - [Postgres](http://www.postgresql.org/)
-- [Bookself.js](http://bookshelfjs.org/)
+- [Bookshelf.js](http://bookshelfjs.org/)
 
 ### Frontend
 - [AngularJS](https://angularjs.org/)
