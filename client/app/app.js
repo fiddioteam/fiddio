@@ -8,7 +8,10 @@ angular.module('fiddio', ['ui.ace', 'ui.router', 'ngFileUpload'])
         // to active whenever 'contacts.list' or one of its decendents is active.
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
-        UserData.loadData();
+        //UserData.loadData();
+        $rootScope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams) {
+          console.log('$stateChangeStart, event, toState, toParams, fromState, fromParams', event, toState, toParams, fromState, fromParams);
+        });
       }]
   )
 
@@ -17,15 +20,33 @@ angular.module('fiddio', ['ui.ace', 'ui.router', 'ngFileUpload'])
     $urlRouterProvider.otherwise('/home');
 
     $stateProvider
-      .state('auth', {
-        url: '/auth'
+      .state('site', {
+        abstract: true,
+        template: '<div ui-view />',
+        resolve: {
+          authenticate: ['Authentication', function(Authentication) {
+            console.log('Attempting authentication');
+            return Authentication.resolveAuth();
+          }]
+        },
       })
-      .state('home', {
+      // .state('auth', {
+      //   url: '/auth',
+      //   onEnter: function($rootScope, Authentication){
+      //     Authentication.resolveAuth();
+      //     //var nextState = UserData.getItem('authRedirect');
+      //     //$rootScope.$state.go(nextState);
+      //     // $rootScope.$state.go(UserData.getItem('authRedirect'));
+      //   }
+      // })
+      .state('site.home', {
         url: '/home',
+        parent: 'site',
         templateUrl: '../templates/home.html'
       })
-      .state('browse-questions', {
+      .state('site.browse-questions', {
         url: '/questions',
+        parent: 'site',
         templateUrl: '../templates/browseQuestions.html',
         resolve: {
           questions: ['QuestionsData', function(QuestionsData) {
@@ -34,28 +55,31 @@ angular.module('fiddio', ['ui.ace', 'ui.router', 'ngFileUpload'])
         },
         controller: 'BrowseQuestions as browse'
       })
-      .state('ask', {
+      .state('site.ask', {
         url: '/ask',
-        templateUrl: '../templates/submitQuestion.html',
-        controller: 'SubmitQuestion as submit'
+        parent: 'site',
+        templateUrl: '../templates/askQuestion.html',
+        controller: 'AskQuestion as ask'
       })
-      .state('answer', {
+      .state('site.answer', {
         url: '/question/:questionID/answer',
-        templateUrl: '../templates/recordResponse.html',
+        parent: 'site',
+        templateUrl: '../templates/answerQuestion.html',
         resolve: {
           func: function() { console.log("Inside of answer resolve"); }
         },
-        controller: 'AceController as ace'
+        controller: 'AnswerController as answer'
       })
-      .state('question', {
+      .state('site.question', {
         url: '/question/:questionID',
+        parent: 'site',
         templateUrl: '../templates/questionView.html',
         resolve: {
           question: ['QuestionsData','$stateParams', 'DataPackager', function(QuestionsData, $stateParams, DataPackager) {
             return QuestionsData.downloadFullQuestion($stateParams.questionID);
           }]
         },
-        controller: 'QuestionView as qv'
+        controller: 'QuestionController as qv'
       });
 
   });

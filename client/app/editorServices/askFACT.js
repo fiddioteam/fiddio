@@ -1,9 +1,9 @@
 angular.module('fiddio')
-  .factory('SubmitMode', [function() {
+  .factory('AskFactory', [function() {
 
     var _aceEditor, _session, _document;
 
-    var submitOptions = {
+    var askOptions = {
       useWrapMode: true,
       showGutter: true,
       theme: 'solarized_dark',
@@ -12,7 +12,6 @@ angular.module('fiddio')
     };
 
     function aceLoaded(_editor) {
-      console.log('Ace Loaded');
       _aceEditor = _editor.env.editor;
       _session = _editor.getSession();
       _document = _session.getDocument();
@@ -20,13 +19,13 @@ angular.module('fiddio')
       _aceEditor.$blockScrolling = Infinity;
       _aceEditor.setOption('showPrintMargin', false);
     }
+    
     function getCode(){
-      // console.log(_document.getValue());
       return _document.getAllLines().join('\n');
     }
 
     return {
-      submitOptions: submitOptions,
+      askOptions: askOptions,
       getCode: getCode
     };
 

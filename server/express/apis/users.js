@@ -57,7 +57,7 @@ module.exports = function(app, router) {
           return next(err);
         }
 
-        res.redirect( '/#/auth' );
+        res.redirect( '/#/' );
       });
     })(req, res, next);
   });

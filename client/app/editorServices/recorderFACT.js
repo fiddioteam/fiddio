@@ -1,6 +1,6 @@
 angular.module('fiddio')
 
-.factory('RecordMode', [ '$q','FiddioRecorder','DataPackager', function($q, FiddioRecorder, DataPackager) {
+.factory('RecorderFactory', [ '$q','FiddioRecorder','DataPackager', function($q, FiddioRecorder, DataPackager) {
 
   var _aceEditor, _session, _document, _selection, _recorder, _audioBlob, _blobLength;
   var _recording = [];
@@ -110,10 +110,10 @@ angular.module('fiddio')
 
   function uploadEditorChanges(currentlyRecording){
     if (currentlyRecording) { return; }
-    console.log('Uploading '+_recording.length+' changes to db');
+    // console.log('Uploading '+_recording.length+' changes to db');
     if (_recording.length > 0){
       DataPackager.uploadResponse(_code, _recording, _audioBlob, _blobLength);
-      console.log('uploading response',_code, _recording, _audioBlob, _blobLength);
+      // console.log('uploading response',_code, _recording, _audioBlob, _blobLength);
     }
     _recording = [];
   }
