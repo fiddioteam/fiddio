@@ -1,44 +1,34 @@
-# Project Name #
-
-<!-- 
-> This material was originally posted [here](http://www.quora.com/What-is-Amazons-approach-to-product-development-and-product-management). It is reproduced here for posterities sake.
-
-There is an approach called "working backwards" that is widely used at Amazon. They work backwards from the customer, rather than starting with an idea for a product and trying to bolt customers onto it. While working backwards can be applied to any specific product decision, using this approach is especially important when developing new products or features.
-
-For new initiatives a product manager typically starts by writing an internal press release announcing the finished product. The target audience for the press release is the new/updated product's customers, which can be retail customers or internal users of a tool or technology. Internal press releases are centered around the customer problem, how current solutions (internal or external) fail, and how the new product will blow away existing solutions.
-
-If the benefits listed don't sound very interesting or exciting to customers, then perhaps they're not (and shouldn't be built). Instead, the product manager should keep iterating on the press release until they've come up with benefits that actually sound like benefits. Iterating on a press release is a lot less expensive than iterating on the product itself (and quicker!).
-
-If the press release is more than a page and a half, it is probably too long. Keep it simple. 3-4 sentences for most paragraphs. Cut out the fat. Don't make it into a spec. You can accompany the press release with a FAQ that answers all of the other business or execution questions so the press release can stay focused on what the customer gets. My rule of thumb is that if the press release is hard to write, then the product is probably going to suck. Keep working at it until the outline for each paragraph flows. 
-
-Oh, and I also like to write press-releases in what I call "Oprah-speak" for mainstream consumer products. Imagine you're sitting on Oprah's couch and have just explained the product to her, and then you listen as she explains it to her audience. That's "Oprah-speak", not "Geek-speak".
-
-Once the project moves into development, the press release can be used as a touchstone; a guiding light. The product team can ask themselves, "Are we building what is in the press release?" If they find they're spending time building things that aren't in the press release (overbuilding), they need to ask themselves why. This keeps product development focused on achieving the customer benefits and not building extraneous stuff that takes longer to build, takes resources to maintain, and doesn't provide real customer benefit (at least not enough to warrant inclusion in the press release).
- -->
+# Fidd.io #
  
-## Heading ##
-  > Name the product in a way the reader (i.e. your target customers) will understand.
+## Code fiddles meet "video" ##
+  > Fidd.io offers hackers shareable code snippets combined with audio recording and live keystroke playback.
 
-## Sub-Heading ##
-  > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
+## Target Audience ##
+  > Newcomers, seasoned hackers, auditory learners ... Fidd.io speaks to anyone with a curiousity for code. Whether you're on the hunt for a nuanced explanation of a particular issue or want to watch a pro live code a solution to your bug, Fidd.io speaks your language.
 
 ## Summary ##
   > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
 
 ## Problem ##
-  > Describe the problem your product solves.
+  > GitHub and Stack Overflow have helped transform programming from a solitary activity into a social movement; however, users still interact with lifeless code snippets when researching solutions or soliciting feedback. 
+
+  > Video tutorials do a better job of addressing the issue of “connecting” people, but they must be accompanied with Plunkers or other linked/embedded code snippets for users to avoid having to pause and copy code from a video stream.
 
 ## Solution ##
-  > Describe how your product elegantly solves the problem.
+  > To add richer layer of interaction to the concept of the code snippet, we propose combining the functionality of a SoundCloud audio file, with user comments plotted on the track’s duration, with Khan Academy’s live coding, video-like playback, which allows users to pause the stream and interact directly with the code as it stands at that point in time. 
+
+  > Fidd.io allows users to pose questions as code snippets, for which other users can record explanatory audio tracks that sync to their live-coded solutions. Other users may then comment on the solution recordings, linking comments to the specific point in the audio track’s timeline.
+
+  > Adding an audio component to code snippets lends feeling of connection and immediacy that greatly benefits aural learners, or just anyone who prefers to listen to spoken explanations to reading. The audio component also empowers programmers who struggle to convey complex ideas in writing; speaking the explanation in parallel with writing out the code saves time as it gives the respondent the chance to offer more details easily.
 
 ## Quote from You ##
-  > A quote from a spokesperson in your company.
+  > Our team wanted to give something back to the community while adding a more interactive and immersive layer to social coding.
 
 ## How to Get Started ##
-  > Describe how easy it is to get started.
+  > Navigate to [fidd.io](fidd.io) to browse questions or post your own.
 
 ## Customer Quote ##
-  > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
+  > ...
 
 ## Closing and Call to Action ##
-  > Wrap it up and give pointers where the reader should go next.
+  > Give your code a voice with Fidd.io!
