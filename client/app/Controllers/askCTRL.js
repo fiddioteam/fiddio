@@ -9,7 +9,6 @@ angular.module('fiddio')
       DataPackager.uploadQuestion(vm.question)
       .success(function(data, status, headers, config){
         $state.go('site.question',{ questionID: data.id });
-        console.log("DOES IT WORK????",data.id);
       });
       // trigger state change
     };

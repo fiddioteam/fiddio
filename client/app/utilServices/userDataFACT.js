@@ -3,12 +3,13 @@ angular.module('fiddio')
 .factory('UserData',[function(){
 
   function setItem(key, value){
-    localStorage.setItem('fidd.io|'+key, JSON.stringify(value));
+    if (value === undefined) { this.removeItem(key); }
+    else { localStorage.setItem('fidd.io|'+key, JSON.stringify(value)); }
   }
 
   function getItem(key) {
     var obj = localStorage.getItem('fidd.io|' + key);
-    var parsed = JSON.parse(obj);
+    var parsed = obj && JSON.parse(obj) || undefined;
     return parsed;
   }
 
