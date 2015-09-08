@@ -11,7 +11,6 @@ angular.module('fiddio')
         $state.go('site.question',{ questionID: data.id });
         console.log("DOES IT WORK????",data.id);
       });
-      // trigger state change
     };
 
   }]);

@@ -66,7 +66,9 @@ angular.module('fiddio', ['ui.ace', 'ui.router', 'ngFileUpload'])
         parent: 'site',
         templateUrl: '../templates/answerQuestion.html',
         resolve: {
-          func: function() { console.log("Inside of answer resolve"); }
+          question: ['QuestionsData','$stateParams', 'DataPackager', function(QuestionsData, $stateParams, DataPackager) {
+            return QuestionsData.downloadFullQuestion($stateParams.questionID);
+          }]
         },
         controller: 'AnswerController as answer'
       })
