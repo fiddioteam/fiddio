@@ -110,10 +110,10 @@ angular.module('fiddio')
 
   function uploadEditorChanges(currentlyRecording){
     if (currentlyRecording) { return; }
-    console.log('Uploading '+_recording.length+' changes to db');
+    // console.log('Uploading '+_recording.length+' changes to db');
     if (_recording.length > 0){
       DataPackager.uploadResponse(_code, _recording, _audioBlob, _blobLength);
-      console.log('uploading response',_code, _recording, _audioBlob, _blobLength);
+      // console.log('uploading response',_code, _recording, _audioBlob, _blobLength);
     }
     _recording = [];
   }

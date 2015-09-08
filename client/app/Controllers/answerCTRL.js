@@ -18,7 +18,6 @@ angular.module('fiddio')
   };
   vm.uploadChanges = function(){
     RecorderFactory.uploadEditorChanges(RecorderFactory.getRecordingStatus());
-    // console.log($rootScope.$stateParams);
   };
   vm.playRecording = PlayerFactory.startPlayback;
   vm.setEditorText = RecorderFactory.setEditorText;

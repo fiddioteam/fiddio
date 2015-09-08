@@ -8,7 +8,6 @@ angular.module('fiddio')
 
     _responseData = {
       code_changes: editorChanges,
-      //mp3Blob: mp3Blob,
       duration: blobLength,
       code: code,
       question_id: $rootScope.$stateParams.questionID
@@ -17,24 +16,21 @@ angular.module('fiddio')
     Upload.upload({
       url: '/api/response',
       method: 'POST',
-      //headers: {},
       fields: _responseData,
       file: mp3Blob,
       fileFormDataName: 'response'
     })
     .then( function(res) {
       $timeout( function() {
-        $rootScope.$state.go('question', { questionID: $rootScope.$stateParams.questionID});
+        $rootScope.$state.go('site.question', { questionID: $rootScope.$stateParams.questionID});
       });
     }, function(res) {
       console.log('Error!', res);
-      //if (res.status > 0) { $rootScope.$scope.errorMsg = res.status + ': ' + res.data; }
     });
   }
 
   function downloadResponseData(id){
     return _responseData;
-    // return $http({method: 'GET', url: '/api/response/'+id});
   }
 
   function downloadResponses(id){

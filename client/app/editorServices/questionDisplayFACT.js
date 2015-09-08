@@ -12,7 +12,7 @@ angular.module('fiddio')
     };
 
     function aceLoaded(_editor) {
-      console.log('Ace Loaded');
+      // console.log('Ace Loaded');
       _aceEditor = _editor.env.editor;
       _session = _editor.getSession();
       _document = _session.getDocument();

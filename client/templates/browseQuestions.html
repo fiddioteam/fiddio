@@ -3,7 +3,7 @@
 <ul>
   <li ng-repeat="question in browse.questions">
     <span><strong>{{ question.owner.name }}:</strong> {{ question.title }} –</span>
-    <a ui-sref="question({ questionID: question.id })">Question {{ question.id }}</a>
+    <a ui-sref="site.question({ questionID: question.id })">Question {{ question.id }}</a>
   </li>
 </ul>
 

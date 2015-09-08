@@ -22,7 +22,7 @@ angular.module('fiddio')
 
 
     vm.authenticateUser = function(type) {
-      Authentication.resolveAuth(type, "answer", { questionID: $rootScope.$stateParams.questionID });
+      Authentication.resolveAuth(type, "site.answer", { questionID: $rootScope.$stateParams.questionID });
     };
 
   }]);
