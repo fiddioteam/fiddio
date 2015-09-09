@@ -2,21 +2,32 @@ angular.module('fiddio')
 
 .factory('Authentication', ['$rootScope', '$q','$http', '$location','UserData', function($rootScope, $q, $http, $location, UserData) {
 
-  function resolveAuth(type,redirect, params) {
-    return checkAuth()
-    .then( function() {
+  function resolveAuth(auth) {
+    auth = auth || this.checkAuth();
+    return auth.then( function() {
       if (UserData.getItem('authenticated')) {
-        redirect = redirect || UserData.getItem('authRedirect');
-        params = params || UserData.getItem('authRedirect_params');
+        var redirect = UserData.getItem('authRedirect');
+        var params = UserData.getItem('authRedirect_params');
         UserData.removeItem('authRedirect');
         UserData.removeItem('authRedirect_params');
         if (redirect) { $rootScope.$state.go(redirect, params); }
+
       } else {
+        UserData.setItem('authRedirect', $rootScope.toState.name);
+        UserData.setItem('authRedirect_params', $rootScope.toStateParams);
+        $rootScope.$state.go('site.login');
+        /*
+        type = type || getProfileId();
         UserData.setItem('authRedirect', redirect);
         UserData.setItem('authRedirect_params', params);
-        type = type || getProfileId();
-        console.log('Type', type);
-        $location.path( '/api/' + type );
+        if (type) {
+          // console.log('Type', type, $rootScope.$state.current.name);
+          // if (!type && $rootScope.$state.current.name !== 'site.login') {
+          //   $rootScope.$state.go('site.login');
+          // }
+          $location.path( '/api/' + type );
+        }
+        */
       }
     }, function(err) {
       console.log('err', err);
@@ -24,16 +35,12 @@ angular.module('fiddio')
   }
 
   function checkAuth() {
-    return $q(function(resolve, reject){
-      $http({method : 'GET', url: '/api/user/info'})
-      .success(function(data, status, headers, config){
-        UserData.setItem( "authenticated", data.authenticated );
-        UserData.setItem( "userInfo", data );
-        resolve();
-      })
-      .error(function(data, status, headers, config){
-        console.log("Wait, what?", status, data);
-      });
+    return $http({method : 'GET', url: '/api/user/info'})
+    .then(function(response){
+      UserData.setItem( "authenticated", response.data.authenticated );
+      UserData.setItem( "userInfo", response.data );
+    }, function(response){
+      console.log("checkAuth FAILED!", response.status, response.data);
     });
   }
 
@@ -56,6 +63,7 @@ angular.module('fiddio')
   }
 
   return {
+    checkAuth: checkAuth,
     resolveAuth: resolveAuth,
     getProfileId: getProfileId
   };

@@ -51,13 +51,12 @@ module.exports = function(app, router) {
       }
       var redirect = req.session.redirect;
       req.session.redirect = undefined;
-      process.verb('User info', user);
       req.logIn(user, function(err) {
         if (err) {
           return next(err);
         }
 
-        res.redirect( '/#/' );
+        res.redirect( '/#/auth' );
       });
     })(req, res, next);
   });

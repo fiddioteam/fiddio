@@ -4,12 +4,12 @@ angular.module('fiddio')
 
   function setItem(key, value){
     if (value === undefined) { this.removeItem(key); }
-    else { localStorage.setItem('fidd.io|'+key, JSON.stringify(value)); }
+    else { localStorage.setItem('fidd.io|'+key, angular.toJson(value)); }
   }
 
   function getItem(key) {
     var obj = localStorage.getItem('fidd.io|' + key);
-    var parsed = obj && JSON.parse(obj) || undefined;
+    var parsed = obj && angular.fromJson(obj) || undefined;
     return parsed;
   }
 
