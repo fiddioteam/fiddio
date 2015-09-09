@@ -85,28 +85,3 @@ angular.module('fiddio', ['ui.ace', 'ui.router', 'ngFileUpload'])
       });
 
   });
-
-// a RESTful factory for retrieving contacts from a .json file
-  // .factory('questions', ['$http', function($http) {
-  //   var path = 'questions.json';
-  //   var questions = $http.get(path).then(function(response) {
-  //     return response.data.questions;
-  //   });
-  //   var factory = {};
-
-  //   factory.all = function() {
-  //    return questions;
-  //   };
-
-  //   factory.findById = function(id) {
-  //     return this.all().then(function(data) {
-  //       for (var i = 0; i < data.length; i++) {
-  //         if (data[i].id === id) {
-  //           return data[i];
-  //         }
-  //       }
-  //     });
-  //   };
-
-  //   return factory;
-  // }]);

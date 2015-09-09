@@ -17,6 +17,14 @@ var Vote = db.Model.extend({
   },
   upOrDown: function() {
     return this.get('upOrDown');
+  }
+}, {
+  fetch: function(userId, responseId, notRequired) {
+    return db.model('Vote').fetch({
+      user: userId,
+      response: responseId,
+      require: !notRequired
+    });
   },
   // only one vote per user
   fetchOrCreate: function(userId, responseId, upOrDown) {
