@@ -27,7 +27,7 @@ var Response = db.Model.extend({
       id: id
     }).fetch({
       require: true,
-      withRelated: ['owner']
+      withRelated: ['owner','question']
     });
   },
   newResponse: function(options) {

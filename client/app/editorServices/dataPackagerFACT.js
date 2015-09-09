@@ -29,9 +29,9 @@ angular.module('fiddio')
     });
   }
 
-  function downloadResponseData(id){
-    return _responseData;
-  }
+  // function downloadResponseData(id){
+  //   return _responseData;
+  // }
 
   function downloadResponses(id){
     // api GET
@@ -46,7 +46,6 @@ angular.module('fiddio')
   return {
     uploadResponse: uploadResponse,
     downloadResponses: downloadResponses,
-    downloadResponseData: downloadResponseData,
     uploadQuestion: uploadQuestion
   };
 }]);

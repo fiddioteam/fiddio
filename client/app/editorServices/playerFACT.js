@@ -31,12 +31,13 @@ angular.module('fiddio')
     _document.insert({row: 0, column: 0}, _code);
   }
 
-  function startPlayback(){
-    _responseData = DataPackager.downloadResponseData(); // we need to parse this
+  function startPlayback(_responseData){
+    // _responseData = DataPackager.downloadResponseData(); // we need to parse this
     if (!window.AudioContext) { window.AudioContext = window.webkitAudioContext; }
     _playbackContext = new AudioContext();
     _player = new Audio();
-    _player.src = $window.URL.createObjectURL(_responseData.mp3Blob);
+    // _player.src = $window.URL.createObjectURL(_responseData.mp3Blob);
+    _player.src = _responseData.audioURL;
     _playbackContext
       .createMediaElementSource(_player)
       .connect(_playbackContext.destination);

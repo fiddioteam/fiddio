@@ -1,16 +1,17 @@
 angular.module('fiddio', ['ui.ace', 'ui.router', 'ngFileUpload'])
 
-  .run(['$rootScope', '$state', '$stateParams', 'UserData',
-      function ($rootScope, $state, $stateParams, UserData) {
+  .run(['$rootScope', '$state', '$stateParams', 'Authentication', 'UserData',
+      function ($rootScope, $state, $stateParams, Authentication, UserData) {
         // It's very handy to add references to $state and $stateParams to the $rootScope
         // so that you can access them from any scope within your applications.For example,
         // <li ng-class="{ active: $state.includes('contacts.list') }"> will set the <li>
         // to active whenever 'contacts.list' or one of its decendents is active.
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
-        //UserData.loadData();
-        $rootScope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams) {
-          console.log('$stateChangeStart, event, toState, toParams, fromState, fromParams', event, toState, toParams, fromState, fromParams);
+
+        $rootScope.$on('$stateChangeStart',function(event, toState, toStateParams, fromState, fromStateParams) {
+          $rootScope.toState = toState;
+          $rootScope.toStateParams = toStateParams;
         });
       }]
   )
@@ -24,21 +25,31 @@ angular.module('fiddio', ['ui.ace', 'ui.router', 'ngFileUpload'])
         abstract: true,
         template: '<div ui-view />',
         resolve: {
-          authenticate: ['Authentication', function(Authentication) {
-            console.log('Attempting authentication');
-            return Authentication.resolveAuth();
+          identity: ['Authentication', function(Authentication) {
+            return Authentication.checkAuth();
           }]
         },
       })
-      // .state('auth', {
-      //   url: '/auth',
-      //   onEnter: function($rootScope, Authentication){
-      //     Authentication.resolveAuth();
-      //     //var nextState = UserData.getItem('authRedirect');
-      //     //$rootScope.$state.go(nextState);
-      //     // $rootScope.$state.go(UserData.getItem('authRedirect'));
-      //   }
-      // })
+      .state('site.authRequired', {
+        abstract: true,
+        parent: 'site',
+        template: '<div ui-view />',
+        resolve: {
+          authenticate: ['Authentication', 'identity', function(Authentication, identity) {
+            return Authentication.resolveAuth(identity);
+          }]
+        },
+      })
+      .state('site.authRequired.auth', {
+        url: '/auth',
+        parent: 'site.authRequired',
+        template: '<div ui-view />'
+      })
+      .state('site.login', {
+        url: '/login',
+        parent: 'site',
+        templateUrl: '../templates/login.html'
+      })
       .state('site.home', {
         url: '/home',
         parent: 'site',
@@ -55,15 +66,15 @@ angular.module('fiddio', ['ui.ace', 'ui.router', 'ngFileUpload'])
         },
         controller: 'BrowseQuestions as browse'
       })
-      .state('site.ask', {
+      .state('site.authRequired.ask', {
         url: '/ask',
-        parent: 'site',
+        parent: 'site.authRequired',
         templateUrl: '../templates/askQuestion.html',
-        controller: 'AskQuestion as ask'
+        controller: 'AskQuestion as ask',
       })
-      .state('site.answer', {
+      .state('site.authRequired.answer', {
         url: '/question/:questionID/answer',
-        parent: 'site',
+        parent: 'site.authRequired',
         templateUrl: '../templates/answerQuestion.html',
         resolve: {
           question: ['QuestionsData','$stateParams', 'DataPackager', function(QuestionsData, $stateParams, DataPackager) {
