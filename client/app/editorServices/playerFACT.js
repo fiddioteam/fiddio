@@ -1,10 +1,8 @@
 angular.module('fiddio')
 
-.factory('PlayerFactory', [ '$window', 'DataPackager','$rootScope', function($window, DataPackager,$rootScope) {
+.factory('PlayerFactory', [ '$window', 'DataPackager','$rootScope', 'angularPlayer', function($window, DataPackager,$rootScope, angularPlayer) {
 
-  var _aceEditor, _session, _document, _selection, _playbackContext, _player, _responseData, _code;
-
-  var _recording = [];
+  var _aceEditor, _session, _document, _selection, _playbackContext, _player, _responseData, _code, _lastIndex = 0, _recording;
 
   var editorActions = [
     insertText,
@@ -19,53 +17,69 @@ angular.module('fiddio')
     mode: 'javascript',
     onLoad: aceLoaded
   };
+
+  $rootScope.$on('track:progress', function(event, args){
+    if (!angularPlayer.isPlayingStatus()) {
+      smashChanges();
+    }
+
+  });
   function aceLoaded(_editor){
     window.aceEd = _editor.env.editor;
     _aceEditor = _editor.env.editor;
     _session = _editor.getSession();
     _document = _session.getDocument();
     _selection = _session.selection;
-    _aceEditor.setValue('',-1);
+    _aceEditor.setValue(_code,-1);
     _aceEditor.$blockScrolling = Infinity;
     _aceEditor.setOption("showPrintMargin", false);
-    _document.insert({row: 0, column: 0}, _code);
   }
 
-  function startPlayback(_responseData){
-    // _responseData = DataPackager.downloadResponseData(); // we need to parse this
-    if (!window.AudioContext) { window.AudioContext = window.webkitAudioContext; }
-    _playbackContext = new AudioContext();
-    _player = new Audio();
-    // _player.src = $window.URL.createObjectURL(_responseData.mp3Blob);
-    _player.src = _responseData.audioURL;
-    _playbackContext
-      .createMediaElementSource(_player)
-      .connect(_playbackContext.destination);
-    _player.play();
-    playActions(_responseData.editorChanges, _playbackContext);
+  function setRecording(recording) {
+    _recording = recording;
   }
 
-  function playActions(recording,context){
+  function playActions(){
     var timeOutSpeed = 5;
-    if (!recording.length){return;}
+    if (!_recording.length) {
+      return;
+    }
     setTimeout(function(){
-      var time = context.currentTime * 1000|0;
-      if ( recording[0][1] <= time) {
-        var timeSlice = recording.shift();
-        editorActions[timeSlice[0]](timeSlice);
+      var time = angularPlayer.getPosition()|0;
+      var prevIndex = _recording[_lastIndex-1];
+      if (prevIndex && prevIndex[1] > time) {
+        smashChanges(_recording);
+      } else {
+        for (; _lastIndex < _recording.length && _recording[_lastIndex][1] <= time; _lastIndex++ ) {
+          var timeSlice = _recording[_lastIndex];
+          editorActions[timeSlice[0]](timeSlice);
+        }
       }
-      playActions(recording, context);
-    },timeOutSpeed);
+      if (angularPlayer.isPlayingStatus()) {
+        playActions(_recording);
+      }
+    }, timeOutSpeed);
   }
-  function pause(){
-    // pause mp3 and Editor action loop
-  }
-  function reset(){
-    // restart mp3 and start Editor action loop
+
+  function smashChanges() {
+    var time = angularPlayer.getPosition()|0;
+    _aceEditor.setValue(_code,-1);
+    _recording.some(function(timeSlice, index) {
+      if (timeSlice[1] <= time) {
+        editorActions[timeSlice[0]](timeSlice);
+        _lastIndex = index;
+        return false;
+      }
+      return true; // continue iterating until timeSlice is greater than time
+    });
   }
 
   function setCode(code){
     _code = code;
+  }
+
+  function setReadOnly(value){
+    _aceEditor.setReadOnly(value);
   }
 
   function insertText(textObj){
@@ -109,9 +123,11 @@ angular.module('fiddio')
 
 
   return {
-    startPlayback: startPlayback,
     playbackOptions: playbackOptions,
     playActions: playActions,
-    setCode: setCode
+    setCode: setCode,
+    smashChanges: smashChanges,
+    setReadOnly: setReadOnly,
+    setRecording: setRecording
   };
 }]);

@@ -1,4 +1,9 @@
-angular.module('fiddio', ['ui.ace', 'ui.router', 'ngFileUpload'])
+angular.module('fiddio', [
+  'ui.ace',
+  'ui.router',
+  'ngFileUpload',
+  'angularSoundManager'
+  ])
 
   .run(['$rootScope', '$state', '$stateParams', 'Authentication', 'UserData',
       function ($rootScope, $state, $stateParams, Authentication, UserData) {
