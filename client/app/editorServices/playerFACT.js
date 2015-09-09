@@ -18,12 +18,13 @@ angular.module('fiddio')
     onLoad: aceLoaded
   };
 
+  // creates a listener for change in track progress to allow for seeking while paused
   $rootScope.$on('track:progress', function(event, args){
     if (!angularPlayer.isPlayingStatus()) {
       smashChanges();
     }
-
   });
+
   function aceLoaded(_editor){
     window.aceEd = _editor.env.editor;
     _aceEditor = _editor.env.editor;
@@ -35,32 +36,40 @@ angular.module('fiddio')
     _aceEditor.setOption("showPrintMargin", false);
   }
 
+  // convenience function to set the recording so it can be manipulated from controllers and is available to functions/methods that depend on it
   function setRecording(recording) {
     _recording = recording;
   }
 
   function playActions(){
+    // smallest possible polling interval
     var timeOutSpeed = 5;
+
     if (!_recording.length) {
       return;
     }
     setTimeout(function(){
+      // floors the decimal places off the time position of the recording
       var time = angularPlayer.getPosition()|0;
       var prevIndex = _recording[_lastIndex-1];
+      // checks for backwards seeking using previous index marker
       if (prevIndex && prevIndex[1] > time) {
         smashChanges(_recording);
       } else {
+        // checks for forward seeking by iterating over _recording and adding the accumulated changes to the editor
         for (; _lastIndex < _recording.length && _recording[_lastIndex][1] <= time; _lastIndex++ ) {
           var timeSlice = _recording[_lastIndex];
           editorActions[timeSlice[0]](timeSlice);
         }
       }
+      // sets the editor to ReadOnly while playing to avoid distruption to keystroke events
       if (angularPlayer.isPlayingStatus()) {
         playActions(_recording);
       }
     }, timeOutSpeed);
   }
 
+  // accumulates all editor changes into a single addition to the editor to allow for seeking
   function smashChanges() {
     var time = angularPlayer.getPosition()|0;
     _aceEditor.setValue(_code,-1);
@@ -130,4 +139,5 @@ angular.module('fiddio')
     setReadOnly: setReadOnly,
     setRecording: setRecording
   };
+
 }]);

@@ -62,7 +62,7 @@
             'bgColor': '#ffffff', // SWF background color. N/A when wmode = 'transparent'
             'useHighPerformance': false, // position:fixed flash movie can help increase js/flash speed, minimize lag
             'flashPollingInterval': null, // msec affecting whileplaying/loading callback frequency. If null, default of 50 msec is used.
-            'html5PollingInterval': 1, // msec affecting whileplaying() for HTML5 audio, excluding mobile devices. If null, native HTML5 update events are used.
+            'html5PollingInterval': null, // msec affecting whileplaying() for HTML5 audio, excluding mobile devices. If null, native HTML5 update events are used.
             'flashLoadTimeout': 1000, // msec to wait for flash movie to load before failing (0 = infinity)
             'wmode': null, // flash rendering mode - null, 'transparent', or 'opaque' (last two allow z-index to work)
             'allowScriptAccess': 'always', // for scripting the SWF (object/embed property), 'always' or 'sameDomain'

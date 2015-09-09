@@ -11,22 +11,5 @@
     <div class="seekLoad" ng-style="{width : ( progress + '%' ) }" style="height: 30px; width: 0; background-color: #E0EAF1"></div><br>
 </div>
 
-<button  ng-click="watch.playRecording()">Play</button>
-<button  ng-click="watch.pauseRecording()">Paws</button>
-
-<!-- 
-.seekBase {
-  height: 30px;
-  width: 90%;
-  border: 1px solid #cccccc;
-}
-.seekLoad {
-  height: 30px;
-  width: 0;
-  background-color: #E0EAF1;
-}
-
-li {
-  cursor: pointer;
-}
- -->
+<button  ng-if="!watch.isPlaying" ng-click="watch.playRecording()">Play</button>
+<button  ng-if="watch.isPlaying" ng-click="watch.pauseRecording()">Pause</button>

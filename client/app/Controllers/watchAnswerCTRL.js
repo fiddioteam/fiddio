@@ -7,6 +7,8 @@ angular.module('fiddio')
       url: '/uploads/'+answer.id+'.mp3'
     };
 
+    vm.isPlaying = false;
+
     vm.playRecording = function() {
       _changes = _changes || angular.fromJson(answer.code_changes);
       if (!angularPlayer.getCurrentTrack()) {
@@ -17,11 +19,13 @@ angular.module('fiddio')
       PlayerFactory.playActions();
       PlayerFactory.setReadOnly(true);
       angularPlayer.play();
+      vm.isPlaying = true;
     };
 
     vm.pauseRecording = function(){
       angularPlayer.pause();
       PlayerFactory.setReadOnly(false);
+      vm.isPlaying = false;
     };
 
     vm.playbackOptions = PlayerFactory.playbackOptions;
