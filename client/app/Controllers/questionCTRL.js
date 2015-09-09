@@ -1,12 +1,12 @@
 angular.module('fiddio')
-  .controller('QuestionController', [
-    '$rootScope',
-    'question',
-    'Authentication',
-    'QuestionDisplayFactory',
-    'DataPackager',
+.controller('QuestionController', [
+  '$rootScope',
+  'question',
+  'Authentication',
+  'QuestionDisplayFactory',
+  'DataPackager',
 
-    function($rootScope, question, Authentication, QuestionDisplayFactory, DataPackager) {
+  function($rootScope, question, Authentication, QuestionDisplayFactory, DataPackager) {
 
     var vm = this;
     console.log('Question data: ', question.data);
@@ -21,8 +21,7 @@ angular.module('fiddio')
     });
 
 
-    vm.authenticateUser = function(type) {
-      Authentication.resolveAuth(type, "site.answer", { questionID: $rootScope.$stateParams.questionID });
+    vm.answerQuestion = function() {
+      $rootScope.$state.go('site.authRequired.answer',{ questionID: $rootScope.$stateParams.questionID });
     };
-
-  }]);
+}]);
