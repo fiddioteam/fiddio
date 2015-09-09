@@ -12,6 +12,7 @@
     <span>User: {{ answer.owner.name }}</span><br>
     <span>Duration: {{ answer.duration | date:'mm:ss' }}</span><br>
     <span>Votes: {{ answer.vote_count }}</span><br>
-    <!-- <span><i ng-click="qv.upVote()" class="fa fa-thumbs-up"></i><i ng-click="qv.downVote()" class="fa fa-thumbs-down"></i></span> -->
+    <!--  -->
+    <span ui-sref="site.watch({ questionID: {{ answer.question_id }}, answerID: {{ answer.id }}})">Watch Answer</span>
   </li>
 </ul>

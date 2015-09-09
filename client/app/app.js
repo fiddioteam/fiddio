@@ -82,6 +82,17 @@ angular.module('fiddio', ['ui.ace', 'ui.router', 'ngFileUpload'])
           }]
         },
         controller: 'QuestionController as qv'
+      })
+      .state('site.watch', {
+        url: '/question/:questionID/answer/:answerID',
+        parent: 'site',
+        templateUrl: '../templates/watchAnswer.html',
+        resolve: {
+          answer: ['AnswerData', '$stateParams', function(AnswerData, $stateParams) {
+            return AnswerData.downloadAnswerData($stateParams.answerID);
+          }]
+        },
+        controller: "WatchAnswer as watch"
       });
 
   });

@@ -2,7 +2,7 @@ angular.module('fiddio')
 
 .factory('PlayerFactory', [ '$window', 'DataPackager','$rootScope', function($window, DataPackager,$rootScope) {
 
-  var _aceEditor, _session, _document, _selection, _playbackContext, _player, _responseData;
+  var _aceEditor, _session, _document, _selection, _playbackContext, _player, _responseData, _code;
 
   var _recording = [];
 
@@ -28,6 +28,7 @@ angular.module('fiddio')
     _aceEditor.setValue('',-1);
     _aceEditor.$blockScrolling = Infinity;
     _aceEditor.setOption("showPrintMargin", false);
+    _document.insert({row: 0, column: 0}, _code);
   }
 
   function startPlayback(){
@@ -60,6 +61,10 @@ angular.module('fiddio')
   }
   function reset(){
     // restart mp3 and start Editor action loop
+  }
+
+  function setCode(code){
+    _code = code;
   }
 
   function insertText(textObj){
@@ -105,6 +110,7 @@ angular.module('fiddio')
   return {
     startPlayback: startPlayback,
     playbackOptions: playbackOptions,
-    playActions: playActions
+    playActions: playActions,
+    setCode: setCode
   };
 }]);
