@@ -26,7 +26,8 @@ var Response = db.Model.extend({
     return new this({
       id: id
     }).fetch({
-      require: true
+      require: true,
+      withRelated: ['owner','question']
     });
   },
   newResponse: function(options) {
@@ -34,10 +35,9 @@ var Response = db.Model.extend({
   },
   changeVotesbyId: function(responseId, prevVote, upOrDown) {
     return db.model('Response')
-    .fetchQuestionbyId(responseId)
+    .fetchResponsebyId(responseId)
     .then( function(response) {
-      response.set('vote_count', response.get('vote_count') - prevVote + upOrDown);
-      return response.save();
+      return response.changeVotes(prevVote, upOrDown);
     });
   }
 });

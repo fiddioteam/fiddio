@@ -2,7 +2,7 @@ angular.module('fiddio')
 
 .factory('RecorderFactory', [ '$q','FiddioRecorder','DataPackager', function($q, FiddioRecorder, DataPackager) {
 
-  var _aceEditor, _session, _document, _selection, _recorder, _audioBlob, _blobLength;
+  var _aceEditor, _session, _document, _selection, _recorder, _audioBlob, _blobLength, _code;
   var _recording = [];
   var currentlyRecording = false;
   var recordOptions = {
@@ -33,6 +33,7 @@ angular.module('fiddio')
     _aceEditor.setValue('',-1);
     _aceEditor.$blockScrolling = Infinity;
     _aceEditor.setOption("showPrintMargin", false);
+    _document.insert({row: 0, column: 0}, _code);
     _aceEditor.setReadOnly(true);
     _session.on('change', updateText);
     _selection.on('changeCursor', updateCursor);
@@ -118,6 +119,10 @@ angular.module('fiddio')
     _recording = [];
   }
 
+  function setCode(code){
+    _code = code;
+  }
+
   return {
     success: success,
     recordOptions: recordOptions,
@@ -126,6 +131,7 @@ angular.module('fiddio')
     stopRecording: stopRecording,
     getRecordingStatus: getRecordingStatus,
     setRecordingStatus: setRecordingStatus,
-    uploadEditorChanges: uploadEditorChanges
+    uploadEditorChanges: uploadEditorChanges,
+    setCode: setCode
   };
 }]);

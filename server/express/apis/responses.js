@@ -33,6 +33,14 @@ module.exports = function(app, router) {
     });
   }
 
+  function getVote(req, res, next) {
+    db.model('Vote')
+    .fetch(req.user.id, req.body.id, true)
+    .then( function(vote) {
+      res.json({ vote: vote && vote.get('upOrDown') || 0 });
+    });
+  }
+
   function postVote(req, res, next) {
     db.model('Vote')
     .fetchOrCreate(req.user.id, req.body.id, req.body.vote)
@@ -112,6 +120,7 @@ module.exports = function(app, router) {
   router.get('/response', getResponseId, getResponse);
   router.get('/response/comments', getResponseId, getComments);
   router.get('/response/:response_id', getResponseId, getResponse);
+  router.get('/response/:response_id/vote', utility.hasSession, getResponseId, getVote);
   router.get('/response/:response_id/comments', getResponseId, getComments);
 
   router.post('/response', utility.hasSession, upload.single('response'), getQuestionId, postResponse);

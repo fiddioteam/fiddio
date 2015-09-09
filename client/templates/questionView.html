@@ -6,3 +6,13 @@
   style="height: 300px;">
 </div>
 <a href ng-click="qv.answerQuestion()">Answer</a>
+
+<ul>
+  <li ng-repeat="answer in qv.answers">
+    <span>User: {{ answer.owner.name }}</span><br>
+    <span>Duration: {{ answer.duration | date:'mm:ss' }}</span><br>
+    <span>Votes: {{ answer.vote_count }}</span><br>
+    <!--  -->
+    <span ui-sref="site.watch({ questionID: {{ answer.question_id }}, answerID: {{ answer.id }}})">Watch Answer</span>
+  </li>
+</ul>

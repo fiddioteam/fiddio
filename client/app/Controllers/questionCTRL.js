@@ -18,8 +18,16 @@ angular.module('fiddio')
     DataPackager.downloadResponses($rootScope.$stateParams.questionID)
     .success(function(data, status, headers, config){
       console.log('Responses', data);
+      vm.answers = data.responses;
     });
 
+    // vm.upVote = function() {
+
+    // };
+
+    // vm.downVote = function() {
+
+    // };
 
     vm.answerQuestion = function() {
       $rootScope.$state.go('site.authRequired.answer',{ questionID: $rootScope.$stateParams.questionID });

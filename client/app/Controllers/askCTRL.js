@@ -10,7 +10,6 @@ angular.module('fiddio')
       .success(function(data, status, headers, config){
         $state.go('site.question',{ questionID: data.id });
       });
-      // trigger state change
     };
 
   }]);

@@ -8,11 +8,10 @@ angular.module('fiddio', ['ui.ace', 'ui.router', 'ngFileUpload'])
         // to active whenever 'contacts.list' or one of its decendents is active.
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
-        //UserData.loadData();
+
         $rootScope.$on('$stateChangeStart',function(event, toState, toStateParams, fromState, fromStateParams) {
           $rootScope.toState = toState;
           $rootScope.toStateParams = toStateParams;
-          //console.log('$stateChangeStart, event, toState, toStateParams, fromState, fromParams', event, toState, toParams, fromState, fromParams);
         });
       }]
   )
@@ -78,7 +77,9 @@ angular.module('fiddio', ['ui.ace', 'ui.router', 'ngFileUpload'])
         parent: 'site.authRequired',
         templateUrl: '../templates/answerQuestion.html',
         resolve: {
-          func: function() { console.log("Inside of answer resolve"); }
+          question: ['QuestionsData','$stateParams', 'DataPackager', function(QuestionsData, $stateParams, DataPackager) {
+            return QuestionsData.downloadFullQuestion($stateParams.questionID);
+          }]
         },
         controller: 'AnswerController as answer'
       })
@@ -92,31 +93,17 @@ angular.module('fiddio', ['ui.ace', 'ui.router', 'ngFileUpload'])
           }]
         },
         controller: 'QuestionController as qv'
+      })
+      .state('site.watch', {
+        url: '/question/:questionID/answer/:answerID',
+        parent: 'site',
+        templateUrl: '../templates/watchAnswer.html',
+        resolve: {
+          answer: ['AnswerData', '$stateParams', function(AnswerData, $stateParams) {
+            return AnswerData.downloadAnswerData($stateParams.answerID);
+          }]
+        },
+        controller: "WatchAnswer as watch"
       });
 
   });
-
-// a RESTful factory for retrieving contacts from a .json file
-  // .factory('questions', ['$http', function($http) {
-  //   var path = 'questions.json';
-  //   var questions = $http.get(path).then(function(response) {
-  //     return response.data.questions;
-  //   });
-  //   var factory = {};
-
-  //   factory.all = function() {
-  //    return questions;
-  //   };
-
-  //   factory.findById = function(id) {
-  //     return this.all().then(function(data) {
-  //       for (var i = 0; i < data.length; i++) {
-  //         if (data[i].id === id) {
-  //           return data[i];
-  //         }
-  //       }
-  //     });
-  //   };
-
-  //   return factory;
-  // }]);
