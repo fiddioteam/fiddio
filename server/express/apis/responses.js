@@ -27,7 +27,7 @@ module.exports = function(app, router) {
 
   function getComments(req, res, next) {
     db.collection('Comments')
-    .fetchbyResponse(req.body.id)
+    .fetchbyResponseId(req.body.id)
     .then( function(comments) {
       res.json({ comments: comments.toJSON() });
     })

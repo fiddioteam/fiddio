@@ -9,17 +9,13 @@ angular.module('fiddio')
       },
       link: function(scope, elm, attr) {
         // fetch current vote from server and store it on $scope
-        console.log('SCOPE: ', scope);
-        console.log('ATTR: ', attr);
         $http({ method: 'GET', url: '/api/response/' + attr.responseId + '/vote' })
         .then(function(response){
           scope.currentVote = response.data.vote;
-          console.log('VOTE: ', response.data.vote);
         },function(response){});
 
         // set up function to up- and downvote
         scope.vote = function(value) {
-          console.log('CLICK-VOTE!', value);
           var newVote = value === scope.currentVote ? 0 : value;
           $http({ method: 'POST',
             url: '/api/response/' + attr.responseId + '/vote',
@@ -27,7 +23,6 @@ angular.module('fiddio')
           .then(function(response){
             scope.currentVote = newVote;
             scope.updateStyle();
-            console.log('WE UPDATED OUR VOTE HOMIE!', newVote);
           }, function(response){});
         };
 
