@@ -4787,7 +4787,9 @@ ngSoundManager.factory('angularPlayer', ['$rootScope', '$log',
                         //clear playlist
                         playlist = [];
                         $rootScope.$broadcast('player:playlist', playlist);
-                        callback(true);
+                        if (callback) {
+                            callback(true);
+                        }
                         //callback custom code
                     }
                 });

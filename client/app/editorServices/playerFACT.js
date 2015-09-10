@@ -2,7 +2,7 @@ angular.module('fiddio')
 
 .factory('PlayerFactory', [ '$window', 'DataPackager','$rootScope', 'angularPlayer', function($window, DataPackager,$rootScope, angularPlayer) {
 
-  var _aceEditor, _session, _document, _selection, _playbackContext, _player, _responseData, _code, _lastIndex = 0, _recording;
+  var _aceEditor, _session, _document, _selection, _code, _lastIndex, _recording;
 
   var editorActions = [
     insertText,
@@ -26,7 +26,8 @@ angular.module('fiddio')
   });
 
   function aceLoaded(_editor){
-    window.aceEd = _editor.env.editor;
+    _recording = [];
+    _lastIndex = 0;
     _aceEditor = _editor.env.editor;
     _session = _editor.getSession();
     _document = _session.getDocument();

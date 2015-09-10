@@ -1,11 +1,17 @@
 angular.module('fiddio')
-  .controller('WatchAnswer', ['answer', 'PlayerFactory', 'angularPlayer', '$rootScope', function(answer, PlayerFactory, angularPlayer, $rootScope) {
+  .controller('WatchAnswer', ['answer', 'PlayerFactory', 'angularPlayer', '$rootScope', '$scope', function(answer, PlayerFactory, angularPlayer, $rootScope, $scope) {
     var vm = this;
     var _changes;
     vm.song = {
       id: 'fiddio'+answer.id,
       url: '/uploads/'+answer.id+'.mp3'
     };
+
+    $scope.$on('$destroy', function() {
+      angularPlayer.stop();
+      angularPlayer.setCurrentTrack(null);
+      angularPlayer.clearPlaylist();
+    });
 
     vm.isPlaying = false;
 
