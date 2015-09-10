@@ -1,10 +1,15 @@
 <h1>Response to Question</h1>
-
+<sound-manager></sound-manager>
 <div
   ui-ace="watch.playbackOptions"
   style="height: 300px;">
 </div>
 
-<span><i ng-click="qv.upVote()" class="fa fa-thumbs-up"></i><i ng-click="qv.downVote()" class="fa fa-thumbs-down"></i></span>
+<span><i ng-click="qv.upVote()" class="fa fa-thumbs-up"></i> | <i ng-click="qv.downVote()" class="fa fa-thumbs-down"></i></span>
+<span>{{ currentPostion || '00:00'}} / {{ currentDuration || '00:00'}}</span>
+<div class="seekBase" seek-track style="height:30px; width: 50%; border: 1px solid #cccccc;">
+    <div class="seekLoad" ng-style="{width : ( progress + '%' ) }" style="height: 30px; width: 0; background-color: #E0EAF1"></div><br>
+</div>
 
-<button  ng-click="watch.playRecording()">Play</button>
+<button  ng-if="!watch.isPlaying" ng-click="watch.playRecording()">Play</button>
+<button  ng-if="watch.isPlaying" ng-click="watch.pauseRecording()">Pause</button>
