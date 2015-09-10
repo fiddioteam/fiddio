@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="fiddio">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <!-- injector:bower:css -->
+  <!-- endinjector -->
+  <!-- injector:css -->
+  <!-- endinjector -->
+  <title>Fidd.io</title>
+</head>
+<body>
+
+  <nav ng-controller="NavController as nav">
+    <ul>
+      <li><a ui-sref="site.home">Home</a></li>
+      <li><a ui-sref="site.browse-questions">Browse</a></li>
+      <li><a ui-sref="site.authRequired.ask">Ask</a></li>
+      <li><a ui-sref="site.login">Login</a></li>
+    </ul>
+  </nav>
+
+  <ui-view></ui-view>
+
+  <script src="lib/ace-builds/src-min-noconflict/ace.js"></script>
+  <!-- injector:bower:js -->
+  <!-- endinjector -->
+  <!-- injector:js -->
+  <!-- endinjector -->
+</body>
+</html>
