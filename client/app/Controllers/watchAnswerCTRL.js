@@ -8,6 +8,8 @@ angular.module('fiddio')
       url: '/uploads/'+answer.id+'.mp3'
     };
 
+    console.log("Answer in WatchAnswer: ", answer);
+
     $scope.$on('$destroy', function() {
       angularPlayer.stop();
       angularPlayer.setCurrentTrack(null);

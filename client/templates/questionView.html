@@ -1,18 +1,18 @@
-<h1>Question Title: {{ qv.question.title }}</h1>
-<h3>User: {{ qv.question.owner.name }}</h3>
-<p>{{ qv.question.body }}</p>
+<h2>{{ qv.question.title }}</h2>
+<h3>Submitted by: {{ qv.question.owner.name }}</h3>
+<blockquote>{{ qv.question.body }}</blockquote>
 <div
   ui-ace="qv.displayOptions"
   style="height: 300px;">
 </div>
-<a href ng-click="qv.answerQuestion()">Answer</a>
+<button ng-click="qv.answerQuestion()" style="margin-top: 10px;">Answer</button>
 
 <ul>
   <li ng-repeat="answer in qv.answers">
-    <span>User: {{ answer.owner.name }}</span><br>
-    <span>Duration: {{ answer.duration | date:'mm:ss' }}</span><br>
-    <span>Votes: {{ answer.vote_count }}</span><br>
+    <span><strong>User:</strong> {{ answer.owner.name }}</span><br>
+    <span><strong>Duration:</strong> {{ answer.duration | date:'mm:ss' }}</span><br>
+    <span><strong>Votes:</strong> {{ answer.vote_count }}</span><br>
     <!--  -->
-    <span ui-sref="site.watch({ questionID: {{ answer.question_id }}, answerID: {{ answer.id }}})">Watch Answer</span>
+    <button ui-sref="site.watch({ questionID: {{ answer.question_id }}, answerID: {{ answer.id }}})" style="margin-top: 10px;">Watch Answer</button>
   </li>
 </ul>
