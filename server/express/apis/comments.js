@@ -62,11 +62,12 @@ module.exports = function(app, router) {
       .newComment(options)
       .save();
     })
-    .catch( function(err) {
-      process.verb('Error:', err);
-    })
     .then( function(comment) {
       res.json(comment.toJSON());
+    })
+    .catch( function(err) {
+      res.sendStatus(500); // Uh oh!
+      if (process.isDev()) { res.json({ error: err }); }
     });
   }
 

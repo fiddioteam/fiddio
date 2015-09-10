@@ -16,33 +16,30 @@ var Star = db.Model.extend({
     return this.belongsTo('Question');
   }
 },{
-    // only one star per user
+  newStar: function(userId, questionId) {
+    return new this({ user_id: userId, question_id: questionId });
+  },
+  // only one star per user
   fetchOrCreate: function(userId, questionId, active) {
-    var options = {
-      user_id: userId,
-      question_id: questionId
-    };
-
     // create the model object
     // determines if already a star in database
-    var newStar = new this(options);
+    var newstar = db.model('Star').newStar(userId, questionId);
 
-    return newStar
-    .fetch()
-    .then(function(star) {
+    return newstar
+    .fetch({ require: false })
+    .then( function(star) {
       var changeCount = 0;
 
       if (star) {
         changeCount += active || -1;
       } else {
-        star = newStar;
+        star = newstar;
         changeCount += active;
       }
 
       star.set('active', active);
-      star.save();
 
-      return db.model('Question').changeStarsbyId(questionId, changeCount);
+      return [star.save(),db.model('Question').changeStarsbyId(questionId, changeCount)];
     });
   }
 });

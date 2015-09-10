@@ -115,6 +115,10 @@ function getStarredQuestions(req, res, next) {
     })
     .then( function(user) {
       res.json(user.toJSON());
+    })
+    .catch(function(err){
+      res.sendStatus(500); // Uh oh!
+      if (process.isDev()) { res.json({ error: err }); }
     });
   }
 
