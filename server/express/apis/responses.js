@@ -21,7 +21,7 @@ module.exports = function(app, router) {
       res.json(response.toJSON());
     })
     .catch( function(err) {
-      process.verb('Error:', err);
+      res.sendStatus(400); // Bad Request!
     });
   }
 
@@ -30,6 +30,9 @@ module.exports = function(app, router) {
     .fetchbyResponse(req.body.id)
     .then( function(comments) {
       res.json({ comments: comments.toJSON() });
+    })
+    .catch( function(err) {
+      res.sendStatus(400); // Bad Request!
     });
   }
 
@@ -38,6 +41,9 @@ module.exports = function(app, router) {
     .fetchVote(req.user.id, req.body.id, true)
     .then( function(vote) {
       res.json({ vote: (vote && vote.get('up_down')) || 0 });
+    })
+    .catch( function(err) {
+      res.sendStatus(400); // Bad Request!
     });
   }
 
@@ -47,8 +53,9 @@ module.exports = function(app, router) {
     .then( function(response) {
       res.json({ result: true });
     })
-    .catch( function(err) {
-      res.sendStatus(400); // Bad Request!
+    .catch(function(err){
+      res.sendStatus(500); // Uh oh!
+      if (process.isDev()) { res.json({ error: err }); }
     });
   }
 
@@ -68,43 +75,41 @@ module.exports = function(app, router) {
     .then( function(question) {
       res.json({ result: true });
     })
-    .catch( function(err) {
-      res.sendStatus(400); // Bad Request!
+    .catch(function(err){
+      res.sendStatus(500); // Uh oh!
+      if (process.isDev()) { res.json({ error: err }); }
     });
   }
 
   function postResponse(req, res, next) {
-    if (!req.file) { res.sendStatus(409); } // Conflict!
+    if (!req.file) { res.sendStatus(409); return; } // Conflict!
 
-    else {
-      db.model('Question')
-      .fetchQuestionbyId(req.body.id)
-      .then( function(question) {
-        return [question, db.model('Response').newResponse({
-          //title: req.body.title,
-          body: req.body.body,
-          code: req.body.code,
-          duration: req.body.duration,
-          user_id: req.user.id,
-          question_id: req.body.id,
-          code_changes: req.body.code_changes
-        }).save()];
-      })
-      .spread( function(question, response) {
-        return [question.addResponse(), response, fs.renameAsync(req.file.path, path.join(req.file.destination, response.id + '.mp3'))];
-      })
-      .spread( function(question, response, error) {
-        if (error) { process.verb('Error on rename', error); }
-        else {
-          res.json(response.toJSON());
-        }
-      })
-      .catch( function(err) {
-        process.verb('Error posting response', err);
-        res.sendStatus(400); // Bad Request
-        //next(err);
-      });
-    }
+    db.model('Question')
+    .fetchQuestionbyId(req.body.id)
+    .then( function(question) {
+      return [question, db.model('Response').newResponse({
+        //title: req.body.title,
+        body: req.body.body,
+        code: req.body.code,
+        duration: req.body.duration,
+        user_id: req.user.id,
+        question_id: req.body.id,
+        code_changes: req.body.code_changes
+      }).save()];
+    })
+    .spread( function(question, response) {
+      return [question.addResponse(), response, fs.renameAsync(req.file.path, path.join(req.file.destination, response.id + '.mp3'))];
+    })
+    .spread( function(question, response, error) {
+      if (error) { process.verb('Error on rename', error); }
+      else {
+        res.json(response.toJSON());
+      }
+    })
+    .catch(function(err){
+      res.sendStatus(500); // Uh oh!
+      if (process.isDev()) { res.json({ error: err }); }
+    });
   }
 
   function getQuestionId(req, res, next) {

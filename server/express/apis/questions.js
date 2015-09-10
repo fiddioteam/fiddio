@@ -16,7 +16,7 @@ module.exports = function(app, router) {
       res.json(question.toJSON());
     })
     .catch( function(err) {
-      process.verb('Error:', err);
+      res.sendStatus(400); // Bad Request
     });
   }
 
@@ -31,6 +31,9 @@ module.exports = function(app, router) {
     db.collection('Responses').fetchbyQuestionId(req.body.id)
     .then( function(responses) {
       res.json({ responses: responses.toJSON() });
+    })
+    .catch( function(err) {
+      res.sendStatus(400); // Bad Request
     });
   }
 
@@ -38,6 +41,9 @@ module.exports = function(app, router) {
     db.collection('Comments').fetchbyQuestionId(req.body.id)
     .then( function(comments) {
       res.json({ comments: comments.toJSON() });
+    })
+    .catch( function(err) {
+      res.sendStatus(400); // Bad Request
     });
   }
 
@@ -49,7 +55,8 @@ module.exports = function(app, router) {
       res.json({ result: true });
     })
     .catch( function(err) {
-      res.sendStatus(400); // Bad Request!
+      res.sendStatus(500); // Uh oh!
+      if (process.isDev()) { res.json({ error: err }); }
     });
   }
 
@@ -61,7 +68,8 @@ module.exports = function(app, router) {
       res.json({ result: true });
     })
     .catch( function(err) {
-      res.sendStatus(400); // Bad Request!
+      res.sendStatus(500); // Uh oh!
+      if (process.isDev()) { res.json({ error: err }); }
     });
   }
 
@@ -74,7 +82,8 @@ module.exports = function(app, router) {
     }).save().then( function(question) {
       res.json(question.toJSON());
     }).catch(function(err){
-      process.verb('Error posting question', err);
+      res.sendStatus(500); // Uh oh!
+      if (process.isDev()) { res.json({ error: err }); }
     });
   }
 

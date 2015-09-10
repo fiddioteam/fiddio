@@ -23,8 +23,8 @@ var Vote = db.Model.extend({
     return db.model('Vote')
     .newVote(userId, responseId)
     .fetch({
-        require: !notRequired
-      });
+      require: !notRequired
+    });
   },
   // only one vote per user
   fetchOrCreate: function(userId, responseId, upOrDown) {
