@@ -2,10 +2,13 @@ angular.module('fiddio')
   .controller('WatchAnswer', ['answer', 'PlayerFactory', 'angularPlayer', '$rootScope', '$scope', function(answer, PlayerFactory, angularPlayer, $rootScope, $scope) {
     var vm = this;
     var _changes;
+    vm.answer = answer;
     vm.song = {
       id: 'fiddio'+answer.id,
       url: '/uploads/'+answer.id+'.mp3'
     };
+
+    console.log("Answer in WatchAnswer: ", answer);
 
     $scope.$on('$destroy', function() {
       angularPlayer.stop();
@@ -16,7 +19,7 @@ angular.module('fiddio')
     vm.isPlaying = false;
 
     vm.playRecording = function() {
-      _changes = _changes || angular.fromJson(answer.code_changes);
+      _changes = _changes || answer.code_changes;
       if (!angularPlayer.getCurrentTrack()) {
         angularPlayer.addTrack(vm.song);
         PlayerFactory.setRecording(_changes);
@@ -33,6 +36,14 @@ angular.module('fiddio')
       PlayerFactory.setReadOnly(false);
       vm.isPlaying = false;
     };
+
+    // vm.upVote = function() {
+
+    // };
+
+    // vm.downVote = function() {
+
+    // };
 
     vm.playbackOptions = PlayerFactory.playbackOptions;
     PlayerFactory.setCode(answer.question.code);

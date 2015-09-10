@@ -56,13 +56,6 @@ var Question = db.Model.extend({
       withRelated: ['owner']
     });
   },
-  // fetchQuestion: function(short_url) {
-  //   return new this({
-  //     short_url: short_url
-  //   }).fetch({
-  //     require: true
-  //   });
-  // },
   newQuestion: function(options) {
     return new this(options);
   },

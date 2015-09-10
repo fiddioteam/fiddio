@@ -19,7 +19,7 @@ angular.module('fiddio')
       _aceEditor.$blockScrolling = Infinity;
       _aceEditor.setOption('showPrintMargin', false);
     }
-    
+
     function getCode(){
       return _document.getAllLines().join('\n');
     }
