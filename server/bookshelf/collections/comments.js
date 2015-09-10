@@ -12,17 +12,28 @@ var Comments = db.Collection.extend({
     return db.collection('Comments')
     .forge()
     .query(function(qb){
-      qb.where('response_id', '=', responseId);
+      qb.where('parent_type', '=', 'response').andWhere('parent_id', '=', responseId);
     })
-    .fetch();
+    .fetch({
+      require: false,
+      withRelated: ['owner']
+      });
   },
   fetchbyQuestionId: function(questionId) {
     return db.collection('Comments')
     .forge()
     .query(function(qb){
-      qb.where('question_id', '=', questionId);
+      qb.where('parent_type', '=', 'question').andWhere('parent_id', '=', questionId);
     })
-    .fetch();
+    .fetch({ require: false });
+  },
+  fetchbyCommentId: function(commentId) {
+    return db.collection('Comments')
+    .forge()
+    .query(function(qb){
+      qb.where('parent_type', '=', 'comment').andWhere('parent_id', '=', commentId);
+    })
+    .fetch({ require: false });
   }
 });
 
