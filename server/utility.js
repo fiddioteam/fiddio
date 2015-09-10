@@ -16,7 +16,7 @@ module.exports.getUrlParamNums = function(req) {
 
   return [].slice.call(arguments,1)
     .reduce( function(memo, arg) {
-      id = req.params[arg];
+      id = parseInt(req.params[arg]);
       if (_.isNaN(id) || !_.isNumber(id)) {
         if (method === 'GET' || method === 'DELETE') { //GET from query string
           id = parseInt(url.parse(req.url, true).query[arg]);

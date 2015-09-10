@@ -1,0 +1,14 @@
+<h1>Ask a question</h1>
+<p>Having trouble with your code? Ask the Fidd.io community for help</p>
+
+  <div
+    ui-ace="ask.askOptions"
+    style="height: 300px;">
+  </div>
+  <form novalidate style="margin-top: 8px;">
+    <input type="text" placeholder="Title" ng-model="ask.question.title" style="display: block; margin-bottom: 3px;">
+    <textarea name="" id="" cols="30" rows="10" placeholder="Description" ng-model="ask.question.body"></textarea>
+    <input type="submit" ng-click="ask.submitQuestion(question)" value="Submit">
+  </form>
+
+

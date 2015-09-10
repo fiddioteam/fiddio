@@ -33,6 +33,14 @@ module.exports = function(app, router) {
     });
   }
 
+  function getVote(req, res, next) {
+    db.model('Vote')
+    .fetchVote(req.user.id, req.body.id, true)
+    .then( function(vote) {
+      res.json({ vote: (vote && vote.get('up_down')) || 0 });
+    });
+  }
+
   function postVote(req, res, next) {
     db.model('Vote')
     .fetchOrCreate(req.user.id, req.body.id, req.body.vote)
@@ -72,26 +80,29 @@ module.exports = function(app, router) {
       db.model('Question')
       .fetchQuestionbyId(req.body.id)
       .then( function(question) {
-        return db.model('Response').newResponse({
+        return [question, db.model('Response').newResponse({
           //title: req.body.title,
           body: req.body.body,
           code: req.body.code,
           duration: req.body.duration,
           user_id: req.user.id,
-          code_changes: JSON.stringify(req.body.code_changes)
-        }).save();
+          question_id: req.body.id,
+          code_changes: req.body.code_changes
+        }).save()];
       })
-      .then( function(response) {
-        return [response, fs.renameAsync(req.file.path, path.join(req.file.destination, response.id + '.mp3'))];
+      .spread( function(question, response) {
+        return [question.addResponse(), response, fs.renameAsync(req.file.path, path.join(req.file.destination, response.id + '.mp3'))];
       })
-      .spread( function(response,error){
+      .spread( function(question, response, error) {
         if (error) { process.verb('Error on rename', error); }
         else {
           res.json(response.toJSON());
         }
       })
       .catch( function(err) {
-         next(err);
+        process.verb('Error posting response', err);
+        res.sendStatus(400); // Bad Request
+        //next(err);
       });
     }
   }
@@ -109,6 +120,7 @@ module.exports = function(app, router) {
   router.get('/response', getResponseId, getResponse);
   router.get('/response/comments', getResponseId, getComments);
   router.get('/response/:response_id', getResponseId, getResponse);
+  router.get('/response/:response_id/vote', utility.hasSession, getResponseId, getVote);
   router.get('/response/:response_id/comments', getResponseId, getComments);
 
   router.post('/response', utility.hasSession, upload.single('response'), getQuestionId, postResponse);

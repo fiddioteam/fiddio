@@ -6,6 +6,9 @@ require('./question');
 
 var QuestionWatch = db.Model.extend({
   tableName: 'questionsWatches',
+  defaults: {
+    active: true
+  },
   user: function() {
     return this.belongsTo('User');
   },

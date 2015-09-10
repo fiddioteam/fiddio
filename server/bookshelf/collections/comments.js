@@ -6,18 +6,22 @@ require('../models/response');
 require('../models/comment');
 
 var Comments = db.Collection.extend({
-  Model: db.model('Comment')
+  model: db.model('Comment')
 }, {
-  fetchbyResponse: function(responseId) {
+  fetchbyResponseId: function(responseId) {
     return db.collection('Comments')
     .forge()
-    .where('response_id', '=', responseId)
+    .query(function(qb){
+      qb.where('response_id', '=', responseId);
+    })
     .fetch();
   },
-  fetchbyQuestion: function(questionId) {
+  fetchbyQuestionId: function(questionId) {
     return db.collection('Comments')
     .forge()
-    .where('response_id', '=', questionId)
+    .query(function(qb){
+      qb.where('question_id', '=', questionId);
+    })
     .fetch();
   }
 });

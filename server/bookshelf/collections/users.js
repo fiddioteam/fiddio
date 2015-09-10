@@ -5,7 +5,7 @@ require('../models/user');
 require('../models/question');
 
 var Users = db.Collection.extend({
-  Model: db.model('User')
+  model: db.model('User')
 }, {
   usersWatchingQuestion: function(questionId) {
     return db.collection('Users')

@@ -6,10 +6,8 @@ angular.module('fiddio')
 
   function uploadResponse(code, editorChanges, mp3Blob, blobLength){
 
-    console.log('BLOB',mp3Blob);
     _responseData = {
       code_changes: editorChanges,
-      //mp3Blob: mp3Blob,
       duration: blobLength,
       code: code,
       question_id: $rootScope.$stateParams.questionID
@@ -18,39 +16,36 @@ angular.module('fiddio')
     Upload.upload({
       url: '/api/response',
       method: 'POST',
-      //headers: {},
       fields: _responseData,
       file: mp3Blob,
       fileFormDataName: 'response'
     })
     .then( function(res) {
       $timeout( function() {
-        $rootScope.$state.go('question', { questionID: $rootScope.$stateParams.questionID});
+        $rootScope.$state.go('site.question', { questionID: $rootScope.$stateParams.questionID});
       });
     }, function(res) {
       console.log('Error!', res);
-      //if (res.status > 0) { $rootScope.$scope.errorMsg = res.status + ': ' + res.data; }
     });
   }
 
-  function downloadResponse(){
+  // function downloadResponseData(id){
+  //   return _responseData;
+  // }
+
+  function downloadResponses(id){
     // api GET
-    return _responseData;
+    return $http({method: 'GET', url: '/api/question/'+id+'/responses'});
   }
 
   function uploadQuestion(question) {
-    // api POST
-    console.log("Inside DataPackager uploadQuestion method", question);
-    $http({method:'POST', url:'/api/question', data: question})
-    .success(function(data, status, headers, config){
-      console.log(data, status, headers, config);
-    });
+    return $http({method:'POST', url:'/api/question', data: question});
 
   }
 
   return {
     uploadResponse: uploadResponse,
-    downloadResponse: downloadResponse,
+    downloadResponses: downloadResponses,
     uploadQuestion: uploadQuestion
   };
 }]);

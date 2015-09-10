@@ -6,13 +6,15 @@ require('../models/question');
 require('../models/response');
 
 var Responses = db.Collection.extend({
-  Model: db.model('Response')
+  model: db.model('Response')
 }, {
-  fetchbyQuestion: function(questionId) {
+  fetchbyQuestionId: function(questionId) {
     return db.collection('Responses')
     .forge()
-    .where('question_id', '=', questionId)
-    .fetch();
+    .query(function(qb){
+      qb.where('question_id', '=', questionId);
+    })
+    .fetch({withRelated: 'owner'});
   }
 });
 

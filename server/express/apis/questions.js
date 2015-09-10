@@ -2,8 +2,10 @@ var db      = require('../../bookshelf/config'),
     utility = require('../../utility');
 
 require('../../bookshelf/models/question');
+require('../../bookshelf/models/response');
 require('../../bookshelf/models/star');
 require('../../bookshelf/models/questionWatch');
+require('../../bookshelf/collections/questions');
 require('../../bookshelf/collections/responses');
 
 module.exports = function(app, router) {
@@ -18,15 +20,22 @@ module.exports = function(app, router) {
     });
   }
 
+  function getQuestions(req, res, next) {
+    db.collection('Questions').fetchQuestionsHead()
+    .then( function(questions) {
+      res.json({ questions: questions.toJSON() });
+    });
+  }
+
   function getResponses(req, res, next) {
-    db.collection('Responses').fetchbyQuestion(req.body.id)
+    db.collection('Responses').fetchbyQuestionId(req.body.id)
     .then( function(responses) {
       res.json({ responses: responses.toJSON() });
     });
   }
 
   function getComments(req, res, next) {
-    db.collection('Comments').fetchbyQuestion(req.body.id)
+    db.collection('Comments').fetchbyQuestionId(req.body.id)
     .then( function(comments) {
       res.json({ comments: comments.toJSON() });
     });
@@ -65,7 +74,7 @@ module.exports = function(app, router) {
     }).save().then( function(question) {
       res.json(question.toJSON());
     }).catch(function(err){
-      process.verb('no', err);
+      process.verb('Error posting question', err);
     });
   }
 
@@ -73,6 +82,8 @@ module.exports = function(app, router) {
     req.body.id = utility.getUrlParamNums(req, 'question_id').question_id;
     next();
   }
+
+  router.get('/questions', getQuestions);
 
   router.get('/question/responses', questionHandler, getResponses); // question_id is in query
   router.get('/question/comments', questionHandler, getComments); // question_id is in query

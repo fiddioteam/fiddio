@@ -23,7 +23,6 @@ module.exports = function(app, router) {
       }
       var redirect = req.session.redirect;
       req.session.redirect = undefined;
-      process.verb('User info', user);
       req.logIn(user, function(err) {
         if (err) {
           return next(err);
@@ -52,7 +51,6 @@ module.exports = function(app, router) {
       }
       var redirect = req.session.redirect;
       req.session.redirect = undefined;
-      process.verb('User info', user);
       req.logIn(user, function(err) {
         if (err) {
           return next(err);
@@ -120,7 +118,13 @@ function getStarredQuestions(req, res, next) {
     });
   }
 
+  function logoutHandler(req,res,next) {
+    req.logout();
+    res.json({ authenticated: false });
+  }
+
   router.post('/register/user', createUser);
+  router.get('/logout', logoutHandler);
 
   router.get('/user/info', userHandler, getUserInfo);
   router.get('/users/questions', userHandler, getQuestions);

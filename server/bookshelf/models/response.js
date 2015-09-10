@@ -10,6 +10,12 @@ var Response = db.Model.extend({
   defaults: {
     vote_count: 0
   },
+  // Override serialize to convert the stringified array to JSON
+  serialize: function(options) {
+    var attrs = db.Model.prototype.serialize.call(this);
+    attrs.code_changes = JSON.parse( attrs.code_changes );
+    return attrs;
+  },
   owner: function() {
     return this.belongsTo('User');
   },
@@ -18,15 +24,20 @@ var Response = db.Model.extend({
   },
   changeVotes: function(prevVote, upOrDown) {
     //subtract previous vote, add new vote
-    this.set('vote_count', this.get('vote_count') - prevVote + upOrDown);
-    return this.save();
+    var oldCount = this.get('vote_count');
+    var newCount = oldCount - prevVote + upOrDown;
+    if (newCount != oldCount) {
+      this.set('vote_count', newCount);
+      return this.save();
+    }
   }
 }, {
   fetchResponsebyId: function(id) {
     return new this({
       id: id
     }).fetch({
-      require: true
+      require: true,
+      withRelated: ['owner','question']
     });
   },
   newResponse: function(options) {
@@ -34,10 +45,9 @@ var Response = db.Model.extend({
   },
   changeVotesbyId: function(responseId, prevVote, upOrDown) {
     return db.model('Response')
-    .fetchQuestionbyId(responseId)
+    .fetchResponsebyId(responseId)
     .then( function(response) {
-      response.set('vote_count', response.get('vote_count') - prevVote + upOrDown);
-      return response.save();
+      return response.changeVotes(prevVote, upOrDown);
     });
   }
 });

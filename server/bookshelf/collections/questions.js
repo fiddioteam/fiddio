@@ -5,8 +5,15 @@ require('../models/user');
 require('../models/question');
 
 var Questions = db.Collection.extend({
-  Model: db.model('Question')
+  model: db.model('Question')
 }, {
+  fetchQuestionsHead: function() {
+    return db.collection('Questions')
+     .forge().fetch({
+       columns: ['title', 'response_count', 'star_count', 'user_id', 'id'],
+       withRelated: 'owner'
+     });
+  },
   fetchStarredbyUser: function(userId) {
     return db.collection('Questions')
     .forge()
@@ -25,7 +32,9 @@ var Questions = db.Collection.extend({
   fetchbyUser: function(userId) {
     return db.collection('questions')
     .forge()
-    .where('user_id', '=', userId)
+    .query(function(qb){
+      qb.where('user_id', '=', userId);
+    })
     .fetch();
   }
 });
