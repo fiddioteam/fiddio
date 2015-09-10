@@ -180,7 +180,7 @@ module.exports = function( grunt ) {
   grunt.loadNpmTasks( 'grunt-contrib-sass' );
 
   grunt.registerTask( 'default', [ 'dev' ] );
-  grunt.registerTask( 'dev_build', [ 'clean:dev', 'copy:dev', 'jshint:dev', 'bower:dev', 'sass:dev', 'injector:dev' ] );
+  grunt.registerTask( 'dev_build', [ 'clean:dev', 'copy:dev', 'jshint:dev', 'bower:dev'/*, 'sass:dev'*/, 'injector:dev' ] );
   grunt.registerTask( 'dev', [ 'dev_build', 'express:dev', 'watch:express' ] );
   grunt.registerTask( 'prod_build', [ 'clean:production', 'copy:production', 'jshint:production', 'bower:production', 'sass:production', 'injector:production' ] );
   grunt.registerTask( 'prod', [ 'prod_build', 'express:production' ] );
