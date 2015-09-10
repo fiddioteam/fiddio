@@ -38,7 +38,8 @@ var Comment = db.Model.extend({
     return new this({
       id: id
     }).fetch({
-      require: true
+      require: true,
+      withRelated: ['owner']
     });
   },
   newComment: function(options) {
