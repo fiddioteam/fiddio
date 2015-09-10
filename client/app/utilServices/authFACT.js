@@ -11,11 +11,15 @@ angular.module('fiddio')
         UserData.removeItem('authRedirect');
         UserData.removeItem('authRedirect_params');
         if (redirect) { $rootScope.$state.go(redirect, params); }
-
       } else {
-        UserData.setItem('authRedirect', $rootScope.toState.name);
-        UserData.setItem('authRedirect_params', $rootScope.toStateParams);
-        $rootScope.$state.go('site.login');
+        if ($rootScope.toState.name !== 'site.login') {
+          UserData.setItem('authRedirect', $rootScope.toState.name);
+          UserData.setItem('authRedirect_params', $rootScope.toStateParams);
+          $rootScope.$state.go('site.login');
+        } else {
+          UserData.setItem('authRedirect', $rootScope.fromState.name);
+          UserData.setItem('authRedirect_params', $rootScope.fromStateParams);
+        }
         /*
         type = type || getProfileId();
         UserData.setItem('authRedirect', redirect);
