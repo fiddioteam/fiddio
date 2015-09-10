@@ -2,6 +2,7 @@ angular.module('fiddio')
   .controller('WatchAnswer', ['answer', 'PlayerFactory', 'angularPlayer', '$rootScope', '$scope', function(answer, PlayerFactory, angularPlayer, $rootScope, $scope) {
     var vm = this;
     var _changes;
+    vm.answer = answer;
     vm.song = {
       id: 'fiddio'+answer.id,
       url: '/uploads/'+answer.id+'.mp3'
@@ -33,6 +34,14 @@ angular.module('fiddio')
       PlayerFactory.setReadOnly(false);
       vm.isPlaying = false;
     };
+
+    // vm.upVote = function() {
+
+    // };
+
+    // vm.downVote = function() {
+
+    // };
 
     vm.playbackOptions = PlayerFactory.playbackOptions;
     PlayerFactory.setCode(answer.question.code);

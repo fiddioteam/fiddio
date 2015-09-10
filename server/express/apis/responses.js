@@ -35,7 +35,7 @@ module.exports = function(app, router) {
 
   function getVote(req, res, next) {
     db.model('Vote')
-    .fetch(req.user.id, req.body.id, true)
+    .fetchVote(req.user.id, req.body.id, true)
     .then( function(vote) {
       res.json({ vote: vote && vote.get('upOrDown') || 0 });
     });
