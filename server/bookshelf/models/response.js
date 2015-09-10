@@ -12,8 +12,8 @@ var Response = db.Model.extend({
   },
   // Override serialize to convert the stringified array to JSON
   serialize: function(options) {
-    var attrs = db.Model.prototype.serialize.call(this);
-    attrs.code_changes = JSON.parse( attrs.code_changes );
+    var attrs = db.Model.prototype.serialize.call(this, options);
+    attrs.code_changes = JSON.parse(attrs.code_changes);
     return attrs;
   },
   owner: function() {
