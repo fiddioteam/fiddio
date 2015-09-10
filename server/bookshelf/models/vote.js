@@ -16,11 +16,13 @@ var Vote = db.Model.extend({
     return this.hasOne('Response');
   }
 }, {
+  newVote: function(userId, responseId) {
+    return new this({ user_id: userId, response_id: responseId });
+  },
   fetchVote: function(userId, responseId, notRequired) {
-    return new this({
-      user_id: userId,
-      response_id: responseId
-      }).fetch({
+    return db.model('Vote')
+    .newVote(userId, responseId)
+    .fetch({
         require: !notRequired
       });
   },
@@ -28,27 +30,20 @@ var Vote = db.Model.extend({
   fetchOrCreate: function(userId, responseId, upOrDown) {
     upOrDown = Math.min( Math.max(upOrDown, -1), 1 ); // Limit upOrDown to -1, 0, 1.
 
-    var options = {
-      user_id: userId,
-      response_id: responseId
-    };
-
-    var newVote = new this(options);
+    var newvote = db.model('Vote').newVote(userId, responseId);
 
     // create the model object
     // determines if already a vote in database
-    return newVote.fetch({ require: false })
+    return newvote.fetch({ require: false })
     .then(function(vote) {
       if (!vote) {
-        vote = newVote;
+        vote = newvote;
       }
 
-      var prevVote = vote.get('up_down');
+      var prevVote = vote.get('up_down') || 0;
       vote.set('up_down', upOrDown);
 
-      vote.save();
-
-      return db.model('Response').changeVotesbyId(responseId, prevVote, upOrDown);
+      return [vote.save(),db.model('Response').changeVotesbyId(responseId, prevVote, upOrDown)];
     });
   }
 });

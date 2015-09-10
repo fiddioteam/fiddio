@@ -72,7 +72,7 @@ var responsesTable = buildTable('responses', function(table) {
   table.integer('user_id');
   table.integer('question_id');
   table.integer('vote_count').notNullable();
-  table.json('code_changes');
+  table.text('code_changes');
   table.float('duration');
   table.timestamps();
 });
@@ -82,7 +82,6 @@ var votesTable = buildTable('votes', function(table) {
   table.integer('user_id');
   table.integer('response_id');
   table.integer('up_down').notNullable();
-  table.timestamps();
 });
 
 var commentsTable = buildTable('comments', function(table) {

@@ -61,8 +61,8 @@
             'waitForWindowLoad': false, // force SM2 to wait for window.onload() before trying to call soundManager.onload()
             'bgColor': '#ffffff', // SWF background color. N/A when wmode = 'transparent'
             'useHighPerformance': false, // position:fixed flash movie can help increase js/flash speed, minimize lag
-            'flashPollingInterval': null, // msec affecting whileplaying/loading callback frequency. If null, default of 50 msec is used.
-            'html5PollingInterval': null, // msec affecting whileplaying() for HTML5 audio, excluding mobile devices. If null, native HTML5 update events are used.
+            'flashPollingInterval': 5, // msec affecting whileplaying/loading callback frequency. If null, default of 50 msec is used.
+            'html5PollingInterval': 5, // msec affecting whileplaying() for HTML5 audio, excluding mobile devices. If null, native HTML5 update events are used.
             'flashLoadTimeout': 1000, // msec to wait for flash movie to load before failing (0 = infinity)
             'wmode': null, // flash rendering mode - null, 'transparent', or 'opaque' (last two allow z-index to work)
             'allowScriptAccess': 'always', // for scripting the SWF (object/embed property), 'always' or 'sameDomain'
@@ -4419,7 +4419,7 @@ ngSoundManager.filter('humanTime', function () {
 
 ngSoundManager.factory('angularPlayer', ['$rootScope', '$log',
     function($rootScope, $log) {
-        
+
         var currentTrack = null,
             repeat = false,
             autoPlay = true,
@@ -4428,7 +4428,7 @@ ngSoundManager.factory('angularPlayer', ['$rootScope', '$log',
             trackProgress = 0,
             playlist = [],
             _position;
-        
+
         return {
             /**
              * Initialize soundmanager,
@@ -5099,7 +5099,7 @@ ngSoundManager.directive('playAll', ['angularPlayer', '$log',
                         for(var i = 0; i < scope.songs.length; i++) {
                             angularPlayer.addTrack(scope.songs[i]);
                         }
-                        
+
                         if (attrs.play != 'false') {
                             //play first song
                             angularPlayer.play();
@@ -5165,7 +5165,7 @@ ngSoundManager.directive('playPauseToggle', ['angularPlayer',
                         }
                     }
                 });
-                
+
                 element.bind('click', function(event) {
                     if(angularPlayer.isPlayingStatus()) {
                         //if playing then pause
@@ -5173,7 +5173,7 @@ ngSoundManager.directive('playPauseToggle', ['angularPlayer',
                     } else {
                         //else play if not playing
                         angularPlayer.play();
-                        
+
                     }
                 });
             }
