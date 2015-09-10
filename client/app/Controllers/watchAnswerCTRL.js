@@ -17,7 +17,7 @@ angular.module('fiddio')
     vm.isPlaying = false;
 
     vm.playRecording = function() {
-      _changes = _changes || angular.fromJson(answer.code_changes);
+      _changes = _changes || answer.code_changes;
       if (!angularPlayer.getCurrentTrack()) {
         angularPlayer.addTrack(vm.song);
         PlayerFactory.setRecording(_changes);

@@ -37,7 +37,7 @@ module.exports = function(app, router) {
     db.model('Vote')
     .fetchVote(req.user.id, req.body.id, true)
     .then( function(vote) {
-      res.json({ vote: vote && vote.get('upOrDown') || 0 });
+      res.json({ vote: (vote && vote.get('up_down')) || 0 });
     });
   }
 
@@ -87,7 +87,7 @@ module.exports = function(app, router) {
           duration: req.body.duration,
           user_id: req.user.id,
           question_id: req.body.id,
-          code_changes: JSON.stringify(req.body.code_changes)
+          code_changes: req.body.code_changes
         }).save()];
       })
       .spread( function(question, response) {
