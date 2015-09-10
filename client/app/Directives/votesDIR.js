@@ -9,12 +9,12 @@ angular.module('fiddio')
       },
       link: function(scope, elm, attr) {
         // fetch current vote from server and store it on $scope
-        console.log('SCOPE!', scope);
-        console.log('ATTR!', attr);
+        console.log('SCOPE: ', scope);
+        console.log('ATTR: ', attr);
         $http({ method: 'GET', url: '/api/response/' + attr.responseId + '/vote' })
         .then(function(response){
           scope.currentVote = response.data.vote;
-          console.log('WE GOTZ THA VOTE!', response.data.vote);
+          console.log('VOTE: ', response.data.vote);
         },function(response){});
 
         // set up function to up- and downvote

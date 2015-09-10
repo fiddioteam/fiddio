@@ -1,4 +1,4 @@
-<h1>Response to Question</h1>
+<h1>Answer to Question {{ watch.answer.question.id }}</h1>
 <sound-manager></sound-manager>
 <div
   ui-ace="watch.playbackOptions"
@@ -6,7 +6,7 @@
 </div>
 
 <span>{{ currentPostion || '00:00'}} / {{ currentDuration || '00:00'}}</span>
-<div class="seekBase" seek-track style="height:30px; width: 50%; border: 1px solid #cccccc;">
+<div class="seekBase" seek-track style="height:30px; width: 50%; border: 1px solid #cccccc; margin: 5px 0 10px">
     <div class="seekLoad" ng-style="{width : ( progress + '%' ) }" style="height: 30px; width: 0; background-color: #E0EAF1"></div><br>
 </div>
 
