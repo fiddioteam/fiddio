@@ -14,7 +14,7 @@ var Responses = db.Collection.extend({
     .query(function(qb){
       qb.where('question_id', '=', questionId);
     })
-    .fetch({withRelated: 'owner'});
+    .fetch({withRelated: ['owner', 'comments', 'comments.owner', 'comments.comments', 'comments.comments.owner']});
   }
 });
 
