@@ -5,6 +5,7 @@ require('./user');
 require('./response');
 require('./tag');
 require('./questiontag');
+require('./comment');
 
 var Question = db.Model.extend({
   tableName: 'questions',
@@ -46,6 +47,11 @@ var Question = db.Model.extend({
   addResponse: function() {
     this.set('response_count', this.get('response_count')+1);
     return this.save();
+  },
+  comments: function() {
+    return this.hasMany('Comment', 'parent_id').query(function(qb){
+      qb.where('parent_type', '=', 'question');
+    });
   }
 }, {
   fetchQuestionbyId: function(id) {
@@ -53,7 +59,7 @@ var Question = db.Model.extend({
       id: id
     }).fetch({
       require: true,
-      withRelated: ['owner']
+      withRelated: ['owner', 'comments', 'comments.owner', 'comments.comments', 'comments.comments.owner']
     });
   },
   newQuestion: function(options) {

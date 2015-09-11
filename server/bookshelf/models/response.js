@@ -22,6 +22,11 @@ var Response = db.Model.extend({
   question: function() {
     return this.belongsTo('Question');
   },
+  comments: function() {
+    return this.hasMany('Comment', 'parent_id').query(function(qb){
+      qb.where('parent_type', '=', 'response');
+    });
+  },
   changeVotes: function(prevVote, upOrDown) {
     //subtract previous vote, add new vote
     var oldCount = this.get('vote_count');
@@ -37,7 +42,7 @@ var Response = db.Model.extend({
       id: id
     }).fetch({
       require: true,
-      withRelated: ['owner','question']
+      withRelated: ['owner', 'question', 'comments', 'comments.owner', 'comments.comments', 'comments.comments.owner']
     });
   },
   newResponse: function(options) {

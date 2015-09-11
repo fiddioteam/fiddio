@@ -14,10 +14,7 @@ var Comments = db.Collection.extend({
     .query(function(qb){
       qb.where('parent_type', '=', 'response').andWhere('parent_id', '=', responseId);
     })
-    .fetch({
-      require: false,
-      withRelated: ['owner']
-      });
+    .fetch({ require: false, withRelated: ['owner', 'comments', 'comments.owner'] });
   },
   fetchbyQuestionId: function(questionId) {
     return db.collection('Comments')
@@ -25,7 +22,7 @@ var Comments = db.Collection.extend({
     .query(function(qb){
       qb.where('parent_type', '=', 'question').andWhere('parent_id', '=', questionId);
     })
-    .fetch({ require: false });
+    .fetch({ require: false, withRelated: ['owner', 'comments', 'comments.owner'] });
   },
   fetchbyCommentId: function(commentId) {
     return db.collection('Comments')
@@ -33,7 +30,7 @@ var Comments = db.Collection.extend({
     .query(function(qb){
       qb.where('parent_type', '=', 'comment').andWhere('parent_id', '=', commentId);
     })
-    .fetch({ require: false });
+    .fetch({ require: false, withRelated: ['owner', 'comments', 'comments.owner'] });
   }
 });
 

@@ -31,7 +31,9 @@ var Comment = db.Model.extend({
     return this.belongsTo('Question');
   },
   comments: function() {
-    return this.hasMany('Comment');
+    return this.hasMany('Comment', 'parent_id').query(function(qb){
+      qb.where('parent_type', '=', 'comment');
+    });
   }
 }, {
   fetchCommentbyId: function(id) {
@@ -39,7 +41,7 @@ var Comment = db.Model.extend({
       id: id
     }).fetch({
       require: true,
-      withRelated: ['owner']
+      withRelated: ['owner', 'comments', 'comments.owner']
     });
   },
   newComment: function(options) {
