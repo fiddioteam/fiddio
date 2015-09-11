@@ -17,6 +17,8 @@ angular.module('fiddio', [
         $rootScope.$on('$stateChangeStart',function(event, toState, toStateParams, fromState, fromStateParams) {
           $rootScope.toState = toState;
           $rootScope.toStateParams = toStateParams;
+          $rootScope.fromState = fromState;
+          $rootScope.fromStateParams = fromStateParams;
         });
       }]
   )
@@ -52,7 +54,7 @@ angular.module('fiddio', [
       })
       .state('site.login', {
         url: '/login',
-        parent: 'site',
+        parent: 'site.authRequired',
         templateUrl: '../templates/login.html'
       })
       .state('site.home', {
