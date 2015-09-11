@@ -1,6 +1,4 @@
 var db      = require('../../bookshelf/config'),
-    Promise = require('bluebird'),
-    _       = require('lodash'),
     utility = require('../../utility');
 
 require('../../bookshelf/models/question');
