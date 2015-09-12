@@ -4,6 +4,7 @@
     style="height: 300px;">
   </div>
   <button ng-if="!answer.currentlyRecording()" ng-click="answer.startRecording()">Start</button>
+  <button ng-if="answer.currentlyRecording()" ng-click="answer.pauseRecording()">Pause</button>
   <button ng-if="answer.currentlyRecording()" ng-click="answer.stopRecording()">Stop</button>
   <button ng-click="answer.uploadChanges()">Submit</button>
 </div>
