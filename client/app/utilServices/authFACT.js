@@ -41,8 +41,10 @@ angular.module('fiddio')
   function checkAuth() {
     return $http({method : 'GET', url: '/api/user/info'})
     .then(function(response){
+      console.log("Executed");
       UserData.setItem( "authenticated", response.data.authenticated );
       UserData.setItem( "userInfo", response.data );
+      $rootScope.authenticated = response.data.authenticated;
     }, function(response){
       console.log("checkAuth FAILED!", response.status, response.data);
     });
