@@ -2,7 +2,7 @@ angular.module('fiddio')
 
 .factory('RecorderFactory', [ '$q','FiddioRecorder','DataPackager', function($q, FiddioRecorder, DataPackager) {
 
-  var _aceEditor, _session, _document, _selection, _recorder, _audioBlob, _blobLength, _code;
+  var _aceEditor, _session, _document, _selection, _recorder, _audioBlob, _blobLength, _code, _pauseTime;
   var _recording = [];
   var currentlyRecording = false;
   var recordOptions = {
@@ -20,9 +20,10 @@ angular.module('fiddio')
     navigator.msGetUserMedia;
 
   function success(stream){
-    _recorder = new FiddioRecorder.recorder(stream);
-    _recorder.record();
-    _aceEditor.setReadOnly(false);
+    if (stream !== 'resume'){
+      _recorder = new FiddioRecorder.recorder(stream);
+    }
+    resumeRecording();
   }
 
   function aceLoaded(_editor) {
@@ -82,10 +83,25 @@ angular.module('fiddio')
   }
 
 
-  function startRecording(currentlyRecording){
+  function startRecording(){
+    if (_recorder){
+      _recorder.context.resume();
+      return $q.when('resume').then(success);
+    }
     return $q(function(resolve,reject){
       navigator.getUserMedia({audio:true}, resolve, reject);
     }).then(success);
+  }
+
+  function pauseRecording(){
+    _recorder.context.suspend();
+    _recorder.pause();
+    _aceEditor.setReadOnly(true);
+  }
+
+  function resumeRecording(){
+    _recorder.record();
+    _aceEditor.setReadOnly(false);
   }
 
   function stopRecording(currentlyRecording){
@@ -97,6 +113,7 @@ angular.module('fiddio')
         _blobLength = _recorder.context.currentTime*1000 | 0;
         _code = _document.getAllLines().join('\n');
         resolve();
+        _recorder = undefined;
       });
     });
   }
@@ -111,10 +128,8 @@ angular.module('fiddio')
 
   function uploadEditorChanges(currentlyRecording){
     if (currentlyRecording) { return; }
-    // console.log('Uploading '+_recording.length+' changes to db');
     if (_recording.length > 0){
       DataPackager.uploadResponse(_code, _recording, _audioBlob, _blobLength);
-      // console.log('uploading response',_code, _recording, _audioBlob, _blobLength);
     }
     _recording = [];
   }
@@ -128,6 +143,7 @@ angular.module('fiddio')
     recordOptions: recordOptions,
     setEditorText: setEditorText,
     startRecording: startRecording,
+    pauseRecording: pauseRecording,
     stopRecording: stopRecording,
     getRecordingStatus: getRecordingStatus,
     setRecordingStatus: setRecordingStatus,
