@@ -13,8 +13,11 @@
             </li>
           </ul>
         </div>
-        <div>
+        <div ng-if="comment.reply">
           <submit-comment parent-id="{{ comment.id }}" parent-type="comment"></submit-comment>
+        </div>
+        <div ng-if="!comment.reply">
+          <a href ng-click="replyToComment(comment)">Reply</a>
         </div>
 
       </li>
