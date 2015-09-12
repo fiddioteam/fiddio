@@ -1,11 +1,23 @@
 <div>
-  <ul>
-    <li ng-repeat="comment in comments">
+  <div ng-if="comments.length > 0">
+    <ul>
+      <li ng-repeat="comment in comments">
+        <span>{{ comment.body }}</span><br>
+        <span>– {{ comment.owner.name }}</span>
 
-      <span>{{ comment.body }}</span><br>
-      <span>– {{ comment.owner.name }}</span>
+        <div ng-if="comment.parent_type !== 'comment' && comment.comments.length > 0">
+          <ul>
+            <li ng-repeat="subcomment in comment.comments">
+              <span>{{ subcomment.body }}</span><br>
+              <span>– {{ subcomment.owner.name }}</span>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <submit-comment parent-id="{{ comment.id }}" parent-type="comment"></submit-comment>
+        </div>
 
-    </li>
-  </ul>
+      </li>
+    </ul>
+  </div>
 </div>
-
