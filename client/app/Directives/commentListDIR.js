@@ -10,11 +10,18 @@ angular.module('fiddio')
 
       $http({ method: 'GET', url: '/api/'+attr.parentType+'/'+attr.parentId+'/comments'})
       .then(function(response){
+        console.log("Reponse to GET for commments",response);
         scope.comments = response.data.comments;
       },
       function(response){
         console.log("Error ", response);
       });
+
+      scope.replyToComment = function(comment) {
+        $timeout(function() {
+          comment.reply = true;
+        });
+      };
 
       scope.$on('comments:updateDisplay', function(event, comment){
 

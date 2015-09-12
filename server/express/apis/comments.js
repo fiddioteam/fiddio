@@ -66,7 +66,7 @@ module.exports = function(app, router) {
   function postCommentHandler(req, res, next) {
     var params = utility.getUrlParamNums(req, 'question_id', 'response_id', 'comment_id');
 
-    if (params.question_id) { req.body.id = params.question_id; postFromResponse(req, res, next); }
+    if (params.question_id) { req.body.id = params.question_id; postFromQuestion(req, res, next); }
     else if (params.response_id) { req.body.id = params.response_id; postFromResponse(req, res, next); }
     else if (params.comment_id) { req.body.id = params.comment_id; postFromComment(req, res, next); }
     else { next(); }
