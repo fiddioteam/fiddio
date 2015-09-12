@@ -29,6 +29,6 @@ angular.module('fiddio')
         scope.updateStyle = function() {
           //Update style based on scope.currentVote
         };
-      } 
+      }
     };
   }]);

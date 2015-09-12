@@ -16,6 +16,6 @@
 <votes response-id="{{ watch.answer.id }}"></votes>
 
 <comment-section parent-id="{{ watch.answer.id }}" parent-type="response" ng-transclude>
-  <submit-comment></submit-comment>
-  <comment-list></comment-list>
+  <submit-comment parent-id="{{ watch.answer.id }}" parent-type="response"></submit-comment>
+  <comment-list parent-id="{{ watch.answer.id }}" parent-type="response"></comment-list>
 </comment-section>

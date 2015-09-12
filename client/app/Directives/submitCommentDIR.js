@@ -2,26 +2,31 @@ angular.module('fiddio')
   .directive('submitComment', [ '$http', 'UserData', 'angularPlayer', '$timeout', function($http, UserData, angularPlayer, $timeout) {
     return {
       restrict: 'E',
-      templateUrl: '/templates/submitComment.html', // change this up eventually
-      replace: true,
-      scope: true,
-      require: '^commentSection',
-      link: function(scope, elm, attr, commentSectionCTRL) {
-        scope.comment = function() {
+      templateUrl: '/templates/submitComment.html',
+      link: function(scope, elm, attr) {
+
+        // Posts a comment to the server
+        scope.postComment = function() {
+
+          // We are using $timeout as a safety to call $apply without causing errors.
           $timeout(function() {
-             return $http({ method: 'POST', url: '/api/'+commentSectionCTRL.parentType+'/'+commentSectionCTRL.parentId+'/comment', data: {
-                // response_id: scope.parentId,
-                body: scope.newComment.body,
+             return $http({ method: 'POST', url: '/api/'+attr.parentType+'/'+attr.parentId+'/comment',
+              data: {
+                // We used elm.find because we did NOT want double binding/ ng-model due to the recycling of this directive.
+                body: elm.find('textarea').val(),
                 timeslice: Math.max(angularPlayer.getPosition()|0, 0),
                 user_id: UserData.getItem('userInfo').id
-              } })
+              }
+            })
             .then(function(response){
-              commentSectionCTRL.$scope.$broadcast('newComment', response.data);
-              scope.newComment.body = '';
+
+              // Upon a success from the server, emit an event to the parent commentSection
+              scope.$emit('comment:posted', response.data);
+              elm.find('textarea').val('');
             }, function(response){
               console.log("Error ", response);
             });
-          }, 0);
+          });
         };
 
       }
