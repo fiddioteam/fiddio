@@ -16,7 +16,8 @@
       <li><a ui-sref="site.home">Home</a></li>
       <li><a ui-sref="site.browse-questions">Browse</a></li>
       <li><a ui-sref="site.authRequired.ask">Ask</a></li>
-      <li><a ui-sref="site.login">Login</a></li>
+      <li ng-if="!authenticated"><a ui-sref="site.login">Login</a></li>
+      <li ng-if="authenticated"><a href ng-click="nav.logout()">Logout</a></li>
     </ul>
   </nav>
 
