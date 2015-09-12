@@ -83,6 +83,9 @@ module.exports = function(app, router) {
       .newComment(options)
       .save();
     })
+    .then(function(comment){
+      return comment.fetch({withRelated: 'owner'});
+    })
     .then( function(comment) {
       res.json(comment.toJSON());
     })

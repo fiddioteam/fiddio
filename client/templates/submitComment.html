@@ -3,14 +3,4 @@
   <textarea name="" id="" cols="30" rows="10" placeholder="Leave a comment" ng-model="newComment.body"></textarea>
   <button ng-click="comment()">Comment</button>
   <hr>
-  <div>
-    <ul>
-      <li ng-repeat="comment in comments">
-
-        <span>{{ comment.body }}</span><br>
-        <span>– {{ comment.owner.name }}</span>
-      </li>
-    </ul>
-  </div>
 </div>
-
