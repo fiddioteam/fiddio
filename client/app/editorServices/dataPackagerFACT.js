@@ -22,7 +22,7 @@ angular.module('fiddio')
     })
     .then( function(res) {
       $timeout( function() {
-        $rootScope.$state.go('site.question', { questionID: $rootScope.$stateParams.questionID});
+        $rootScope.$state.go('question', { questionID: $rootScope.$stateParams.questionID});
       });
     }, function(res) {
       console.log('Error!', res);

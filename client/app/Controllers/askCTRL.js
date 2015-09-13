@@ -8,7 +8,7 @@ angular.module('fiddio')
       // call to DataPackager method
       DataPackager.uploadQuestion(vm.question)
       .success(function(data, status, headers, config){
-        $state.go('site.question',{ questionID: data.id });
+        $state.go('question',{ questionID: data.id });
       });
     };
 

@@ -68,7 +68,7 @@ var Question = db.Model.extend({
   changeStarsbyId: function(questionId, upOrDown) {
     return db.model('Question')
     .fetchQuestionbyId(questionId)
-    .then(function(Question) {
+    .then(function(question) {
       question.set('star_count', question.get('star_count') + upOrDown);
       return question.save();
     });
