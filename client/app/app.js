@@ -7,19 +7,51 @@ angular.module('fiddio', [
 
   .run(['$rootScope', '$state', '$stateParams', 'Authentication', 'UserData',
       function ($rootScope, $state, $stateParams, Authentication, UserData) {
+        $rootScope.userData = UserData;
+        $rootScope.userData.setItem('authenticated',UserData.getItem('authenticated'));
+
         // It's very handy to add references to $state and $stateParams to the $rootScope
-        // so that you can access them from any scope within your applications.For example,
-        // <li ng-class="{ active: $state.includes('contacts.list') }"> will set the <li>
-        // to active whenever 'contacts.list' or one of its decendents is active.
+        // so that you can access them from any scope within your applications
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
 
-        $rootScope.$on('$stateChangeStart',function(event, toState, toStateParams, fromState, fromStateParams) {
+        $rootScope.$on('$stateChangeStart', function(event, toState, toStateParams, fromState, fromStateParams) {
+
           $rootScope.toState = toState;
           $rootScope.toStateParams = toStateParams;
           $rootScope.fromState = fromState;
           $rootScope.fromStateParams = fromStateParams;
-        });
+          var authenticated = $rootScope.userData.authenticated;
+
+          if(!authenticated) {
+            if ($rootScope.toState.authenticate) { event.preventDefault(); }
+
+            Authentication.checkAuth()
+            .then(function(response){
+              if(!response.data.authenticated) {
+
+                if(!$rootScope.toState.doNotRedirect) { // executes only when doNotRedirect is undefined, which it is for all unauthed states
+                  $rootScope.userData.setItem('authRedirect', $rootScope.toState.name);
+                  $rootScope.userData.setItem('authRedirect_params', $rootScope.toStateParams);
+                }
+
+                if ($rootScope.toState.authenticate) { // executes when authenticate flag is true, which is it for authed states ('ask', 'answer')
+                  $rootScope.$state.go('login');
+                }
+
+              } else if ($rootScope.toState.doNotRedirect) {
+                var redirect = $rootScope.userData.getItem('authRedirect');
+                var redirect_params = $rootScope.userData.getItem('authRedirect_params');
+                $rootScope.$state.go(redirect, redirect_params);
+              }
+            },
+            function(response){
+              console.log("Error in authentication check ", response);
+            });
+          }
+
+        }); // end of $rootScope.$on
+
       }]
   )
 
@@ -28,43 +60,36 @@ angular.module('fiddio', [
     $urlRouterProvider.otherwise('/home');
 
     $stateProvider
-      .state('site', {
-        abstract: true,
-        template: '<div ui-view />',
-        resolve: {
-          identity: ['Authentication', function(Authentication) {
-            return Authentication.checkAuth();
-          }]
-        },
-      })
-      .state('site.authRequired', {
-        abstract: true,
-        parent: 'site',
-        template: '<div ui-view />',
-        resolve: {
-          authenticate: ['Authentication', 'identity', function(Authentication, identity) {
-            return Authentication.resolveAuth(identity);
-          }]
-        },
-      })
-      .state('site.authRequired.auth', {
+      .state('auth', {
         url: '/auth',
-        parent: 'site.authRequired',
-        template: '<div ui-view />'
+        template: '<div ui-view />',
+        doNotRedirect: true,
+        onEnter: ['$rootScope', function($rootScope) {
+
+            var authRedirect = $rootScope.userData.getItem('authRedirect');
+            var authRedirect_params = $rootScope.userData.getItem('authRedirect_params');
+
+            $rootScope.userData.removeItem("authRedirect");
+            $rootScope.userData.removeItem("authRedirect_params");
+
+            if (authRedirect) {
+              $rootScope.$state.go(authRedirect, authRedirect_params);
+            } else {
+              $rootScope.$state.go('home');
+            }
+          }]
       })
-      .state('site.login', {
+      .state('login', {
         url: '/login',
-        parent: 'site',
-        templateUrl: '../templates/login.html'
+        templateUrl: '../templates/login.html',
+        doNotRedirect: true
       })
-      .state('site.home', {
+      .state('home', {
         url: '/home',
-        parent: 'site',
         templateUrl: '../templates/home.html'
       })
-      .state('site.browse-questions', {
+      .state('browse-questions', {
         url: '/questions',
-        parent: 'site',
         templateUrl: '../templates/browseQuestions.html',
         resolve: {
           questions: ['QuestionsData', function(QuestionsData) {
@@ -73,15 +98,15 @@ angular.module('fiddio', [
         },
         controller: 'BrowseQuestions as browse'
       })
-      .state('site.authRequired.ask', {
+      .state('ask', {
         url: '/ask',
-        parent: 'site.authRequired',
+        authenticate: true,
         templateUrl: '../templates/askQuestion.html',
         controller: 'AskQuestion as ask',
       })
-      .state('site.authRequired.answer', {
+      .state('answer', {
         url: '/question/:questionID/answer',
-        parent: 'site.authRequired',
+        authenticate: true,
         templateUrl: '../templates/answerQuestion.html',
         resolve: {
           question: ['QuestionsData','$stateParams', 'DataPackager', function(QuestionsData, $stateParams, DataPackager) {
@@ -90,9 +115,8 @@ angular.module('fiddio', [
         },
         controller: 'AnswerController as answer'
       })
-      .state('site.question', {
+      .state('question', {
         url: '/question/:questionID',
-        parent: 'site',
         templateUrl: '../templates/questionView.html',
         resolve: {
           question: ['QuestionsData','$stateParams', 'DataPackager', function(QuestionsData, $stateParams, DataPackager) {
@@ -101,9 +125,8 @@ angular.module('fiddio', [
         },
         controller: 'QuestionController as qv'
       })
-      .state('site.watch', {
+      .state('watch', {
         url: '/question/:questionID/answer/:answerID',
-        parent: 'site',
         templateUrl: '../templates/watchAnswer.html',
         resolve: {
           answer: ['AnswerData', '$stateParams', function(AnswerData, $stateParams) {

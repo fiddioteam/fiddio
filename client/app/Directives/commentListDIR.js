@@ -1,5 +1,5 @@
 angular.module('fiddio')
-.directive('commentList', [ '$http', 'UserData', 'angularPlayer', '$timeout', function($http, UserData, angularPlayer, $timeout) {
+.directive('commentList', [ '$http', 'angularPlayer', '$timeout', '$rootScope', function($http, angularPlayer, $timeout, $rootScope) {
   return {
     restrict: 'E',
     templateUrl: '/templates/commentList.html', // change this up too
@@ -7,6 +7,7 @@ angular.module('fiddio')
     link: function(scope, elm, attr) {
       scope.parentType = attr.parentType;
       scope.parentId = attr.parentId;
+      scope.userData = $rootScope.userData;
 
       $http({ method: 'GET', url: '/api/'+attr.parentType+'/'+attr.parentId+'/comments'})
       .then(function(response){

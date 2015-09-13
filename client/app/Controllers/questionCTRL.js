@@ -22,6 +22,6 @@ angular.module('fiddio')
     });
 
     vm.answerQuestion = function() {
-      $rootScope.$state.go('site.authRequired.answer',{ questionID: $rootScope.$stateParams.questionID });
+      $rootScope.$state.go('answer',{ questionID: $rootScope.$stateParams.questionID });
     };
 }]);
