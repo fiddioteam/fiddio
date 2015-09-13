@@ -5,6 +5,9 @@ angular.module('fiddio')
   function setItem(key, value){
     if (value === undefined) { this.removeItem(key); }
     else { localStorage.setItem('fidd.io|'+key, angular.toJson(value)); }
+    if (key === 'authenticated') {
+      this.authenticated = value;
+    }
   }
 
   function getItem(key) {

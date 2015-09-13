@@ -17,6 +17,6 @@
     <span><strong>User:</strong> {{ answer.owner.name }}</span><br>
     <span><strong>Duration:</strong> {{ answer.duration | date:'mm:ss' }}</span><br>
     <span><strong>Votes:</strong> {{ answer.vote_count }}</span><br>
-    <button ui-sref="site.watch({ questionID: {{ answer.question_id }}, answerID: {{ answer.id }}})" style="margin-top: 10px;">Watch Answer</button>
+    <button ui-sref="watch({ questionID: {{ answer.question_id }}, answerID: {{ answer.id }}})" style="margin-top: 10px;">Watch Answer</button>
   </li>
 </ul>

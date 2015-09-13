@@ -13,11 +13,18 @@
             </li>
           </ul>
         </div>
-        <div ng-if="comment.reply">
-          <submit-comment parent-id="{{ comment.id }}" parent-type="comment"></submit-comment>
+
+        <div ng-if="userData.authenticated">
+          <div ng-if="comment.reply">
+            <submit-comment parent-id="{{ comment.id }}" parent-type="comment"></submit-comment>
+          </div>
+          <div ng-if="!comment.reply">
+            <a href ng-click="replyToComment(comment)">Reply</a>
+          </div>
         </div>
-        <div ng-if="!comment.reply">
-          <a href ng-click="replyToComment(comment)">Reply</a>
+
+        <div ng-if="!userData.authenticated">
+          <a ui-sref="login">Login to reply</a>
         </div>
 
       </li>
