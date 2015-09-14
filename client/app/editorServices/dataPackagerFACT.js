@@ -4,14 +4,17 @@ angular.module('fiddio')
 
   var _responseData;
 
-  function uploadResponse(code, editorChanges, mp3Blob, blobLength){
+  function uploadResponse(code, editorChanges, mp3Blob, blobLength, description){
 
     _responseData = {
       code_changes: editorChanges,
       duration: blobLength,
       code: code,
-      question_id: $rootScope.$stateParams.questionID
+      question_id: $rootScope.$stateParams.questionID,
+      body: description
     };
+
+    console.log('Body that will be sent to db', _responseData.body);
 
     Upload.upload({
       url: '/api/response',

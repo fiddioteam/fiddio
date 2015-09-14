@@ -54,7 +54,7 @@ angular.module('fiddio', [
       })
       .state('site.login', {
         url: '/login',
-        parent: 'site',
+        parent: 'site.authRequired',
         templateUrl: '../templates/login.html'
       })
       .state('site.home', {
@@ -111,10 +111,6 @@ angular.module('fiddio', [
           }]
         },
         controller: "WatchAnswer as watch"
-      })
-      .state('logout', {
-        url: '/logout',
-        templateUrl: '../templates/logout.html'
       });
 
   });

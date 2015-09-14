@@ -8,7 +8,7 @@ angular.module('fiddio')
   var recordOptions = {
     useWrapMode: true,
     showGutter: true,
-    theme: 'solarized_dark',
+    theme: 'idle_fingers',
     mode: 'javascript',
     onLoad: aceLoaded,
   };
@@ -126,10 +126,11 @@ angular.module('fiddio')
     return currentlyRecording;
   }
 
-  function uploadEditorChanges(currentlyRecording){
+  function uploadEditorChanges(currentlyRecording, description){
+    console.log('description inside uploadEditorChanges', description);
     if (currentlyRecording) { return; }
     if (_recording.length > 0){
-      DataPackager.uploadResponse(_code, _recording, _audioBlob, _blobLength);
+      DataPackager.uploadResponse(_code, _recording, _audioBlob, _blobLength, description);
     }
     _recording = [];
   }
