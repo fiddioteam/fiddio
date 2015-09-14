@@ -10,8 +10,8 @@
   <button ng-click="qv.answerQuestion()" style="margin-top: 10px;">Answer</button>
 
   <comment-section parent-id="{{ qv.question.id }}" parent-type="question" ng-transclude>
-    <submit-comment parent-id="{{ qv.question.id }}" parent-type="question"></submit-comment>
-    <comment-list parent-id="{{ qv.question.id }}" parent-type="question"></comment-list>
+<stars question-id="{{ qv.question.id }}"></stars>
+<button ng-click="qv.answerQuestion()" style="margin-top: 10px;">Answer</button>
   </comment-section>
 
   <ul>

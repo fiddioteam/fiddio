@@ -19,6 +19,10 @@ var Star = db.Model.extend({
   newStar: function(userId, questionId) {
     return new this({ user_id: userId, question_id: questionId });
   },
+  fetchStar: function(userId, questionId) {
+    return db.model('Star').newStar(userId, questionId)
+    .fetch({require: false});
+  },
   // only one star per user
   fetchOrCreate: function(userId, questionId, active) {
     // create the model object
@@ -28,18 +32,25 @@ var Star = db.Model.extend({
     return newstar
     .fetch({ require: false })
     .then( function(star) {
-      var changeCount = 0;
-
-      if (star) {
-        changeCount += active || -1;
-      } else {
+      if (!star) {
         star = newstar;
-        changeCount += active;
+        star.set('active', false);
       }
+
+      var upOrDown =  0 + (!star.get('active') && active) - (star.get('active') && !active);
 
       star.set('active', active);
 
-      return [star.save(),db.model('Question').changeStarsbyId(questionId, changeCount)];
+      // If setting to active & already active -> 0
+      // if setting to active & already inactive -> + 1
+      // If setting to inactive & already active -> -1
+      // If setting to inactive & already inactive -> 0
+
+      //!gactive && active = 1
+      //gactive && !active = -1
+
+      return Promise.join([star.save(), db.model('Question')
+      .changeStarsbyId(questionId, upOrDown)]);
     });
   }
 });
