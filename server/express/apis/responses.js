@@ -50,7 +50,7 @@ module.exports = function(app, router) {
   function postVote(req, res, next) {
     db.model('Vote')
     .fetchOrCreate(req.user.id, req.body.id, req.body.vote)
-    .then( function(response) {
+    .spread( function(vote, response) {
       res.json({ result: true });
     })
     .catch(function(err){

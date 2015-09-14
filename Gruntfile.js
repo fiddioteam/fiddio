@@ -79,9 +79,6 @@ module.exports = function(grunt) {
     },
 
     watch: {
-      options: {
-        reload: true
-      },
       dev: {
         options: { livereload: true },
         files:  [ 'server/*.js', 'server/**/*.js', 'client/**' ],

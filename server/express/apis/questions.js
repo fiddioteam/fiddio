@@ -47,15 +47,29 @@ module.exports = function(app, router) {
     });
   }
 
+  function getStarred(req, res, next) {
+    if (req.user) {
+      var user_id = req.user.get('id');
+      db.model('Star').fetchStar(user_id, req.body.id)
+      .then(function(star) {
+        res.json({starred: star && star.get('active')});
+      });
+    } else {
+      res.json({starred: false});
+    }
+  }
+
   function postStar(req, res, next) {
     var star = utility.getUrlParamNums(req, 'star').star;
+    process.verb('Star', star, 'User', req.user.id, 'question_id', req.body.id);
 
     db.model('Star').fetchOrCreate(req.user.id, req.body.id, star)
-    .then( function(question) {
+    .spread( function(star, question) {
       res.json({ result: true });
     })
     .catch( function(err) {
-      res.sendStatus(500); // Uh oh!
+      //res.sendStatus(500); // Uh oh!
+      process.verb('ERROR!', err);
       if (process.isDev()) { res.json({ error: err }); }
     });
   }
@@ -94,16 +108,18 @@ module.exports = function(app, router) {
 
   router.get('/questions', getQuestions);
 
+  router.get('/question/star', utility.hasSession, questionHandler, getStarred); // question_id is in query
   router.get('/question/responses', questionHandler, getResponses); // question_id is in query
   router.get('/question/comments', questionHandler, getComments); // question_id is in query
   router.get('/question/:question_id', questionHandler, getQuestion);
   router.get('/question/:question_id/responses', questionHandler, getResponses);
   router.get('/question/:question_id/comments', questionHandler, getComments);
+  router.get('/question/:question_id/star', utility.hasSession, questionHandler, getStarred);
 
   router.post('/question', utility.hasSession, postQuestion);
   router.post('/question/star', utility.hasSession, questionHandler, postStar);
   router.post('/question/watch', utility.hasSession, questionHandler, postWatch );
-  router.post('/question/:id/star', utility.hasSession, questionHandler, postStar);
-  router.post('/question/:id/watch', utility.hasSession, questionHandler, postWatch );
+  router.post('/question/:question_id/star', utility.hasSession, questionHandler, postStar);
+  router.post('/question/:question_id/watch', utility.hasSession, questionHandler, postWatch );
 
 };
