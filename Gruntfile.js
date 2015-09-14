@@ -55,7 +55,7 @@ module.exports = function(grunt) {
           expand: true,
           cwd: 'test/',
           dest: 'test/',
-          src: [ '../bower.json', 'app/*.js', 'app/**/*.js', 'styles/**/*.css',
+          src: [ '../bower.json', 'app/*.js', 'app/**/*.js', '**/*.css',
           '!app/fiddioRecorder/recorderWorkerMP3.js',
           '!app/fiddioRecorder/Mp3LameEncoder.js' ],
         }, ],
@@ -69,7 +69,7 @@ module.exports = function(grunt) {
           expand: true,
           cwd: 'public/',
           dest: 'public/',
-          src: [ '../bower.json', 'app/*.js', 'app/**/*.js', 'styles/**/*.css',
+          src: [ '../bower.json', 'app/*.js', 'app/**/*.js', '**/*.css',
           '!app/fiddioRecorder/recorderWorkerMP3.js',
           '!app/fiddioRecorder/Mp3LameEncoder.js' ],
         }, ],
@@ -179,7 +179,7 @@ module.exports = function(grunt) {
   grunt.registerTask('start', [ 'forever:fiddio:start' ]);
   grunt.registerTask('stop', [ 'forever:fiddio:stop' ]);
 
-  grunt.registerTask('dev_build', [ 'clean:dev', 'copy:dev', 'jshint:dev', 'bower:dev'/*, 'sass:dev'*/, 'injector:dev' ]);
+  grunt.registerTask('dev_build', [ 'clean:dev', 'copy:dev', 'jshint:dev', 'bower:dev', 'sass:dev', 'injector:dev' ]);
   grunt.registerTask('dev', [ 'dev_build', 'forever:fiddio:start', 'watch:dev' ]);
   grunt.registerTask('restart:dev', [ 'dev_build', 'forever:fiddio:restart', 'watch:dev' ]);
 
