@@ -4,7 +4,7 @@ var db      = require('../config'),
 require('./user');
 require('./response');
 require('./tag');
-require('./questiontag');
+require('./questionTag');
 require('./comment');
 
 var Question = db.Model.extend({

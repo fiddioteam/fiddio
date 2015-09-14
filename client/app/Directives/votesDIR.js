@@ -1,8 +1,8 @@
 angular.module('fiddio')
-  .directive('votes', ['$http', function($http) {
+  .directive('votes', ['$http', '$rootScope', function($http, $rootScope) {
     return {
       restrict: 'E',
-      template: '<span><i class="fa fa-chevron-circle-up" ng-click="vote(1)"></i> <i class="fa fa-chevron-circle-down" ng-click="vote(-1)"></i></span>',
+      template: '<div><span ng-if="userData.authenticated"><i class="fa fa-chevron-circle-up" ng-click="vote(1)"></i> <i class="fa fa-chevron-circle-down" ng-click="vote(-1)"></i></span><a ui-sref="login" ng-if="!userData.authenticated">Login to vote</a></div>',
       replace: true,
       scope: {
         responseId: '@'
@@ -13,6 +13,8 @@ angular.module('fiddio')
         .then(function(response){
           scope.currentVote = response.data.vote;
         },function(response){});
+
+        scope.userData = $rootScope.userData;
 
         // set up function to up- and downvote
         scope.vote = function(value) {
@@ -29,6 +31,6 @@ angular.module('fiddio')
         scope.updateStyle = function() {
           //Update style based on scope.currentVote
         };
-      } 
+      }
     };
   }]);

@@ -1,9 +1,13 @@
-<h1>Browse Questions</h1>
-<p>Recent questions from users:</p>
-<ul>
-  <li ng-repeat="question in browse.questions">
-    <span><strong>{{ question.owner.name }}:</strong> {{ question.title }} –</span>
-    <a ui-sref="site.question({ questionID: question.id })">Question {{ question.id }}</a>
-  </li>
-</ul>
+<section>
+  
+  <h3>Browse Questions</h3>
+  <p>Recent questions from users:</p>
+  <ul>
+    <li ng-repeat="question in browse.questions">
+      <span><strong>{{ question.owner.name }}:</strong> {{ question.title }} –</span>
+      <a ui-sref="question({ questionID: question.id })">Question {{ question.id }}</a>
+    </li>
+  </ul>
+
+</section>
 

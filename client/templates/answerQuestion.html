@@ -4,6 +4,10 @@
     style="height: 300px;">
   </div>
   <button ng-if="!answer.currentlyRecording()" ng-click="answer.startRecording()">Start</button>
+  <button ng-if="answer.currentlyRecording()" ng-click="answer.pauseRecording()">Pause</button>
   <button ng-if="answer.currentlyRecording()" ng-click="answer.stopRecording()">Stop</button>
+  <form novalidate style="margin-top: 8px;">
+    <textarea name="" id="" cols="30" rows="10" placeholder="Description" ng-model="answer.description"></textarea>
+  </form>
   <button ng-click="answer.uploadChanges()">Submit</button>
 </div>

@@ -4,14 +4,17 @@ angular.module('fiddio')
 
   var _responseData;
 
-  function uploadResponse(code, editorChanges, mp3Blob, blobLength){
+  function uploadResponse(code, editorChanges, mp3Blob, blobLength, description){
 
     _responseData = {
       code_changes: editorChanges,
       duration: blobLength,
       code: code,
-      question_id: $rootScope.$stateParams.questionID
+      question_id: $rootScope.$stateParams.questionID,
+      body: description
     };
+
+    console.log('Body that will be sent to db', _responseData.body);
 
     Upload.upload({
       url: '/api/response',
@@ -22,7 +25,7 @@ angular.module('fiddio')
     })
     .then( function(res) {
       $timeout( function() {
-        $rootScope.$state.go('site.question', { questionID: $rootScope.$stateParams.questionID});
+        $rootScope.$state.go('question', { questionID: $rootScope.$stateParams.questionID});
       });
     }, function(res) {
       console.log('Error!', res);

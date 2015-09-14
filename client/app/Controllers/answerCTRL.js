@@ -14,15 +14,21 @@ angular.module('fiddio')
     });
   };
 
+  vm.pauseRecording = function(){
+    RecorderFactory.pauseRecording();
+    RecorderFactory.setRecordingStatus(false);
+  };
+
   vm.stopRecording = function(){
     RecorderFactory.stopRecording(RecorderFactory.getRecordingStatus())
     .then(function(blob) {
       RecorderFactory.setRecordingStatus(false);
     });
   };
-  
+
   vm.uploadChanges = function(){
-    RecorderFactory.uploadEditorChanges(RecorderFactory.getRecordingStatus());
+    console.log('VM.DESCRIPTION', vm.description);
+    RecorderFactory.uploadEditorChanges(RecorderFactory.getRecordingStatus(), vm.description);
   };
 
 
