@@ -2,6 +2,7 @@
 <html lang="en" ng-app="fiddio">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
   <!-- injector:bower:css -->
   <!-- endinjector -->
@@ -11,17 +12,32 @@
 </head>
 <body>
 
-  <nav ng-controller="NavController as nav">
-    <ul>
-      <li><a ui-sref="home">Home</a></li>
-      <li><a ui-sref="browse-questions">Browse</a></li>
-      <li><a ui-sref="ask">Ask</a></li>
-      <li ng-if="!userData.authenticated"><a ui-sref="login">Login</a></li>
-      <li ng-if="userData.authenticated"><a href ng-click="nav.logout()">Logout</a></li>
-    </ul>
-  </nav>
+  <header>
+    <nav ng-controller="NavController as nav">
+      <ul>
+        <li><a ui-sref="home">Home</a></li>
+        <li><a ui-sref="browse-questions">Browse</a></li>
+        <li><a ui-sref="ask">Ask</a></li>
+        <li ng-if="!userData.authenticated"><a ui-sref="login">Login</a></li>
+        <li ng-if="userData.authenticated"><a href ng-click="nav.logout()">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <main>
+    <ui-view></ui-view>
+  </main>
 
-  <ui-view></ui-view>
+  <footer>
+    <nav>
+      <ul>
+        <li><a ui-sref="about">About</a></li>
+        <li><a ui-sref="team">Team</a></li>
+        <li><a ui-sref="faq">FAQ</a></li>
+        <li><a ui-sref="contact">Contact</a></li>
+      </ul>
+    </nav>
+  </footer>
 
   <script src="lib/ace-builds/src-min-noconflict/ace.js"></script>
   <!-- injector:bower:js -->
