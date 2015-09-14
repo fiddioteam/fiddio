@@ -1,31 +1,15 @@
 var path = require('path');
 var fs = require('fs');
 
-module.exports = function( grunt ) {
+module.exports = function(grunt) {
 
-  grunt.initConfig( {
+  grunt.initConfig({
 
-    pkg: grunt.file.readJSON( 'package.json' ),
-
-    express: {
-      dev: {
-        options: {
-          script: 'server/server.js',
-          node_env: 'development',
-        }
-      },
-      production: {
-        options: {
-          background: false,
-          script: 'server/server.js',
-          node_env: 'production',
-        }
-      },
-    },
+    pkg: grunt.file.readJSON('package.json'),
 
     jshint: {
       options: {
-        reporter: require( 'jshint-stylish' ),
+        reporter: require('jshint-stylish'),
       },
       dev: [ 'Gruntfile.js', './server/*.js', './server/**/*.js', './test/**/*.js' ],
       production: [ 'Gruntfile.js', './server/*.js', 'server/**/*.js', './public/**/*.js' ],
@@ -94,16 +78,17 @@ module.exports = function( grunt ) {
 
     watch: {
       options: {
-        livereload: true,
-        //atBegin: true,
+        reload: true
       },
-      express: {
+      dev: {
+        options: { livereload: true },
         files:  [ 'server/*.js', 'server/**/*.js', 'client/**' ],
-        tasks:  [ 'dev_build', 'express:dev' ],
-        options: {
-          spawn: false,
-        }
+        tasks:  [ 'dev_build', 'forever:fiddio:restart' ]
       },
+      production: {
+        files:  [ '*.js', 'server/*.js', 'server/**/*.js', 'client/**' ],
+        tasks:  [ 'prod_build', 'forever:fiddio:restart' ]
+      }
     },
 
     clean: {
@@ -165,23 +150,40 @@ module.exports = function( grunt ) {
         ext: '.css'
       }],
     },
+  },
+
+  forever: {
+    fiddio: {
+      options: {
+        index: 'server/server.js',
+        logDir: 'logs',
+        logFile: 'logs.log'
+      }
+    }
   }
 
   });
 
-  grunt.loadNpmTasks( 'grunt-notify' );
-  grunt.loadNpmTasks( 'grunt-contrib-copy' );
-  grunt.loadNpmTasks( 'grunt-injector' );
-  grunt.loadNpmTasks( 'grunt-contrib-jshint' );
-  grunt.loadNpmTasks( 'grunt-contrib-watch' );
-  grunt.loadNpmTasks( 'grunt-bower-task' );
-  grunt.loadNpmTasks( 'grunt-contrib-clean' );
-  grunt.loadNpmTasks( 'grunt-express-server' );
-  grunt.loadNpmTasks( 'grunt-contrib-sass' );
+  grunt.loadNpmTasks('grunt-notify');
+  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-injector');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-bower-task');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-sass');
+  grunt.loadNpmTasks('grunt-forever');
 
-  grunt.registerTask( 'default', [ 'dev' ] );
-  grunt.registerTask( 'dev_build', [ 'clean:dev', 'copy:dev', 'jshint:dev', 'bower:dev'/*, 'sass:dev'*/, 'injector:dev' ] );
-  grunt.registerTask( 'dev', [ 'dev_build', 'express:dev', 'watch:express' ] );
-  grunt.registerTask( 'prod_build', [ 'clean:production', 'copy:production', 'jshint:production', 'bower:production', 'sass:production', 'injector:production' ] );
-  grunt.registerTask( 'prod', [ 'prod_build', 'express:production' ] );
+  grunt.registerTask('default', [ 'dev' ]);
+  grunt.registerTask('restart', [ 'restart:dev' ]);
+  grunt.registerTask('start', [ 'forever:fiddio:start' ]);
+  grunt.registerTask('stop', [ 'forever:fiddio:stop' ]);
+
+  grunt.registerTask('dev_build', [ 'clean:dev', 'copy:dev', 'jshint:dev', 'bower:dev'/*, 'sass:dev'*/, 'injector:dev' ]);
+  grunt.registerTask('dev', [ 'dev_build', 'forever:fiddio:start', 'watch:dev' ]);
+  grunt.registerTask('restart:dev', [ 'dev_build', 'forever:fiddio:restart', 'watch:dev' ]);
+
+  grunt.registerTask('prod_build', [ 'clean:production', 'copy:production', 'jshint:production', 'bower:production', 'sass:production', 'injector:production' ]);
+  grunt.registerTask('prod', [ 'prod_build', 'forever:fiddio:start' ]);
+  grunt.registerTask('restart:prod', [ 'prod_build', 'forever:fiddio:restart' ]);
 };
