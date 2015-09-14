@@ -13,7 +13,7 @@ angular.module('fiddio')
   var playbackOptions = {
     useWrapMode: true,
     showGutter: true,
-    theme: 'solarized_dark',
+    theme: 'idle_fingers',
     mode: 'javascript',
     onLoad: aceLoaded
   };

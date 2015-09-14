@@ -6,7 +6,7 @@ angular.module('fiddio')
     var displayOptions = {
       useWrapMode: true,
       showGutter: true,
-      theme: 'solarized_dark',
+      theme: 'idle_fingers',
       mode: 'javascript',
       onLoad: aceLoaded,
     };

@@ -1,23 +1,27 @@
-<h2>{{ qv.question.title }}</h2>
-<h3>Submitted by: {{ qv.question.owner.name }}</h3>
-<blockquote>{{ qv.question.body }} &nbsp;&nbsp;&nbsp; Stars: {{ qv.question.star_count }}</blockquote>
-<div
-  ui-ace="qv.displayOptions"
-  style="height: 300px;">
-</div>
+<section>
+  
+  <h3>{{ qv.question.title }}</h3>
+  <h4>Submitted by: {{ qv.question.owner.name }}</h4>
+  <blockquote>{{ qv.question.body }}</blockquote>
+  <div
+    ui-ace="qv.displayOptions"
+    style="height: 300px;">
+  </div>
+  <button ng-click="qv.answerQuestion()" style="margin-top: 10px;">Answer</button>
+
+  <comment-section parent-id="{{ qv.question.id }}" parent-type="question" ng-transclude>
 <stars question-id="{{ qv.question.id }}"></stars>
 <button ng-click="qv.answerQuestion()" style="margin-top: 10px;">Answer</button>
+  </comment-section>
 
-<comment-section parent-id="{{ qv.question.id }}" parent-type="question" ng-transclude>
-  <submit-comment parent-id="{{ qv.question.id }}" parent-type="question"></submit-comment>
-  <comment-list parent-id="{{ qv.question.id }}" parent-type="question"></comment-list>
-</comment-section>
+  <ul>
+    <li ng-repeat="answer in qv.answers">
+      <span><strong>User:</strong> {{ answer.owner.name }}</span><br>
+      <span><strong>Duration:</strong> {{ answer.duration | date:'mm:ss' }}</span><br>
+      <span><strong>Votes:</strong> {{ answer.vote_count }}</span><br>
+<p>Description: {{answer.body}}</p>
+      <button ui-sref="watch({ questionID: {{ answer.question_id }}, answerID: {{ answer.id }}})" style="margin-top: 10px;">Watch Answer</button>
+    </li>
+  </ul>
 
-<ul>
-  <li ng-repeat="answer in qv.answers">
-    <span><strong>User:</strong> {{ answer.owner.name }}</span><br>
-    <span><strong>Duration:</strong> {{ answer.duration | date:'mm:ss' }}</span><br>
-    <span><strong>Votes:</strong> {{ answer.vote_count }}</span><br>
-    <button ui-sref="watch({ questionID: {{ answer.question_id }}, answerID: {{ answer.id }}})" style="margin-top: 10px;">Watch Answer</button>
-  </li>
-</ul>
+</section>
