@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <!-- injector:bower:css -->
   <!-- endinjector -->
   <!-- injector:css -->
@@ -13,32 +14,42 @@
 <body>
 
   <header>
-    <nav ng-controller="NavController as nav">
-      <ul>
-        <li><a ui-sref="home">Home</a></li>
-        <li><a ui-sref="browse-questions">Browse</a></li>
-        <li><a ui-sref="ask">Ask</a></li>
-        <li ng-if="!userData.authenticated"><a ui-sref="login">Login</a></li>
-        <li ng-if="userData.authenticated"><a href ng-click="nav.logout()">Logout</a></li>
-      </ul>
+    <nav ng-controller="NavController as nav" class="navbar navbar-default">
+      <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href ui-sref="home">
+        <span style="background-image: url('./img/fiddioLogo.svg'); background-size:cover; color: rgba(0,0,0,0);">fidd.io</span>
+        </a>
+      </div>
+        <ul class="nav navbar-nav">
+
+          <li><a ui-sref="browse-questions">Browse</a></li>
+          <li><a ui-sref="ask">Ask</a></li>
+          <li ng-show="!userData.authenticated"><a ui-sref="login">Login</a></li>
+          <li ng-show="userData.authenticated"><a href ng-click="nav.logout()">Logout</a></li>
+        </ul>
+      </div>
     </nav>
   </header>
-  
+
   <main>
     <ui-view></ui-view>
   </main>
 
   <footer>
-    <nav>
-      <ul>
-        <li><a ui-sref="about">About</a></li>
-        <li><a ui-sref="team">Team</a></li>
-        <li><a ui-sref="faq">FAQ</a></li>
-        <li><a ui-sref="contact">Contact</a></li>
-      </ul>
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+      <div class="container-fluid">
+        <ul class="nav navbar-nav">
+          <li><a ui-sref="about">About</a></li>
+          <li><a ui-sref="team">Team</a></li>
+          <li><a ui-sref="faq">FAQ</a></li>
+          <li><a ui-sref="contact">Contact</a></li>
+        </ul>
+      </div>
     </nav>
   </footer>
-
+  <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   <script src="lib/ace-builds/src-min-noconflict/ace.js"></script>
   <!-- injector:bower:js -->
   <!-- endinjector -->

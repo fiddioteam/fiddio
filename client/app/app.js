@@ -137,6 +137,7 @@ angular.module('fiddio', [
       })
       .state('logout', {
         url: '/logout',
+        // doNotRedirect: true,
         templateUrl: '../templates/logout.html'
       })
       .state('about', {
