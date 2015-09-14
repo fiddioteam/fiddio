@@ -43,7 +43,7 @@ var Vote = db.Model.extend({
       var prevVote = vote.get('up_down') || 0;
       vote.set('up_down', upOrDown);
 
-      return [vote.save(),db.model('Response').changeVotesbyId(responseId, prevVote, upOrDown)];
+      return Promise.join([vote.save(),db.model('Response').changeVotesbyId(responseId, prevVote, upOrDown)]);
     });
   }
 });

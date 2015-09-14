@@ -64,7 +64,7 @@ module.exports = function(app, router) {
     process.verb('Star', star, 'User', req.user.id, 'question_id', req.body.id);
 
     db.model('Star').fetchOrCreate(req.user.id, req.body.id, star)
-    .then( function(star) {
+    .spread( function(star, question) {
       res.json({ result: true });
     })
     .catch( function(err) {

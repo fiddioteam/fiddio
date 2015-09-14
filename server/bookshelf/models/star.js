@@ -34,7 +34,10 @@ var Star = db.Model.extend({
     .then( function(star) {
       if (!star) {
         star = newstar;
+        star.set('active', false);
       }
+
+      var upOrDown =  0 + (!star.get('active') && active) - (star.get('active') && !active);
 
       star.set('active', active);
 
@@ -43,7 +46,11 @@ var Star = db.Model.extend({
       // If setting to inactive & already active -> -1
       // If setting to inactive & already inactive -> 0
 
-      return [star.save(),db.model('Question').changeStarsbyId(questionId, (!(star && star.get('active')) && active) - (star && star.get('active') && !active))];
+      //!gactive && active = 1
+      //gactive && !active = -1
+
+      return Promise.join([star.save(), db.model('Question')
+      .changeStarsbyId(questionId, upOrDown)]);
     });
   }
 });
