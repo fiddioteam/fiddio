@@ -138,6 +138,22 @@ angular.module('fiddio', [
       .state('logout', {
         url: '/logout',
         templateUrl: '../templates/logout.html'
+      })
+      .state('about', {
+        url: '/about',
+        templateUrl: '../templates/about.html'
+      })
+      .state('team', {
+        url: '/team',
+        templateUrl: '../templates/team.html'
+      })
+      .state('faq', {
+        url: '/faq',
+        templateUrl: '../templates/faq.html'
+      })
+      .state('contact', {
+        url: '/contact',
+        templateUrl: '../templates/contact.html'
       });
 
   });
