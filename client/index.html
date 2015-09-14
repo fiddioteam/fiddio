@@ -14,11 +14,11 @@
 <body>
 
   <header>
-    <nav ng-controller="NavController as nav" class="navbar navbar-default">
+    <nav ng-controller="NavController as nav" class="navbar navbar-transparent">
       <div class="container-fluid">
       <div class="navbar-header">
         <a class="navbar-brand" href ui-sref="home">
-        fidd.io
+        <i class="fa fa-code"></i>
         </a>
       </div>
         <ul class="nav navbar-nav">
@@ -32,12 +32,13 @@
     </nav>
   </header>
 
+
   <main>
     <ui-view></ui-view>
   </main>
 
   <footer>
-    <nav class="navbar navbar-default navbar-fixed-bottom">
+    <nav class="navbar navbar-transparent navbar-fixed-bottom">
       <div class="container-fluid">
         <ul class="nav navbar-nav">
           <li><a ui-sref="about">About</a></li>
