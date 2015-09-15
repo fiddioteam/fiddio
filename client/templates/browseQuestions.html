@@ -1,14 +1,16 @@
 <section>
   
   <h3>Browse Questions</h3>
-  <p>Recent questions from users:</p>
+  <span><input type="search" placeholder="Search" ng-model="search"></span>
+  <hr>
   <ul>
-    <li ng-repeat="question in browse.questions">
+    <li ng-repeat="question in browse.questions | filter:search">
       <span><strong>{{ question.owner.name }}:</strong> {{ question.title }} –</span>
     Stars: {{ question.star_count }} –</span>
       <a ui-sref="question({ questionID: question.id })">Question {{ question.id }}</a>
     </li>
   </ul>
+  <span ng-if="(browse.questions|filter:search).length === 0">There are no results matching your search</span>
 
 </section>
 
