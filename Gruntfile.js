@@ -2,10 +2,22 @@ var path = require('path');
 var fs = require('fs');
 
 module.exports = function(grunt) {
+  require('load-grunt-tasks')(grunt);
 
   grunt.initConfig({
 
     pkg: grunt.file.readJSON('package.json'),
+
+    express: {
+      options: {
+        delay: 5000
+      },
+      dev: {
+        options: {
+          script: 'server/server.js'
+        }
+      }
+    },
 
     jshint: {
       options: {
@@ -80,13 +92,13 @@ module.exports = function(grunt) {
 
     watch: {
       dev: {
-        options: { livereload: true },
+        options: { livereload: true, spawn: false },
         files:  [ 'server/*.js', 'server/**/*.js', 'client/**' ],
-        tasks:  [ 'dev_build', 'forever:fiddio:restart' ]
+        tasks:  [ 'dev_build', 'express:dev' ]
       },
       production: {
         files:  [ '*.js', 'server/*.js', 'server/**/*.js', 'client/**' ],
-        tasks:  [ 'prod_build', 'forever:fiddio:restart' ]
+        tasks:  [ 'prod_build', 'restart' ]
       }
     },
 
@@ -118,71 +130,65 @@ module.exports = function(grunt) {
       },
     },
 
-  sass: {
-    dev: {
-      files: [{
-        expand: true,
-        cwd: 'lib/',
-        src: ['*.scss'],
-        dest: 'test/',
-        ext: '.css'
-      }, {
-        expand: true,
-        cwd: 'client/',
-        src: ['**/*.scss'],
-        dest: 'test/',
-        ext: '.css'
-      }],
+    sass: {
+      dev: {
+        files: [{
+          expand: true,
+          cwd: 'lib/',
+          src: ['*.scss'],
+          dest: 'test/',
+          ext: '.css'
+        }, {
+          expand: true,
+          cwd: 'client/',
+          src: ['**/*.scss'],
+          dest: 'test/',
+          ext: '.css'
+        }],
+      },
+      production: {
+        files: [{
+          expand: true,
+          cwd: 'lib/',
+          src: ['*.scss'],
+          dest: 'public/',
+          ext: '.css'
+        }, {
+          expand: true,
+          cwd: 'client/',
+          src: ['**/*.scss'],
+          dest: 'public/',
+          ext: '.css'
+        }],
+      },
     },
-    production: {
-      files: [{
-        expand: true,
-        cwd: 'lib/',
-        src: ['*.scss'],
-        dest: 'public/',
-        ext: '.css'
-      }, {
-        expand: true,
-        cwd: 'client/',
-        src: ['**/*.scss'],
-        dest: 'public/',
-        ext: '.css'
-      }],
-    },
-  },
 
-  forever: {
-    fiddio: {
+    shell: {
       options: {
-        index: 'server/server.js',
-        logDir: 'logs',
-        logFile: 'logs.log'
+        failOnError: false
+      },
+      start: {
+        command: 'forever start -a -o "' + __dirname + '/logs/logs.log" server/server.js'
+      },
+      stop: {
+        command: 'forever stopall'
+      },
+      restart: {
+        command: 'forever restart server/server.js'
       }
-    }
-  }
+    },
 
   });
 
-  grunt.loadNpmTasks('grunt-notify');
-  grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-injector');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-bower-task');
-  grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-sass');
-  grunt.loadNpmTasks('grunt-forever');
-
   grunt.registerTask('default', [ 'dev' ]);
-  grunt.registerTask('restart', [ 'restart:dev' ]);
-  grunt.registerTask('start', [ 'forever:fiddio:start' ]);
-  grunt.registerTask('stop', [ 'forever:fiddio:stop' ]);
+  grunt.registerTask('restart', [ 'shell:restart' ]);
+  grunt.registerTask('start', [ 'shell:start' ]);
+  grunt.registerTask('stop', [ 'shell:stop' ]);
 
   grunt.registerTask('dev_build', [ 'clean:dev', 'copy:dev', 'jshint:dev', 'bower:dev', 'sass:dev', 'injector:dev' ]);
-  grunt.registerTask('dev', [ 'dev_build', 'forever:fiddio:start', 'watch:dev' ]);
-  grunt.registerTask('restart:dev', [ 'dev_build', 'forever:fiddio:restart', 'watch:dev' ]);
+  grunt.registerTask('dev', [ 'dev_build', 'express:dev', 'watch:dev' ]);
 
   grunt.registerTask('prod_build', [ 'clean:production', 'copy:production', 'jshint:production', 'bower:production', 'sass:production', 'injector:production' ]);
-  grunt.registerTask('prod', [ 'prod_build', 'forever:fiddio:start' ]);
-  grunt.registerTask('restart:prod', [ 'prod_build', 'forever:fiddio:restart' ]);
+  grunt.registerTask('prod', [ 'prod_build', 'start' ]);
+  grunt.registerTask('restart:prod', [ 'prod_build', 'restart' ]);
 };
