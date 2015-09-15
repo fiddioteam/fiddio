@@ -45,7 +45,7 @@ var User = db.Model.extend({
     });
   },
 
-  fetchUserbyMPId: function(ghid, notRequire) {
+  fetchUserbyMPId: function(mpid, notRequire) {
     return new this({
       mp_id: mpid
     }).fetch({
