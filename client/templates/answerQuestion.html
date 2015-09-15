@@ -1,13 +1,15 @@
-<div>
-  <div
-    ui-ace="answer.recordOptions"
-    style="height: 300px;">
+<section>
+  <div>
+    <div
+      ui-ace="answer.recordOptions"
+      style="height: 300px;">
+    </div>
+    <button class="btn btn-primary btn-sm"  ng-if="!answer.currentlyRecording()" ng-click="answer.startRecording()">Start</button>
+    <button class="btn btn-primary btn-sm" ng-if="answer.currentlyRecording()" ng-click="answer.pauseRecording()">Pause</button>
+    <button class="btn btn-primary btn-sm" ng-if="answer.currentlyRecording()" ng-click="answer.stopRecording()">Stop</button>
+    <form novalidate style="margin-top: 8px;">
+      <textarea class="form-control" cols="30" rows="3" placeholder="Description" ng-model="answer.description"></textarea>
+    </form>
+    <button class="btn btn-primary btn-xs" ng-click="answer.uploadChanges()">Submit</button>
   </div>
-  <button ng-if="!answer.currentlyRecording()" ng-click="answer.startRecording()">Start</button>
-  <button ng-if="answer.currentlyRecording()" ng-click="answer.pauseRecording()">Pause</button>
-  <button ng-if="answer.currentlyRecording()" ng-click="answer.stopRecording()">Stop</button>
-  <form novalidate style="margin-top: 8px;">
-    <textarea name="" id="" cols="30" rows="10" placeholder="Description" ng-model="answer.description"></textarea>
-  </form>
-  <button ng-click="answer.uploadChanges()">Submit</button>
-</div>
+</section>
