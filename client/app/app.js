@@ -5,8 +5,8 @@ angular.module('fiddio', [
   'angularSoundManager'
   ])
 
-  .run(['$rootScope', '$state', '$stateParams', 'Authentication', 'UserData',
-      function ($rootScope, $state, $stateParams, Authentication, UserData) {
+  .run(['$rootScope', '$state', '$stateParams', '$window', 'Authentication', 'UserData',
+      function ($rootScope, $state, $stateParams, $window, Authentication, UserData) {
         $rootScope.userData = UserData;
         $rootScope.userData.setItem('authenticated',UserData.getItem('authenticated'));
 
@@ -30,7 +30,13 @@ angular.module('fiddio', [
             .then(function(response){
               if(!response.data.authenticated) {
 
-                if(!$rootScope.toState.doNotRedirect) { // executes only when doNotRedirect is undefined, which it is for all unauthed states
+                if($rootScope.toState.doNotRedirect) { // Login or auth
+                  if ( $rootScope.toState.name === 'login' ) { // Automatically attempt to authenticate if possible
+                    var profileId = Authentication.getProfileId();
+                    if (profileId) { $window.location.href = '/api/' + profileId; }
+                  }
+                } else {
+                  // executes only when doNotRedirect is undefined, which it is for all unauthed states
                   $rootScope.userData.setItem('authRedirect', $rootScope.toState.name);
                   $rootScope.userData.setItem('authRedirect_params', $rootScope.toStateParams);
                 }
@@ -42,7 +48,9 @@ angular.module('fiddio', [
               } else if ($rootScope.toState.doNotRedirect) {
                 var redirect = $rootScope.userData.getItem('authRedirect');
                 var redirect_params = $rootScope.userData.getItem('authRedirect_params');
-                $rootScope.$state.go(redirect, redirect_params);
+                if (redirect) {
+                  $rootScope.$state.go(redirect, redirect_params);
+                } else { $rootScope.$state.go('home'); }
               }
             },
             function(response){
@@ -64,20 +72,24 @@ angular.module('fiddio', [
         url: '/auth',
         template: '<div ui-view />',
         doNotRedirect: true,
-        onEnter: ['$rootScope', function($rootScope) {
+        /*onEnter: ['$rootScope', '$timeout', function($rootScope, $timeout) {
 
-            var authRedirect = $rootScope.userData.getItem('authRedirect');
-            var authRedirect_params = $rootScope.userData.getItem('authRedirect_params');
+            $timeout( function() {
+              var authRedirect = $rootScope.userData.getItem('authRedirect');
+              var authRedirect_params = $rootScope.userData.getItem('authRedirect_params');
 
-            $rootScope.userData.removeItem("authRedirect");
-            $rootScope.userData.removeItem("authRedirect_params");
+              $rootScope.userData.removeItem("authRedirect");
+              $rootScope.userData.removeItem("authRedirect_params");
 
-            if (authRedirect) {
-              $rootScope.$state.go(authRedirect, authRedirect_params);
-            } else {
-              $rootScope.$state.go('home');
-            }
-          }]
+              if (authRedirect) {
+                console.log('Auth resolve and redirect', authRedirect, authRedirect_params);
+                $rootScope.$state.go(authRedirect, authRedirect_params);
+              } else {
+                $rootScope.$state.go('home');
+              }
+            });
+
+        }]*/
       })
       .state('login', {
         url: '/login',

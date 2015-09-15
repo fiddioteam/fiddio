@@ -1,12 +1,6 @@
 var url = require('url');
     _   = require('lodash');
 
-module.exports.resolveUrl = function() {
-  return [].slice.call(arguments, 1).reduce(function(memo, path) {
-    return url.resolve(memo, path);
-  }, arguments[0]);
-};
-
 module.exports.getId = function(req) {
   return module.exports.getUrlParamNums(req, 'id').id;
 };
