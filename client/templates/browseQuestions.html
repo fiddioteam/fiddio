@@ -3,8 +3,8 @@
   <h3>Browse Questions</h3>
   <span><input type="search" placeholder="Search" ng-model="search"></span>
   <hr>
-  <ul>
-    <li ng-repeat="question in browse.questions | filter:search">
+  <ul class="list-group">
+    <li class="list-group-item" ng-repeat="question in browse.questions | filter:search">
       <span><strong>{{ question.owner.name }}:</strong> {{ question.title }} –</span>
     Stars: {{ question.star_count }} –</span>
       <a ui-sref="question({ questionID: question.id })">Question {{ question.id }}</a>
