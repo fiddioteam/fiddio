@@ -1,15 +1,13 @@
 <div>
   <div ng-if="comments.length > 0">
-    <ul>
-      <li ng-repeat="comment in comments">
-        <span>{{ comment.body }}</span><br>
-        <span>– {{ comment.owner.name }}</span>
+    <ul class="list-group">
+      <li ng-repeat="comment in comments" class="list-group-item">
+        <span><span class="comment-body">{{ comment.body }}</span> {{ comment.owner.name }} {{ comment.created_at | date:'short' }}</span>
 
         <div ng-if="comment.parent_type !== 'comment' && comment.comments.length > 0">
-          <ul>
-            <li ng-repeat="subcomment in comment.comments">
-              <span>{{ subcomment.body }}</span><br>
-              <span>– {{ subcomment.owner.name }}</span>
+          <ul class="list-group">
+            <li ng-repeat="subcomment in comment.comments" class="list-group-item">
+              <span><span class="comment-body">{{ subcomment.body }}</span> {{ subcomment.owner.name }} {{ subcomment.created_at | date:'short' }}</span>
             </li>
           </ul>
         </div>
@@ -19,12 +17,12 @@
             <submit-comment parent-id="{{ comment.id }}" parent-type="comment"></submit-comment>
           </div>
           <div ng-if="!comment.reply">
-            <a href ng-click="replyToComment(comment)">Reply</a>
+            <button class="btn btn-primary btn-xs" ng-click="replyToComment(comment)">Reply</button>
           </div>
         </div>
 
         <div ng-if="!userData.authenticated">
-          <a ui-sref="login">Login to reply</a>
+          <button class="btn btn-primary btn-xs" ui-sref="login">Login to Reply</button>
         </div>
 
       </li>
