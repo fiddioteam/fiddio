@@ -13,7 +13,7 @@ module.exports = function(app) {
   passport.use(new GithubStrategy({
     clientID: process.isDev() ? process.env.ghApiIdDev : process.env.ghApiId,
     clientSecret: process.isDev() ? process.env.ghApiSecretDev : process.env.ghApiSecret,
-    callbackUrl: utility.resolveUrl('http://', urlAbsolute, '/api/gh/callback'),
+    callbackUrl: 'http://' + urlAbsolute + '/api/gh/callback',
     enableProof: false,
     passReqToCallback: true
   }, db.model('User').ghAuthentication));
@@ -21,7 +21,7 @@ module.exports = function(app) {
   passport.use(new FacebookStrategy({
     clientID: process.isDev() ? process.env.fbApiIdDev : process.env.fbApiId,
     clientSecret: process.isDev() ? process.env.fbApiSecretDev : process.env.fbApiSecret,
-    callbackUrl: utility.resolveUrl('http://', urlAbsolute, '/api/fb/callback'),
+    callbackUrl: 'http://' + urlAbsolute + '/api/fb/callback',
     enableProof: false,
     passReqToCallback: true,
     profileFields: ['id', 'email', 'first_name', 'last_name']
@@ -31,7 +31,7 @@ module.exports = function(app) {
     passport.use(new MakerpassStrategy({
       clientID: process.env.mpApiId,
       clientSecret: process.env.mpApiSecret,
-      callbackURL: utility.resolveUrl('http://', urlAbsolute, '/api/mp/callback'),
+      callbackURL: 'http://' + urlAbsolute + '/api/mp/callback',
       enableProof: false,
       passReqToCallback: true,
     }, db.model('User').mpAuthentication));
