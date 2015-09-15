@@ -1,16 +1,26 @@
 <section>
-  
-  <h3>Browse Questions</h3>
-  <span><input class="form-control" type="search" placeholder="Search" ng-model="search"></span>
-  <hr>
-  <ul class="list-group">
-    <li class="list-group-item" ng-repeat="question in browse.questions | filter:search">
-      <span><strong>{{ question.owner.name }}:</strong> {{ question.title }} –</span>
-    Stars: {{ question.star_count }} –</span>
-      <a ui-sref="question({ questionID: question.id })">Question {{ question.id }}</a>
-    </li>
-  </ul>
-  <span ng-if="(browse.questions|filter:search).length === 0">There are no results matching your search</span>
-
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h3>Browse Questions</h3>
+        <span><input class="form-control" type="search" placeholder="Search" ng-model="search"></span>
+        <hr>
+        <ul class="list-group">
+          <li class="list-group-item browse" ng-repeat="question in browse.questions | filter:search" ui-sref="question({ questionID: question.id })" >
+          <div class="row">
+            <div class="col-md-2">
+              <div><i class="fa fa-star"></i> {{ question.star_count }}</div>
+              <div><i class="fa fa-youtube-play"></i> {{question.response_count}}</div>
+            </div>
+            <div class="col-md-10"></div>
+              <span>{{ question.title }}</span>
+              <span class="poster_name">{{ question.owner.name }}</span>
+          </div>
+          </li>
+        </ul>
+        <span ng-if="(browse.questions|filter:search).length === 0">There are no results matching your search</span>
+      </div>
+    </div>
+  </div>
 </section>
 
