@@ -25,13 +25,35 @@ body {
 }
 
 main {
-  padding-top: 100px;
+  padding-top: 80px;
   min-height: 100%;
-  padding-bottom: 100px;
+  padding-bottom: 80px;
 }
 
 .browse:hover {
   cursor: pointer;
+  background-color: #408E95;
+  color: #ffffff;
+}
+
+.logo {
+  max-width: 400px;
+}
+
+.tealBorder {
+  border-style: solid;
+  border-color: #99d4da;
+}
+
+.vCenter {
+  transform: translateY(50%);
+}
+
+.fixedBg {
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 /**
  * Typewriter
