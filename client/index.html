@@ -18,13 +18,17 @@
       <div class="container-fluid">
       <div class="navbar-header">
         <a class="navbar-brand" href ui-sref="home">
-        <i class="fa fa-code"></i><span id="fiddio">   fidd.io</span>
+        <i class="fa fa-home"></i> Home
+          <!-- <i class="fa fa-code"></i><span id="fiddio">   fidd.io</span> -->
+          <!-- <img class="logo" src="./img/fiddioLogoWhite.png" alt="fidd.io"> -->
+          <!-- <div class="ratio" style="background-image:url('./img/fiddioLogoWhite.png');">dsfasd</div> -->
         </a>
       </div>
         <ul class="nav navbar-nav navbar-right">
 
-          <li><a ui-sref="browse-questions">Browse</a></li>
           <li><a ui-sref="ask">Ask</a></li>
+          <li><a ui-sref="browse-questions">Browse</a></li>
+          <li><a ui-sref="faq">FAQ</a></li>
           <li ng-show="!userData.authenticated"><a ui-sref="login">Login</a></li>
           <li ng-show="userData.authenticated"><a href ng-click="nav.logout()">Logout</a></li>
         </ul>
@@ -43,7 +47,7 @@
         <ul class="nav navbar-nav">
           <li><a ui-sref="about">About</a></li>
           <li><a ui-sref="team">Team</a></li>
-          <li><a ui-sref="faq">FAQ</a></li>
+          <!-- <li><a ui-sref="faq">FAQ</a></li> -->
           <li><a ui-sref="contact">Contact</a></li>
         </ul>
       </div>

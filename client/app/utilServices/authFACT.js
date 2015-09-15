@@ -5,9 +5,13 @@ angular.module('fiddio')
   function checkAuth() {
     return $http({method : 'GET', url: '/api/user/info'})
     .then(function(response){
-      $rootScope.userData.setItem( "authenticated", response.data.authenticated );
-      $rootScope.userData.setItem( "userInfo", response.data );
-      $rootScope.userData.authenticated = response.data.authenticated;
+      var userInfo = $rootScope.userData.getItem('userInfo') || {};
+      angular.forEach(response.data, function(v, k) {
+        userInfo[k] = v;
+      });
+      $rootScope.userData.setItem('userInfo', userInfo);
+      $rootScope.userData.authenticated = userInfo.authenticated;
+
       return response;
     }, function(response){
       console.log("Error in authorization check", response.status, response.data);
@@ -25,11 +29,13 @@ angular.module('fiddio')
    * Notes: '!memo[0]' is shorthand for memo.length > 0
    */
   function getProfileId() {
-    var userInfo = $rootScope.userData.getItem('userData');
-    return (userInfo &&
-      authMethods.reduce(function(memo, item) {
-        return (!memo[0] && memo) || (!(userInfo[item + '_id'] + '')[0] && item);
-      }, '')) || null;
+    var userInfo = $rootScope.userData.getItem('userInfo');
+    for (var i = 0; i < authMethods.length; i++) {
+      var id = userInfo[authMethods[i] + '_id'];
+      if (id) { return authMethods[i]; }
+    }
+
+    return null;
   }
 
   return {

@@ -2,8 +2,13 @@
   <div class="container">
     <div class="row">
       <div class="col-md-8 col-md-offset-2">
-        <h3>Browse Questions</h3>
-        <span><input class="form-control" type="search" placeholder="Search" ng-model="search"></span>
+        <div class="page-header">
+          <h2>Browse Questions</h2>
+          <p>You can search through the list of questions submitted by other fiddio members. Click on one to view more details.</p>
+        </div>
+      </div> <!-- end of col-md-8 -->
+      <div class="col-md-8 col-md-offset-2">
+        <span><input class="form-control tealBorder" type="search" placeholder="Search" ng-model="search"></span>
         <hr>
         <ul class="list-group">
           <li class="list-group-item browse" ng-repeat="question in browse.questions | filter:search" ui-sref="question({ questionID: question.id })" >
@@ -12,9 +17,10 @@
               <div><i class="fa fa-star"></i> {{ question.star_count }}</div>
               <div><i class="fa fa-youtube-play"></i> {{question.response_count}}</div>
             </div>
-            <div class="col-md-10"></div>
+            <div class="col-md-10">
               <span>{{ question.title }}</span>
-              <span class="poster_name">{{ question.owner.name }}</span>
+              <div class="poster_name pull-right">{{ question.owner.name }}</div>
+            </div>
           </div>
           </li>
         </ul>

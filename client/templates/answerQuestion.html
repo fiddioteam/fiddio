@@ -17,7 +17,7 @@
         <button class="btn btn-warning btn-sm" ng-if="answer.currentlyRecording()" ng-click="answer.pauseRecording()">Pause</button>
         <button class="btn btn-danger btn-sm" ng-if="answer.currentlyRecording()" ng-click="answer.stopRecording()">Stop</button>
         <form novalidate style="margin-top: 8px;">
-          <textarea class="form-control" cols="30" rows="3" placeholder="Description" ng-model="answer.description"></textarea>
+          <textarea class="form-control tealBorder" cols="30" rows="3" placeholder="Description" ng-model="answer.description"></textarea>
         </form>
         <button class="btn btn-success btn-xs" ng-click="answer.uploadChanges()">Submit</button>
       </div> <!-- end of col-md-8 -->
