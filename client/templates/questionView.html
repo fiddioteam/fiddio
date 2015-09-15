@@ -24,13 +24,13 @@
           <comment-list parent-id="{{ qv.question.id }}" parent-type="question"></comment-list>
         </comment-section>
 
-        <ul>
-          <li ng-repeat="answer in qv.answers">
+        <ul class="list-group">
+          <li class="list-group-item" ng-repeat="answer in qv.answers">
             <span><strong>User:</strong> {{ answer.owner.name }}</span><br>
             <span><strong>Duration:</strong> {{ answer.duration | date:'mm:ss' }}</span><br>
             <span><strong>Votes:</strong> {{ answer.vote_count }}</span><br>
             <p>Description: {{answer.body}}</p>
-            <button ui-sref="watch({ questionID: {{ answer.question_id }}, answerID: {{ answer.id }}})">Watch Answer</button>
+            <button class="btn btn-primary btn-xs" ui-sref="watch({ questionID: {{ answer.question_id }}, answerID: {{ answer.id }}})">Watch Answer</button>
           </li>
         </ul>
       </div>
