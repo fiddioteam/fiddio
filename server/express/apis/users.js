@@ -8,11 +8,7 @@ require('../../bookshelf/collections/questions');
 
 module.exports = function(app, router) {
 
-  router.get('/fb', function(req, res, next) {
-    req.session.redirect = url.parse(req.url, true).query.redirect;
-    next();
-  },
-  passport.authenticate('facebook', {
+  router.get('/fb', passport.authenticate('facebook', {
     scope: ['public_profile', 'email'],
   }));
 
@@ -21,26 +17,17 @@ module.exports = function(app, router) {
       if (err) {
         return next(err);
       }
-      var redirect = req.session.redirect;
-      req.session.redirect = undefined;
       req.logIn(user, function(err) {
         if (err) {
           return next(err);
         }
-        if (redirect) {
-          res.redirect( '/#' + redirect );
-        } else {
-          res.redirect('/');
-        }
+
+        res.redirect( '/#/auth' );
       });
     })(req, res, next);
   });
 
-  router.get('/gh', function(req, res, next) {
-    //req.session.redirect = url.parse(req.url, true).query.redirect;
-    next();
-  },
-  passport.authenticate('github', {
+  router.get('/gh', passport.authenticate('github', {
     scope: ['user:email']
   }));
 
@@ -49,8 +36,23 @@ module.exports = function(app, router) {
       if (err) {
         return next(err);
       }
-      var redirect = req.session.redirect;
-      req.session.redirect = undefined;
+      req.logIn(user, function(err) {
+        if (err) {
+          return next(err);
+        }
+
+        res.redirect( '/#/auth' );
+      });
+    })(req, res, next);
+  });
+
+  router.get('/mp', passport.authenticate('makerpass'));
+
+  router.get('/mp/callback', function(req, res, next) {
+    passport.authenticate('makerpass', function(err, user, info) {
+      if (err) {
+        return next(err);
+      }
       req.logIn(user, function(err) {
         if (err) {
           return next(err);

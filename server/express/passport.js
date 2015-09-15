@@ -1,8 +1,9 @@
-var utility          = require('../utility'),
-    passport         = require('passport'),
-    GithubStrategy   = require('passport-github2').Strategy,
-    FacebookStrategy = require('passport-facebook').Strategy,
-    db               = require('../bookshelf/config');
+var utility           = require('../utility'),
+    passport          = require('passport'),
+    GithubStrategy    = require('passport-github2').Strategy,
+    FacebookStrategy  = require('passport-facebook').Strategy,
+    MakerpassStrategy = require('passport-makerpass').Strategy,
+    db                = require('../bookshelf/config');
 // load user model class
                     require('../bookshelf/models/user');
 
@@ -25,6 +26,16 @@ module.exports = function(app) {
     passReqToCallback: true,
     profileFields: ['id', 'email', 'first_name', 'last_name']
   }, db.model('User').fbAuthentication));
+
+  if (process.isProd()) {
+    passport.use(new MakerpassStrategy({
+      clientID: process.env.mpApiId,
+      clientSecret: process.env.mpApiSecret,
+      callbackURL: utility.resolveUrl('http://', urlAbsolute, '/api/mp/callback'),
+      enableProof: false,
+      passReqToCallback: true,
+    }, db.model('User').mpAuthentication));
+  }
 
   passport.serializeUser(db.model('User').serializeUser);
   passport.deserializeUser(db.model('User').deserializeUser);

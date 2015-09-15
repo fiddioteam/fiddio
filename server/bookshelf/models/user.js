@@ -123,6 +123,33 @@ var User = db.Model.extend({
     .then( function(user) {
       done(null, user);
     });
+  },
+
+  mpAuthentication: function(req, accessToken, refreshToken, profile, done) {
+    db.model('User').fetchUserbyGHId(profile.id)
+    .then(function(user) {
+      if (!req.user || req.user.get('email') === user.get('email')) {
+        return user;
+      }
+
+      return false;
+    })
+    .catch(function(error) {
+      var user = req.user || db.model('User').newUser({ name: profile.name || '' });
+
+      if (user) {
+        user.set('mp_id', profile.id);
+        user.set('email', profile.email);
+        user.set('profile_pic', profile.avatar_url);
+
+        return user.save();
+      }
+
+      return false;
+    })
+    .then( function(user) {
+      done(null, user);
+    });
   }
 });
 
