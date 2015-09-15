@@ -130,7 +130,7 @@ var User = db.Model.extend({
 
     db.model('User').fetchUserbyMPId(profile.id, true)
     .then(function(user) {
-      return user || db.model('User').fetchUser(email, true);
+      return user || db.model('User').fetchUser(profile.email, true);
     })
     .then(function(user) {
       return user || db.model('User').newUser({ name: profile.name, email: profile.email });
