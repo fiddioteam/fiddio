@@ -1,15 +1,26 @@
 <section>
-  <div>
-    <div
-      ui-ace="answer.recordOptions"
-      style="height: 300px;">
-    </div>
-    <button class="btn btn-primary btn-sm"  ng-if="!answer.currentlyRecording()" ng-click="answer.startRecording()">Start</button>
-    <button class="btn btn-primary btn-sm" ng-if="answer.currentlyRecording()" ng-click="answer.pauseRecording()">Pause</button>
-    <button class="btn btn-primary btn-sm" ng-if="answer.currentlyRecording()" ng-click="answer.stopRecording()">Stop</button>
-    <form novalidate style="margin-top: 8px;">
-      <textarea class="form-control" cols="30" rows="3" placeholder="Description" ng-model="answer.description"></textarea>
-    </form>
-    <button class="btn btn-primary btn-xs" ng-click="answer.uploadChanges()">Submit</button>
-  </div>
+  <div class="container">
+  <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="page-header">
+          <h2>Record your Answer</h2>
+        </div>
+      </div> <!-- end of col-md-8 -->
+    </div> <!-- end of row -->
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <div
+          ui-ace="answer.recordOptions"
+          style="height: 300px;">
+        </div>
+        <button class="btn btn-info btn-sm"  ng-if="!answer.currentlyRecording()" ng-click="answer.startRecording()">Record</button>
+        <button class="btn btn-warning btn-sm" ng-if="answer.currentlyRecording()" ng-click="answer.pauseRecording()">Pause</button>
+        <button class="btn btn-danger btn-sm" ng-if="answer.currentlyRecording()" ng-click="answer.stopRecording()">Stop</button>
+        <form novalidate style="margin-top: 8px;">
+          <textarea class="form-control" cols="30" rows="3" placeholder="Description" ng-model="answer.description"></textarea>
+        </form>
+        <button class="btn btn-success btn-xs" ng-click="answer.uploadChanges()">Submit</button>
+      </div> <!-- end of col-md-8 -->
+    </div> <!-- end of row -->
+  </div> <!-- end of container-->
 </section>
