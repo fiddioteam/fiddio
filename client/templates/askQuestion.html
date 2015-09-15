@@ -1,18 +1,40 @@
-<section>
+<!-- <section>
 
-  <h3>Ask a question</h3>
-  <p>Having trouble with your code? Ask the Fidd.io community for help</p>
 
-    <div
-      ui-ace="ask.askOptions"
-      style="height: 300px;">
-    </div>
+
+
+
     <form novalidate style="margin-top: 8px;">
       <input type="text" placeholder="Title" ng-model="ask.question.title" style="display: block; margin-bottom: 3px;">
       <textarea name="" id="" cols="30" rows="10" placeholder="Description" ng-model="ask.question.body"></textarea>
       <input type="submit" ng-click="ask.submitQuestion(question)" value="Submit">
     </form>
 
-</section>
+</section> -->
 
 
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <h3>Ask a question</h3>
+    </div>
+    <div class="col-md-8 col-md-offset-2">
+      <p>Having trouble with your code? Ask the Fidd.io community for help!</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div
+        ui-ace="ask.askOptions"
+        style="height: 300px;">
+      </div>
+    </div>
+    <div class="col-md-8 col-md-offset-2">
+      <div class="form-group">
+        <input type="text" value="" placeholder="Title" class="form-control" ng-model="ask.question.title" />
+        <textarea class="form-control" placeholder="Description" rows="3" ng-model="ask.question.body"></textarea>
+        <button class="btn btn-primary" ng-click="ask.submitQuestion(question)">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>

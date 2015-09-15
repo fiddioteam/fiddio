@@ -1,5 +1,11 @@
-/* insert style*/
-/* All the keyframes 'vendor prefix' versions: */
+main {
+  padding-top: 100px;
+  min-height: 100%;
+  padding-bottom: 100px;
+}
+/**
+ * Typewriter
+ */
 @-webkit-keyframes blink-it {
   0% {
     opacity: 1;
