@@ -109,7 +109,7 @@ var User = db.Model.extend({
       return user || db.model('User').fetchUser(email, true);
     })
     .then(function(user) {
-      return user || db.model('User').newUser({ name: profile.name.displayName || '', email: email });
+      return user || db.model('User').newUser({ name: profile.displayName || '', email: email });
     })
     .then(function(user) {
       user.set('gh_id', profile.id);
