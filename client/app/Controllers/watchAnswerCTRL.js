@@ -17,6 +17,12 @@ angular.module('fiddio')
       }
     });
 
+    $scope.$on('$destroy', function() {
+      angularPlayer.stop();
+      angularPlayer.setCurrentTrack(null);
+      angularPlayer.clearPlaylist();
+    });
+
     vm.playRecording = function() {
       _changes = _changes || answer.code_changes;
       if (!angularPlayer.getCurrentTrack()) {
