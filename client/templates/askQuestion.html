@@ -16,13 +16,26 @@
         </div>
       </div>
       <div class="col-md-8 col-md-offset-2">
-        <div class="form-group">
+        <form class="form-group" novalidate name="askQuestionForm">
+
           <p>Give your post a title:</p>
-          <input type="text" value="" placeholder="Title" class="form-control tealBorder" ng-model="ask.question.title" />
+          <input type="text"
+                 placeholder="Title"
+                 class="form-control tealBorder"
+                 ng-model="ask.question.title"
+                 required/>
+
           <p>Write a short description of the problem you're facing.</p>
-          <textarea class="form-control tealBorder" placeholder="Description" rows="3" ng-model="ask.question.body"></textarea>
-          <button class="btn btn-primary" ng-click="ask.submitQuestion(question)">Submit</button>
-        </div>
+          <textarea class="form-control tealBorder"
+                    placeholder="Description"
+                    rows="3"
+                    ng-model="ask.question.body"
+                    required>
+          </textarea>
+
+          <button class="btn btn-primary" ng-disabled="askQuestionForm.$invalid" ng-click="ask.submitQuestion(ask.question)">Submit</button>
+
+        </form>
       </div>
     </div>  <!-- end of row -->
   </div> <!-- end of container -->
