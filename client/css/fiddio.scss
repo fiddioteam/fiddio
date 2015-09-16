@@ -25,9 +25,8 @@ body {
 }
 
 main {
-  padding-top: 80px;
+  padding-top: 90px;
   min-height: 100%;
-  padding-bottom: 80px;
 }
 
 .browse:hover {
@@ -37,7 +36,15 @@ main {
 }
 
 .logo {
-  max-width: 400px;
+  width: 400px;
+}
+
+.whiteText {
+  color: #ffffff;
+}
+
+.tealText {
+  color: #408E95;
 }
 
 .tealBorder {
@@ -45,9 +52,11 @@ main {
   border-color: #99d4da;
 }
 
-.vCenter {
-  transform: translateY(50%);
+.vAlignChildren {
+  display: flex;
+  align-contents: center;
 }
+
 
 .fixedBg {
   background-size: cover;
