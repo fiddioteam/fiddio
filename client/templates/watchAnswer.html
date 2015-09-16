@@ -2,7 +2,7 @@
 <div class="container">
   <div class="row">
     <div class="row">
-      <div class="col-md-8 col-md-offset-2">
+      <div class="col-md-10 col-md-offset-1">
         <div class="page-header">
           <div class="pull-right">
             <h3>
@@ -14,18 +14,18 @@
         </div>
       </div> <!-- end of col-md-8 -->
     </div> <!-- end of row -->
-    <div class="col-md-8 col-md-offset-2">
+    <div class="col-md-10 col-md-offset-1">
       <sound-manager></sound-manager>
       <div
         ui-ace="watch.playbackOptions"
         style="height: 300px;">
       </div>
 
-      <div class="row">
-        <div class="col-md-1">
-          <button class="btn btn-primary btn-sm vCenter"  ng-if="!watch.isPlaying && !watch.replay" ng-click="watch.playRecording()">Play</button>
-          <button  class="btn btn-primary btn-sm vCenter" ng-if="watch.isPlaying && !watch.replay" ng-click="watch.pauseRecording()">Pause</button>
-          <button class="btn btn-primary btn-sm vCenter"  ng-if="watch.replay" ng-click="watch.replayRecording()">Replay</button>
+      <div class="row flex">
+        <div class="col-md-1 vAlign">
+          <button class="btn btn-primary btn-sm"  ng-if="!watch.isPlaying && !watch.replay" ng-click="watch.playRecording()">Play</button>
+          <button  class="btn btn-primary btn-sm" ng-if="watch.isPlaying && !watch.replay" ng-click="watch.pauseRecording()">Pause</button>
+          <button class="btn btn-primary btn-sm"  ng-if="watch.replay" ng-click="watch.replayRecording()">Replay</button>
         </div>
         <div class="col-md-11">
           <span>{{ currentPostion || '00:00'}} / {{ currentDuration || '00:00'}}</span>

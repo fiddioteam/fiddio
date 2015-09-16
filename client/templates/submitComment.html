@@ -1,7 +1,7 @@
 <section>
   <div>
     <div ng-if="userData.authenticated">
-      
+
       <textarea class="form-control tealBorder"
                 cols="30"
                 rows="3"
@@ -9,13 +9,12 @@
                 ng-model="commentBody">
       </textarea>
       <button ng-disabled="!commentBody"
-              class="btn btn-primary btn-xs"
+              class="btn btn-primary btn-xs pull-right"
               ng-click="postComment()">Comment</button>
-      
-      <hr>
+
     </div>
     <div ng-if="!userData.authenticated">
-      <button class="btn btn-primary btn-xs" ui-sref="login">Login to Comment</button>
+      <button class="btn btn-primary btn-xs pull-right" ui-sref="login">Login to Comment</button>
     </div>
   </div>
 </section>

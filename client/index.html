@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
   <!-- injector:bower:css -->
   <!-- endinjector -->
   <!-- injector:css -->
@@ -25,12 +27,11 @@
         </a>
       </div>
         <ul class="nav navbar-nav navbar-right">
-
-          <li><a ui-sref="ask">Ask</a></li>
-          <li><a ui-sref="browse-questions">Browse</a></li>
-          <li><a ui-sref="faq">FAQ</a></li>
-          <li ng-show="!userData.authenticated"><a ui-sref="login">Login</a></li>
-          <li ng-show="userData.authenticated"><a href ng-click="nav.logout()">Logout</a></li>
+          <li><a class="navLink" href ui-sref="ask">Ask</a></li>
+          <li><a class="navLink" href ui-sref="browse-questions">Browse</a></li>
+          <li><a class="navLink" href ui-sref="faq">FAQ</a></li>
+          <li ng-show="!userData.authenticated"><a class="navLink" href ui-sref="login">Login</a></li>
+          <li ng-show="userData.authenticated"><a class="navLink" href ng-click="nav.logout()">Logout</a></li>
         </ul>
       </div>
     </nav>
@@ -47,7 +48,6 @@
         <ul class="nav navbar-nav">
           <li><a ui-sref="about">About</a></li>
           <li><a ui-sref="team">Team</a></li>
-          <!-- <li><a ui-sref="faq">FAQ</a></li> -->
           <li><a ui-sref="contact">Contact</a></li>
         </ul>
       </div>

@@ -2,7 +2,7 @@ angular.module('fiddio')
   .directive('votes', ['$http', '$rootScope', function($http, $rootScope) {
     return {
       restrict: 'E',
-      template: '<div><span ng-if="userData.authenticated"><i class="fa fa-chevron-circle-up" ng-click="vote(1)"></i> <i class="fa fa-chevron-circle-down" ng-click="vote(-1)"></i></span><a ui-sref="login" ng-if="!userData.authenticated">Login to vote</a></div>',
+      template: '<div><span ng-if="userData.authenticated"><i class="fa fa-chevron-circle-up" ng-click="vote(1)"></i> <i class="fa fa-chevron-circle-down" ng-click="vote(-1)"></i></span></div>',
       replace: true,
       scope: {
         responseId: '@'
