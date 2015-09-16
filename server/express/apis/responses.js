@@ -67,15 +67,15 @@ module.exports = function(app, router) {
         return [response.id, response
         .related('question')
         .fetch({ require: true })];
-      } else {
-        res.json({ result: false }); // Bad Request
       }
     })
     .spread( function(responseId, question) {
-      return question.markSolution(responseId);
+      if (responseId && question) {
+        return question.markSolution(responseId);
+      }
     })
     .then( function(question) {
-      res.json({ result: true });
+      res.json({ result: !!question });
     })
     .catch(function(err){
       res.sendStatus(500); // Uh oh!
