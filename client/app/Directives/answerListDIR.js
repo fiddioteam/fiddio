@@ -16,14 +16,16 @@ angular.module('fiddio')
       });
 
       scope.markAsSolution = function(answerid) {
-        $timeout(function() {
-          $http({ method: 'POST', url: '/api/response/' + answerid + '/mark' })
-          .then(function(response) {
-            if (response.data.result) {
-              scope.solution = answerid;
-            }
+        if (scope.userData.authenticated && scope.userId == scope.userData.getItem('userInfo').id) {
+          $timeout(function() {
+            $http({ method: 'POST', url: '/api/response/' + answerid + '/mark' })
+            .then(function(response) {
+              if (response.data.result) {
+                scope.solution = answerid;
+              }
+            });
           });
-        });
+        }
       };
     }
   };
