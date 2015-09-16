@@ -2,8 +2,7 @@
 /*           Font Smoothing      */
 h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, a, .td-name, td {
   -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  font-family: 'Montserrat', "Helvetica", Arial, sans-serif; }
+  -webkit-font-smoothing: antialiased; }
 
 h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
   font-weight: 400;
@@ -1286,7 +1285,6 @@ textarea.form-control {
     filter: alpha(opacity=100); }
 .navbar-transparent .navbar-nav > li > a:not(.btn), [class*="navbar-ct"] .navbar-nav > li > a:not(.btn) {
   color: #FFFFFF;
-  border-color: #FFFFFF;
   opacity: 0.8;
   filter: alpha(opacity=80); }
 .navbar-transparent .navbar-nav > .active > a:not(.btn),
@@ -2475,11 +2473,11 @@ textarea.form-control {
  * http://www.apache.org/licenses/LICENSE-2.0
  *
  */
-/*  
+/*
  *
  *   SCSS by Creative Tim
  *   http://www.creative-tim.com
- *   
+ *
  */
 .datepicker {
   top: 0;

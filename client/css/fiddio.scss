@@ -7,6 +7,7 @@ html {
 
 body {
   margin: 0 0 100px;
+  font-family: 'Lato', sans-serif;
 }
 
 .fixed-footer {
@@ -16,12 +17,6 @@ body {
   height: 100px;
   width: 100%;
   margin-bottom: 0;
-}
-
-#fiddio {
-  font-family: 'Dosis', sans-serif;
-  font-weight: 500;
-  font-size: 30px;
 }
 
 main {
@@ -37,6 +32,21 @@ main {
 
 .logo {
   width: 400px;
+  max-height: 400px;
+  text-align: center;
+}
+
+.code {
+  font-family: 'Source Code Pro', ;
+}
+
+.navLink {
+ color: #ffffff;
+ border-bottom: solid rgba(0,0,0,0);
+}
+
+.navLink:hover{
+  border-bottom: solid #ffffff;
 }
 
 .whiteText {
@@ -55,6 +65,14 @@ main {
 .vAlignChildren {
   display: flex;
   align-contents: center;
+}
+
+.vAlign {
+  align-self: center;
+}
+
+.flex {
+  display: flex;
 }
 
 

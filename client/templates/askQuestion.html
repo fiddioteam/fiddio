@@ -1,7 +1,7 @@
 <section>
   <div class="container">
     <div class="row">
-      <div class="col-md-8 col-md-offset-2">
+      <div class="col-md-10 col-md-offset-1">
         <div class="page-header">
           <h2>Ask a Question</h2>
           <p>Having trouble with your code? Ask the Fidd.io community for help!</p>
@@ -9,13 +9,13 @@
       </div> <!-- end of col-md-8 -->
     </div> <!-- end of row -->
     <div class="row">
-      <div class="col-md-8 col-md-offset-2">
+      <div class="col-md-10 col-md-offset-1">
         <div
           ui-ace="ask.askOptions"
           style="height: 300px;">
         </div>
       </div>
-      <div class="col-md-8 col-md-offset-2">
+      <div class="col-md-10 col-md-offset-1">
         <form class="form-group" novalidate name="askQuestionForm">
 
           <p>Give your post a title:</p>
@@ -33,7 +33,7 @@
                     required>
           </textarea>
 
-          <button class="btn btn-primary" ng-disabled="askQuestionForm.$invalid" ng-click="ask.submitQuestion(ask.question)">Submit</button>
+          <button class="btn btn-primary pull-right" ng-disabled="askQuestionForm.$invalid" ng-click="ask.submitQuestion(ask.question)">Submit</button>
 
         </form>
       </div>
