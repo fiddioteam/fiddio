@@ -67,6 +67,8 @@ module.exports = function(app, router) {
         return [response.id, response
         .related('question')
         .fetch({ require: true })];
+      } else {
+        res.json({ result: false }); // Bad Request
       }
     })
     .spread( function(responseId, question) {
@@ -87,7 +89,6 @@ module.exports = function(app, router) {
     db.model('Question')
     .fetchQuestionbyId(req.body.id)
     .then( function(question) {
-      console.log('BODY INSIDE API', req.body.body);
       return [question, db.model('Response').newResponse({
         //title: req.body.title,
         body: req.body.body,

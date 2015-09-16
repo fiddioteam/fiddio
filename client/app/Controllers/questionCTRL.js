@@ -15,12 +15,6 @@ angular.module('fiddio')
     vm.displayOptions = QuestionDisplayFactory.displayOptions;
     QuestionDisplayFactory.setCode(vm.question.code);
 
-    DataPackager.downloadResponses($rootScope.$stateParams.questionID)
-    .success(function(data, status, headers, config){
-      console.log('Responses', data);
-      vm.answers = data.responses;
-    });
-
     vm.answerQuestion = function() {
       $rootScope.$state.go('answer',{ questionID: $rootScope.$stateParams.questionID });
     };
