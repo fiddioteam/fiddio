@@ -30,7 +30,7 @@ angular.module('fiddio', [
             .then(function(response){
               if(!response.data.authenticated) {
 
-                if($rootScope.toState.doNotRedirect) { // Login or auth
+                if($rootScope.toState.doNotRedirect) { // Login, auth, or logout
                   if ( $rootScope.toState.name === 'login' ) { // Automatically attempt to authenticate if possible
                     var profileId = Authentication.getProfileId();
                     if (profileId) { $window.location.href = '/api/' + profileId; }
@@ -71,25 +71,7 @@ angular.module('fiddio', [
       .state('auth', {
         url: '/auth',
         template: '<div ui-view />',
-        doNotRedirect: true,
-        /*onEnter: ['$rootScope', '$timeout', function($rootScope, $timeout) {
-
-            $timeout( function() {
-              var authRedirect = $rootScope.userData.getItem('authRedirect');
-              var authRedirect_params = $rootScope.userData.getItem('authRedirect_params');
-
-              $rootScope.userData.removeItem("authRedirect");
-              $rootScope.userData.removeItem("authRedirect_params");
-
-              if (authRedirect) {
-                console.log('Auth resolve and redirect', authRedirect, authRedirect_params);
-                $rootScope.$state.go(authRedirect, authRedirect_params);
-              } else {
-                $rootScope.$state.go('home');
-              }
-            });
-
-        }]*/
+        doNotRedirect: true
       })
       .state('login', {
         url: '/login',
@@ -149,8 +131,8 @@ angular.module('fiddio', [
       })
       .state('logout', {
         url: '/logout',
-        // doNotRedirect: true,
-        templateUrl: '../templates/logout.html'
+        templateUrl: '../templates/logout.html',
+        doNotRedirect: true,
       })
       .state('about', {
         url: '/about',

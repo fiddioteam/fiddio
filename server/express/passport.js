@@ -13,21 +13,23 @@ module.exports = function(app) {
   passport.use(new GithubStrategy({
     clientID: process.isDev() ? process.env.ghApiIdDev : process.env.ghApiId,
     clientSecret: process.isDev() ? process.env.ghApiSecretDev : process.env.ghApiSecret,
-    callbackUrl: 'http://' + urlAbsolute + '/api/gh/callback',
+    callbackURL: 'http://' + urlAbsolute + '/api/gh/callback',
     enableProof: false,
     passReqToCallback: true
   }, db.model('User').ghAuthentication));
 
+  process.verb('http://' + urlAbsolute + '/api/fb/callback');
+
   passport.use(new FacebookStrategy({
     clientID: process.isDev() ? process.env.fbApiIdDev : process.env.fbApiId,
     clientSecret: process.isDev() ? process.env.fbApiSecretDev : process.env.fbApiSecret,
-    callbackUrl: 'http://' + urlAbsolute + '/api/fb/callback',
+    callbackURL: 'http://' + urlAbsolute + '/api/fb/callback',
     enableProof: false,
     passReqToCallback: true,
-    profileFields: ['id', 'email', 'first_name', 'last_name']
+    profileFields: ['id', 'birthday', 'email', 'first_name', 'gender', 'last_name']
   }, db.model('User').fbAuthentication));
 
-  if (process.isProd()) {
+  //if (process.isProd()) {
     passport.use(new MakerpassStrategy({
       clientID: process.env.mpApiId,
       clientSecret: process.env.mpApiSecret,
@@ -35,7 +37,7 @@ module.exports = function(app) {
       enableProof: false,
       passReqToCallback: true,
     }, db.model('User').mpAuthentication));
-  }
+  //}
 
   passport.serializeUser(db.model('User').serializeUser);
   passport.deserializeUser(db.model('User').deserializeUser);
