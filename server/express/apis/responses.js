@@ -70,16 +70,13 @@ module.exports = function(app, router) {
       }
     })
     .spread( function(responseId, question) {
-      if (responseId && question) {
         return question.markSolution(responseId);
-      }
     })
     .then( function(question) {
-      res.json({ result: !!question });
+      res.json({ result: true });
     })
     .catch(function(err){
-      res.sendStatus(500); // Uh oh!
-      if (process.isDev()) { res.json({ error: err }); }
+      res.json({ result: false });
     });
   }
 
