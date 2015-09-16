@@ -23,8 +23,9 @@
 
       <div class="row">
         <div class="col-md-1">
-          <button class="btn btn-primary btn-sm vCenter"  ng-if="!watch.isPlaying" ng-click="watch.playRecording()">Play</button>
-          <button  class="btn btn-primary btn-sm vCenter" ng-if="watch.isPlaying" ng-click="watch.pauseRecording()">Pause</button>
+          <button class="btn btn-primary btn-sm vCenter"  ng-if="!watch.isPlaying && !watch.replay" ng-click="watch.playRecording()">Play</button>
+          <button  class="btn btn-primary btn-sm vCenter" ng-if="watch.isPlaying && !watch.replay" ng-click="watch.pauseRecording()">Pause</button>
+          <button class="btn btn-primary btn-sm vCenter"  ng-if="watch.replay" ng-click="watch.replayRecording()">Replay</button>
         </div>
         <div class="col-md-11">
           <span>{{ currentPostion || '00:00'}} / {{ currentDuration || '00:00'}}</span>
