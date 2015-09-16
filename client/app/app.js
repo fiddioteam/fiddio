@@ -71,25 +71,7 @@ angular.module('fiddio', [
       .state('auth', {
         url: '/auth',
         template: '<div ui-view />',
-        doNotRedirect: true,
-        /*onEnter: ['$rootScope', '$timeout', function($rootScope, $timeout) {
-
-            $timeout( function() {
-              var authRedirect = $rootScope.userData.getItem('authRedirect');
-              var authRedirect_params = $rootScope.userData.getItem('authRedirect_params');
-
-              $rootScope.userData.removeItem("authRedirect");
-              $rootScope.userData.removeItem("authRedirect_params");
-
-              if (authRedirect) {
-                console.log('Auth resolve and redirect', authRedirect, authRedirect_params);
-                $rootScope.$state.go(authRedirect, authRedirect_params);
-              } else {
-                $rootScope.$state.go('home');
-              }
-            });
-
-        }]*/
+        doNotRedirect: true
       })
       .state('login', {
         url: '/login',
