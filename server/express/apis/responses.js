@@ -63,20 +63,17 @@ module.exports = function(app, router) {
     db.model('Response')
     .fetchResponsebyId(req.body.id)
     .then( function(response) {
-      if (response.get('user_id') === req.user.id) {
-        return [response.id, response
-        .related('question')
-        .fetch({ require: true })];
-      }
+      return [response && response.id, response && response
+      .related('question')
+      .fetch({ require: true })];
     })
     .spread( function(responseId, question) {
+      if (responseId && question && question.get('user_id') === req.user.id) {
         return question.markSolution(responseId);
+      }
     })
     .then( function(question) {
-      res.json({ result: true });
-    })
-    .catch(function(err){
-      res.json({ result: false });
+      res.json({ result: !!question });
     });
   }
 
