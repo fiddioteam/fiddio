@@ -127,11 +127,6 @@ angular.module('fiddio')
     });
   }
 
-  function leaveComment(){
-    // make sure player is paused and leave text at video timestamp
-  }
-
-
   return {
     playbackOptions: playbackOptions,
     playActions: playActions,
