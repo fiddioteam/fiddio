@@ -30,7 +30,7 @@ angular.module('fiddio', [
             .then(function(response){
               if(!response.data.authenticated) {
 
-                if($rootScope.toState.doNotRedirect) { // Login or auth
+                if($rootScope.toState.doNotRedirect) { // Login, auth, or logout
                   if ( $rootScope.toState.name === 'login' ) { // Automatically attempt to authenticate if possible
                     var profileId = Authentication.getProfileId();
                     if (profileId) { $window.location.href = '/api/' + profileId; }
@@ -149,8 +149,8 @@ angular.module('fiddio', [
       })
       .state('logout', {
         url: '/logout',
-        // doNotRedirect: true,
-        templateUrl: '../templates/logout.html'
+        templateUrl: '../templates/logout.html',
+        doNotRedirect: true,
       })
       .state('about', {
         url: '/about',
