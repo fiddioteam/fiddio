@@ -2,12 +2,12 @@
   <div ng-if="comments.length > 0">
     <ul class="list-group">
       <li ng-repeat="comment in comments" class="list-group-item">
-      <div>
-        <span class="comment-body">{{ comment.body }}</span>
-        <div class="pull-right">
-          {{ comment.owner.name }} - {{ comment.created_at | date:'short' }}
+        <div>
+          <span class="comment-body">{{ comment.body }}</span>
+          <div class="pull-right">
+            {{ comment.owner.name }} - {{ comment.created_at | date:'short' }}
+          </div>
         </div>
-      </div>
 
         <div ng-if="comment.parent_type !== 'comment' && comment.comments.length > 0">
           <ul class="list-group">

@@ -63,21 +63,17 @@ module.exports = function(app, router) {
     db.model('Response')
     .fetchResponsebyId(req.body.id)
     .then( function(response) {
-      if (response.get('user_id') === req.user.id) {
-        return [response.id, response
-        .related('question')
-        .fetch({ require: true })];
-      }
+      return [response && response.id, response && response
+      .related('question')
+      .fetch({ require: true })];
     })
     .spread( function(responseId, question) {
-      return question.markSolution(responseId);
+      if (responseId && question && question.get('user_id') === req.user.id) {
+        return question.markSolution(responseId);
+      }
     })
     .then( function(question) {
-      res.json({ result: true });
-    })
-    .catch(function(err){
-      res.sendStatus(500); // Uh oh!
-      if (process.isDev()) { res.json({ error: err }); }
+      res.json({ result: !!question });
     });
   }
 
@@ -87,7 +83,6 @@ module.exports = function(app, router) {
     db.model('Question')
     .fetchQuestionbyId(req.body.id)
     .then( function(question) {
-      console.log('BODY INSIDE API', req.body.body);
       return [question, db.model('Response').newResponse({
         //title: req.body.title,
         body: req.body.body,

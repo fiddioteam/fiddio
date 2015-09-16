@@ -1,0 +1,15 @@
+<div>
+  <div ng-if="answers.length > 0">
+    <ul class="list-group">
+      <li ng-repeat="answer in answers" class="list-group-item">
+        <span><strong>User:</strong> {{ answer.owner.name }}</span><br>
+        <span><strong>Duration:</strong> {{ answer.duration | date:'mm:ss' }}</span><br>
+        <span><strong>Votes:</strong> {{ answer.vote_count }}</span><br>
+        <span><i class="fa" ng-class="{'fa-check-circle-o': solution == answer.id, 'fa-circle-o': solution != answer.id}" ng-click="markAsSolution(answer.id)"></i></span>
+        <p>Description: {{answer.body}}</p>
+        <button class="btn btn-primary btn-xs" ui-sref="watch({ questionID: {{ answer.question_id }}, answerID: {{ answer.id }}})">Watch Answer</button>
+
+      </li>
+    </ul>
+  </div>
+</div>

@@ -37,6 +37,7 @@
     "passport": "^0.3.0",
     "passport-facebook": "^2.0.0",
     "passport-github2": "^0.1.9",
+    "passport-makerpass": "^1.2.0",
     "pg": "^4.4.1"
   },
   "devDependencies": {

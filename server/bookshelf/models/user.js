@@ -29,19 +29,27 @@ var User = db.Model.extend({
     });
   },
 
-  fetchUserbyFBId: function(fbid) {
+  fetchUserbyFBId: function(fbid, notRequire) {
     return new this({
       fb_id: fbid
     }).fetch({
-      require: true
+      require: !notRequire
     });
   },
 
-  fetchUserbyGHId: function(ghid) {
+  fetchUserbyGHId: function(ghid, notRequire) {
     return new this({
       gh_id: ghid
     }).fetch({
-      require: true
+      require: !notRequire
+    });
+  },
+
+  fetchUserbyMPId: function(mpid, notRequire) {
+    return new this({
+      mp_id: mpid
+    }).fetch({
+      require: !notRequire
     });
   },
 
@@ -64,63 +72,76 @@ var User = db.Model.extend({
   },
 
   fbAuthentication: function(req, accessToken, refreshToken, profile, done) {
-    db.model('User').fetchUserbyFBId(profile.id)
+    if (req.user && req.user.get('fb_id') === profile.id) {
+      done(null, req.user);
+      return;
+    }
+
+    var email = (profile.emails && profile.emails[0].value) || '';
+
+    db.model('User').fetchUserbyFBId(profile.id, true)
     .then(function(user) {
-      //If the user wasn't found, we will go to the catch block.
-      if (!req.user || req.user.get('email') === user.get('email')) {
-        // Return the user from the ORM so it can be passed to done()
-        return user;
-      }
-
-      // We found a user, but it is not the right one.  Return false meaning not authorized.
-      return false;
+      return user || db.model('User').fetchUser(email, true);
     })
-    .catch( function(error) {
-      var user = req.user || db.model('User').newUser({ name: profile.name.givenName + ' ' + profile.name.familyName });
-
-      if (user) {
-        user.set('fb_id', profile.id);
-        if (profile.emails && profile.emails.length > 0) {
-          user.set('email', profile.emails[0].value);
-        }
-
-        // Return the saved user from the ORM so it can be passed to done()
-        return user.save();
-      }
-
-      // This should never happen.
-      return false;
+    .then(function(user) {
+      return user || db.model('User').newUser({ name: profile.name.givenName + ' ' + profile.name.familyName, email: email });
     })
-    .then( function(user) {
+    .then(function(user) {
+      user.set('fb_id', profile.id);
+
+      return user.save();
+    })
+    .then(function(user) {
       done(null, user);
     });
   },
 
   ghAuthentication: function(req, accessToken, refreshToken, profile, done) {
-    db.model('User').fetchUserbyGHId(profile.id)
+    if (req.user && req.user.get('gh_id') === profile.id) {
+      done(null, req.user);
+      return;
+    }
+
+    var email = (profile.emails && profile.emails[0].value) || '';
+
+    db.model('User').fetchUserbyGHId(profile.id, true)
     .then(function(user) {
-      if (!req.user || req.user.get('email') === user.get('email')) {
-        return user;
-      }
-
-      return false;
+      return user || db.model('User').fetchUser(email, true);
     })
-    .catch(function(error) {
-      var user = req.user || db.model('User').newUser({ name: profile.displayName || '' });
-
-      if (user) {
-        user.set('gh_id', profile.id);
-        if (profile.emails && profile.emails.length > 0) {
-          user.set('email', profile.emails[0].value);
-        }
-        user.set('profile_pic', profile.avatar_url);
-
-        return user.save();
-      }
-
-      return false;
+    .then(function(user) {
+      return user || db.model('User').newUser({ name: profile.name.displayName || '', email: email });
     })
-    .then( function(user) {
+    .then(function(user) {
+      user.set('gh_id', profile.id);
+      user.set('profile_pic', profile.avatar_url);
+
+      return user.save();
+    })
+    .then(function(user) {
+      done(null, user);
+    });
+  },
+
+  mpAuthentication: function(req, accessToken, refreshToken, profile, done) {
+    if (req.user && req.user.get('mp_id') === profile.id) {
+      done(null, req.user);
+      return;
+    }
+
+    db.model('User').fetchUserbyMPId(profile.id, true)
+    .then(function(user) {
+      return user || db.model('User').fetchUser(profile.email, true);
+    })
+    .then(function(user) {
+      return user || db.model('User').newUser({ name: profile.name, email: profile.email });
+    })
+    .then(function(user) {
+      user.set('mp_id', profile.id);
+      user.set('profile_pic', profile.avatar_url);
+
+      return user.save();
+    })
+    .then(function(user) {
       done(null, user);
     });
   }
