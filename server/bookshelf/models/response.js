@@ -37,11 +37,11 @@ var Response = db.Model.extend({
     }
   }
 }, {
-  fetchResponsebyId: function(id) {
+  fetchResponsebyId: function(id, notRequired) {
     return new this({
       id: id
     }).fetch({
-      require: true,
+      require: !notRequired,
       withRelated: ['owner', 'question', 'comments', 'comments.owner', 'comments.comments', 'comments.comments.owner']
     });
   },
