@@ -34,6 +34,7 @@ main {
   width: 400px;
   max-height: 400px;
   text-align: center;
+  margin: auto;
 }
 
 .code {
@@ -71,11 +72,28 @@ main {
   align-self: center;
 }
 
+.cursorP{
+  cursor: pointer;
+}
+
+.hAlign {
+  margin: auto;
+}
+
 .flex {
   display: flex;
 }
 
+.centerText {
+  text-align:center;
+}
+.absolutePos {
+  position: absolute;
+}
 
+.extraPadding {
+  padding: inherit;
+}
 .fixedBg {
   background-size: cover;
   background-attachment: fixed;
