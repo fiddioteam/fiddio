@@ -9,7 +9,6 @@ angular.module('fiddio')
       scope.userId = attr.userId;
       scope.solution = attr.solution;
       scope.userData = $rootScope.userData;
-      console.log("scope.userData", scope.userData.getItem('userInfo').id, "scope.userId", scope.userId);
 
       DataPackager.downloadResponses(scope.parentId)
       .success(function(data, status, headers, config){
