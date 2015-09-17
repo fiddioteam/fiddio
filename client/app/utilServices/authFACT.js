@@ -1,6 +1,9 @@
 angular.module('fiddio')
 
 .factory('Authentication', ['$rootScope', '$q','$http', '$location', function($rootScope, $q, $http, $location) {
+  function loadAuth() {
+    $rootScope.userData.authenticated = $rootScope.userData.getItem('userInfo').authenticated;
+  }
 
   function checkAuth() {
     return $http({method : 'GET', url: '/api/user/info'})
@@ -39,6 +42,7 @@ angular.module('fiddio')
   }
 
   return {
+    loadAuth: loadAuth,
     checkAuth: checkAuth,
     getProfileId: getProfileId
   };

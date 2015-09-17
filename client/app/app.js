@@ -8,12 +8,12 @@ angular.module('fiddio', [
   .run(['$rootScope', '$state', '$stateParams', '$window', 'Authentication', 'UserData',
       function ($rootScope, $state, $stateParams, $window, Authentication, UserData) {
         $rootScope.userData = UserData;
-        $rootScope.userData.setItem('authenticated',UserData.getItem('authenticated'));
 
         // It's very handy to add references to $state and $stateParams to the $rootScope
         // so that you can access them from any scope within your applications
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
+        Authentication.loadAuth();
 
         $rootScope.$on('$stateChangeStart', function(event, toState, toStateParams, fromState, fromStateParams) {
 
@@ -21,6 +21,7 @@ angular.module('fiddio', [
           $rootScope.toStateParams = toStateParams;
           $rootScope.fromState = fromState;
           $rootScope.fromStateParams = fromStateParams;
+
           var authenticated = $rootScope.userData.authenticated;
 
           if(!authenticated) {
