@@ -12,7 +12,6 @@ angular.module('fiddio')
     };
 
     function aceLoaded(_editor) {
-      // console.log('Ace Loaded');
       _aceEditor = _editor.env.editor;
       _session = _editor.getSession();
       _document = _session.getDocument();
@@ -24,7 +23,6 @@ angular.module('fiddio')
 
     }
     function getCode(){
-      // console.log(_document.getValue());
       return _document.getAllLines().join('\n');
     }
     function setCode(code){

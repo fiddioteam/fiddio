@@ -32,10 +32,6 @@ angular.module('fiddio')
     });
   }
 
-  // function downloadResponseData(id){
-  //   return _responseData;
-  // }
-
   function downloadResponses(id){
     // api GET
     return $http({method: 'GET', url: '/api/question/'+id+'/responses'});

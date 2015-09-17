@@ -8,7 +8,6 @@ angular.module('fiddio')
   function downloadFullQuestion(id){
     return $http({method:'GET', url:'/api/question/'+id})
     .success(function(data){
-      console.log(data);
       return data;
     })
     .error(function(error){

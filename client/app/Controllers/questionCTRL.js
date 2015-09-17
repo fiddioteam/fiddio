@@ -7,9 +7,7 @@ angular.module('fiddio')
   'DataPackager',
 
   function($rootScope, question, Authentication, QuestionDisplayFactory, DataPackager) {
-
     var vm = this;
-    console.log('Question data: ', question.data);
 
     vm.question = question.data;
     vm.displayOptions = QuestionDisplayFactory.displayOptions;

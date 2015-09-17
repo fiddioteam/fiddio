@@ -11,7 +11,6 @@ angular.module('fiddio')
 
       $http({ method: 'GET', url: '/api/'+attr.parentType+'/'+attr.parentId+'/comments'})
       .then(function(response){
-        console.log("Reponse to GET for commments",response);
         scope.comments = response.data.comments;
       },
       function(response){
