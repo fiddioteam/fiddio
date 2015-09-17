@@ -23,8 +23,8 @@ module.exports = function(grunt) {
       options: {
         reporter: require('jshint-stylish'),
       },
-      dev: [ 'Gruntfile.js', './server/*.js', './server/**/*.js', './test/**/*.js' ],
-      production: [ 'Gruntfile.js', './server/*.js', 'server/**/*.js', './public/**/*.js' ],
+      dev: [ 'Gruntfile.js', './server/*.js', './server/**/*.js', './test/**/*.js', '!./test/app/vendor/ct-paper/ct-paper.js' ],
+      production: [ 'Gruntfile.js', './server/*.js', 'server/**/*.js', './public/**/*.js', '!./public/app/vendor/ct-paper/ct-paper.js' ],
     },
 
     bower: {

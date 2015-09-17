@@ -1,45 +1,46 @@
 <section>
-<div class="container">
-  <div class="row">
+  <div class="container-fluid">
     <div class="row">
+      <div class="row">
       <div class="col-md-10 col-md-offset-1">
         <div class="page-header">
           <div class="pull-right">
             <h3>
               <votes answer="watch.answer"></votes>
             </h3>
+            </div>
+            <h3>Answer to Question {{ watch.answer.question.id }}</h3>
+            <p>{{watch.answer.body}}</p>
           </div>
-          <h3>Answer to Question {{ watch.answer.question.id }}</h3>
-          <p>{{watch.answer.body}}</p>
+        </div> <!-- end of col-md-8 -->
+      </div> <!-- end of row -->
+      <div class="col-md-10 col-md-offset-1">
+        <sound-manager></sound-manager>
+        <div
+          ui-ace="watch.playbackOptions"
+          style="height: 300px;">
         </div>
-      </div> <!-- end of col-md-8 -->
-    </div> <!-- end of row -->
-    <div class="col-md-10 col-md-offset-1">
-      <sound-manager></sound-manager>
-      <div
-        ui-ace="watch.playbackOptions"
-        style="height: 300px;">
-      </div>
 
-      <div class="row flex">
-        <div class="col-md-1 vAlign">
-          <button class="btn btn-primary btn-sm"  ng-if="!watch.isPlaying && !watch.replay" ng-click="watch.playRecording()">Play</button>
-          <button  class="btn btn-primary btn-sm" ng-if="watch.isPlaying && !watch.replay" ng-click="watch.pauseRecording()">Pause</button>
-          <button class="btn btn-primary btn-sm"  ng-if="watch.replay" ng-click="watch.replayRecording()">Replay</button>
-        </div>
-        <div class="col-md-11">
-          <span>{{ currentPostion || '00:00'}} / {{ currentDuration || '00:00'}}</span>
-          <div class="seekBase" seek-track style="height:30px; width: 50%; border: 1px solid #cccccc; margin: 5px 0 10px">
-              <div class="seekLoad" ng-style="{width : ( progress + '%' ) }" style="height: 30px; width: 0; background-color: #E0EAF1"></div><br>
+        <div class="row flex">
+          <div class="col-md-1 vAlign">
+            <button class="btn btn-primary btn-sm"  ng-if="!watch.isPlaying && !watch.replay" ng-click="watch.playRecording()">Play</button>
+            <button  class="btn btn-primary btn-sm" ng-if="watch.isPlaying && !watch.replay" ng-click="watch.pauseRecording()">Pause</button>
+            <button class="btn btn-primary btn-sm"  ng-if="watch.replay" ng-click="watch.replayRecording()">Replay</button>
+          </div>
+          <div class="col-md-11">
+            <div class="seekBase progress cursorP" seek-track style="height:30px; width: 100%; border: 1px solid #cccccc; margin: 5px 0 10px">
+                <span class="absolutePos">{{ currentPostion || '00:00'}} / {{ currentDuration || '00:00'}}</span>
+                <div class="seekLoad progress-bar-primary" ng-style="{width : ( progress + '%' ) }" style="height: 30px; width: 0;">
+                </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <comment-section parent-id="{{ watch.answer.id }}" parent-type="response" ng-transclude>
-        <submit-comment parent-id="{{ watch.answer.id }}" parent-type="response"></submit-comment>
-        <comment-list parent-id="{{ watch.answer.id }}" parent-type="response"></comment-list>
-      </comment-section>
+        <comment-section parent-id="{{ watch.answer.id }}" parent-type="response" ng-transclude>
+          <submit-comment parent-id="{{ watch.answer.id }}" parent-type="response"></submit-comment>
+          <comment-list parent-id="{{ watch.answer.id }}" parent-type="response"></comment-list>
+        </comment-section>
+      </div>
     </div>
   </div>
-</div>
 </section>

@@ -16,25 +16,32 @@
 <body>
 
   <header>
-    <nav ng-controller="NavController as nav" class="navbar navbar-ct-primary navbar-fixed-top">
-      <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href ui-sref="home">
-        <i class="fa fa-home"></i> Home
-          <!-- <i class="fa fa-code"></i><span id="fiddio">   fidd.io</span> -->
-          <!-- <img class="logo" src="./img/fiddioLogoWhite.png" alt="fidd.io"> -->
-          <!-- <div class="ratio" style="background-image:url('./img/fiddioLogoWhite.png');">dsfasd</div> -->
-        </a>
-      </div>
-        <ul class="nav navbar-nav navbar-right">
-          <li><a class="navLink" href ui-sref="ask">Ask</a></li>
-          <li><a class="navLink" href ui-sref="browse-questions">Browse</a></li>
-          <li><a class="navLink" href ui-sref="faq">FAQ</a></li>
-          <li ng-show="!userData.authenticated"><a class="navLink" href ui-sref="login">Login</a></li>
-          <li ng-show="userData.authenticated"><a class="navLink" href ng-click="nav.logout()">Logout</a></li>
-        </ul>
-      </div>
-    </nav>
+    <div id="navbar">
+      <nav ng-controller="NavController as nav" class="navbar navbar-ct-primary navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#fiddio-navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span> <!-- hamburger icon -->
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href ui-sref="home">
+              <i class="fa fa-home">Home</i>
+            </a>
+          </div>
+          <div class="collapse navbar-collapse" id="fiddio-navbar">
+            <ul class="nav navbar-nav navbar-right">
+              <li><a class="navLink" href ui-sref="ask">Ask</a></li>
+              <li><a class="navLink" href ui-sref="browse-questions">Browse</a></li>
+              <li><a class="navLink" href ui-sref="faq">FAQ</a></li>
+              <li ng-show="!userData.authenticated"><a class="navLink" href ui-sref="login">Login</a></li>
+              <li ng-show="userData.authenticated"><a class="navLink" href ng-click="nav.logout()">Logout</a></li>
+            </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+      </nav>
+    </div><!--  end navbar -->
   </header>
 
 
@@ -42,19 +49,16 @@
     <ui-view></ui-view>
   </main>
 
-  <footer class="fixed-footer navbar navbar-ct-primary">
-    <nav>
-      <div class="container-fluid">
-        <ul class="nav navbar-nav">
-          <li><a ui-sref="about">About</a></li>
-          <li><a ui-sref="team">Team</a></li>
-          <li><a ui-sref="contact">Contact</a></li>
-        </ul>
+  <footer class="fixed-footer navbar navbar-ct-primary flex">
+    <nav class="vAlign">
+      <div class="container-fluid whiteText">
+        <p>&copy; 2015 Team Fiddio</p>
       </div>
     </nav>
   </footer>
-  <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="lib/ct-paper/ct-paper.js"></script>
   <script src="lib/ace-builds/src-min-noconflict/ace.js"></script>
   <!-- injector:bower:js -->
   <!-- endinjector -->

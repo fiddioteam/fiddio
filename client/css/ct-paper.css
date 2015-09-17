@@ -222,11 +222,11 @@ input.ct-red + span + label + span.switch-right {
   padding: 0px 18px;
   border-color: #66615B;
   color: #66615B;
-  -webkit-transition: all 150ms linear;
+  /*-webkit-transition: all 150ms linear;
   -moz-transition: all 150ms linear;
   -o-transition: all 150ms linear;
   -ms-transition: all 150ms linear;
-  transition: all 150ms linear; }
+  transition: all 150ms linear; */}
   .navbar .navbar-nav > li > a.btn:hover, .navbar .navbar-nav > li > a.btn:focus, .navbar .navbar-nav > li > a.btn:active, .navbar .navbar-nav > li > a.btn.active, .open > .navbar .navbar-nav > li > a.btn.dropdown-toggle, .btn:hover, .btn:focus, .btn:active, .btn.active, .open > .btn.dropdown-toggle {
     background-color: #66615B;
     color: rgba(255, 255, 255, 0.7);
