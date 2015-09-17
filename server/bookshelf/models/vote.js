@@ -41,9 +41,10 @@ var Vote = db.Model.extend({
       }
 
       var prevVote = vote.get('up_down') || 0;
+      if (prevVote === upOrDown) { upOrDown = 0; }
       vote.set('up_down', upOrDown);
 
-      return Promise.join([vote.save(),db.model('Response').changeVotesbyId(responseId, prevVote, upOrDown)]);
+      return [vote.save(),db.model('Response').changeVotesbyId(responseId, prevVote, upOrDown)];
     });
   }
 });

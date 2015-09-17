@@ -16,12 +16,20 @@ module.exports = function(app, router) {
 
   function getResponse(req, res, next) {
     db.model('Response')
-    .fetchResponsebyId(req.body.id)
+    .fetchResponsebyId(req.body.id, true)
     .then( function(response) {
-      res.json(response.toJSON());
+      return [response,
+      db.model('Vote')
+      .fetchVote(req.user.id, req.body.id, true)];
     })
-    .catch( function(err) {
-      res.sendStatus(400); // Bad Request!
+    .spread( function(response, vote) {
+      var responseJSON = {};
+      if (response) {
+        responseJSON = response.toJSON();
+        responseJSON.vote = (vote && vote.get('up_down')) || 0;
+      }
+
+      res.json(responseJSON);
     });
   }
 
@@ -30,9 +38,6 @@ module.exports = function(app, router) {
     .fetchbyResponseId(req.body.id)
     .then( function(comments) {
       res.json({ comments: comments.toJSON() });
-    })
-    .catch( function(err) {
-      res.sendStatus(400); // Bad Request!
     });
   }
 
@@ -41,22 +46,19 @@ module.exports = function(app, router) {
     .fetchVote(req.user.id, req.body.id, true)
     .then( function(vote) {
       res.json({ vote: (vote && vote.get('up_down')) || 0 });
-    })
-    .catch( function(err) {
-      res.sendStatus(400); // Bad Request!
     });
   }
 
   function postVote(req, res, next) {
-    db.model('Vote')
-    .fetchOrCreate(req.user.id, req.body.id, req.body.vote)
-    .spread( function(vote, response) {
-      res.json({ result: true });
-    })
-    .catch(function(err){
-      res.sendStatus(500); // Uh oh!
-      if (process.isDev()) { res.json({ error: err }); }
-    });
+    if (req.user) {
+      db.model('Vote')
+      .fetchOrCreate(req.user.id, req.body.id, req.body.vote)
+      .spread( function(vote, response) {
+        if (vote && response) {
+          res.json({ result: true, vote_count: response.get('vote_count') });
+        } else { res.json({ result: false }); }
+      });
+    } else { res.json({ result: false }); }
   }
 
   function postMark(req, res, next) {

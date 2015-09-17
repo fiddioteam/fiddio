@@ -2,12 +2,12 @@
   <div class="container-fluid">
     <div class="row">
       <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-          <div class="page-header">
-            <div class="pull-right">
-              <h3>
-                <votes response-id="{{ watch.answer.id }}"></votes>
-              </h3>
+      <div class="col-md-10 col-md-offset-1">
+        <div class="page-header">
+          <div class="pull-right">
+            <h3>
+              <votes answer="watch.answer"></votes>
+            </h3>
             </div>
             <h3>Answer to Question {{ watch.answer.question.id }}</h3>
             <p>{{watch.answer.body}}</p>
