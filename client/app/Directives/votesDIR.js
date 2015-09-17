@@ -20,7 +20,6 @@ angular.module('fiddio')
             data: { vote: newVote } })
             .then(function(response) {
               if (response.data.result) {
-                console.log('response.data', response.data);
                 scope.answer.vote_count = response.data.vote_count;
               }
             });
