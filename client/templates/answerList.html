@@ -1,7 +1,7 @@
 <div>
   <div ng-if="answers.length > 0">
     <ul class="list-group">
-      <li ng-repeat="answer in answers" class="list-group-item">
+      <li ng-repeat="answer in answers | orderBy:filterAnswersByVotes:true" class="list-group-item">
         <span><strong>User:</strong> {{ answer.owner.name }}</span><br>
         <span><strong>Duration:</strong> {{ answer.duration | date:'mm:ss' }}</span><br>
         <span><strong>Votes:</strong> {{ answer.vote_count }}</span><br>

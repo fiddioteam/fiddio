@@ -41,7 +41,7 @@ var Question = db.Model.extend({
     return this.hasMany('Star').through('Stars').withPivot('active');
   },
   markSolution: function(responseId) {
-    this.set('solution', responseId);
+    this.set('solution', this.get('solution') === responseId ? undefined : responseId);
     return this.save();
   },
   addResponse: function() {

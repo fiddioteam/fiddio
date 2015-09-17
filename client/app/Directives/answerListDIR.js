@@ -22,10 +22,17 @@ angular.module('fiddio')
             .then(function(response) {
               if (response.data.result) {
                 scope.solution = answerid;
+              } else {
+                scope.solution = undefined;
               }
             });
           });
         }
+      };
+
+      scope.filterAnswersByVotes = function(answer) {
+        console.log("answer.id", answer.id, "result", answer.id == scope.solution ? Number.MAX_VALUE : answer.vote_count);
+        return answer.id == scope.solution ? Number.MAX_VALUE : answer.vote_count;
       };
     }
   };

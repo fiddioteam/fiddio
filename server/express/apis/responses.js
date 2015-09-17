@@ -75,7 +75,7 @@ module.exports = function(app, router) {
       }
     })
     .then( function(question) {
-      res.json({ result: !!question });
+      res.json({ result: !!question.get('solution') });
     });
   }
 
