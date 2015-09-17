@@ -14,8 +14,8 @@
           <li class="list-group-item browse" ng-repeat="question in browse.questions | filter:search" ui-sref="question({ questionID: question.id })" >
           <div class="row">
             <div class="col-md-2">
-              <div><i class="fa fa-star"></i> {{ question.star_count }}</div>
-              <div><i class="fa fa-youtube-play"></i> {{question.response_count}}</div>
+              <div data-toggle="tooltip" tooltip data-placement="left" title="Users who've bookmarked this question" ><i class="fa fa-star"></i> {{ question.star_count }}</div>
+              <div data-toggle="tooltip" tooltip data-placement="left" title="Number of Answers" ><i class="fa fa-youtube-play"></i> {{question.response_count}}</div>
             </div>
             <div class="col-md-10">
               <span>{{ question.title }}</span>

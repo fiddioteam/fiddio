@@ -84,11 +84,19 @@ main {
   display: flex;
 }
 
+.linkReset {
+  text-decoration: none;
+}
 .centerText {
   text-align:center;
 }
 .absolutePos {
   position: absolute;
+}
+.loginButton {
+  background-color: #99d4da;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .extraPadding {

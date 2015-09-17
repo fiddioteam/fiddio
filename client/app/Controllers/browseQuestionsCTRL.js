@@ -1,7 +1,10 @@
 angular.module('fiddio')
-  .controller('BrowseQuestions', [ 'questions', function(questions){
+  .controller('BrowseQuestions', [ '$element', 'questions', function($element, questions){
     var vm = this;
-    console.log('QUESTIONS!', questions);
+    console.log($('[data-toggle="tooltip"]').tooltip());
+    vm.toolTip = function(){
+      $('[data-toggle="tooltip"]').tooltip();
+    };
     vm.questions = questions.data.questions;
 
   }]);

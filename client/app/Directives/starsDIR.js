@@ -2,7 +2,7 @@ angular.module('fiddio')
   .directive('stars', ['$http', '$rootScope', '$timeout', function($http, $rootScope, $timeout) {
     return {
       restrict: 'E',
-      template: "<div><span ng-if=\"userData.authenticated\"><i class=\"fa\" ng-class=\"{'fa-star': starred, 'fa-star-o': !starred}\" ng-click=\"toggleStar()\"></i></span></div>",
+      template: "<div><span ng-if=\"userData.authenticated\"><i class=\"fa\" data-toggle=\"tooltip\" tooltip data-placement=\"top\" title=\"Star this question\" ng-class=\"{'fa-star': starred, 'fa-star-o': !starred}\" ng-click=\"toggleStar()\"></i></span></div>",
       replace: true,
       scope: {
         questionId: '@'
