@@ -14,13 +14,12 @@
           ui-ace="answer.recordOptions"
           style="height: 300px;">
         </div>
-        <button class="btn btn-info btn-sm"  ng-if="!answer.currentlyRecording()" ng-click="answer.startRecording()">Record</button>
+        <button class="btn btn-info btn-sm" ng-if="!answer.currentlyRecording()" ng-click="answer.startRecording()">Record</button>
         <button class="btn btn-warning btn-sm" ng-if="answer.currentlyRecording()" ng-click="answer.pauseRecording()">Pause</button>
-        <button class="btn btn-danger btn-sm" ng-if="answer.currentlyRecording()" ng-click="answer.stopRecording()">Stop</button>
+        <button class="btn btn-success btn-sm" ng-disabled="answer.currentlyRecording() || !answer.hasStartedAnswering" ng-click="answer.submitRecording()">Submit</button>
         <form novalidate style="margin-top: 8px;">
           <textarea class="form-control tealBorder" cols="30" rows="3" placeholder="Description" ng-model="answer.description"></textarea>
         </form>
-        <button data-toggle="tooltip" tooltip data-placement="top" title="Submit your answer" class="btn btn-success btn-xs pull-right" ng-click="answer.uploadChanges()">Submit</button>
       </div> <!-- end of col-md-8 -->
     </div> <!-- end of row -->
   </div> <!-- end of container-->
