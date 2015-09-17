@@ -106,7 +106,6 @@ angular.module('fiddio')
 
   function stopRecording(currentlyRecording){
     return $q(function(resolve,reject){
-      if (!currentlyRecording) { return; }
       _aceEditor.setReadOnly(true);
       _recorder.stop(function(blob){
         _audioBlob = blob;
@@ -127,7 +126,6 @@ angular.module('fiddio')
   }
 
   function uploadEditorChanges(currentlyRecording, description){
-    console.log('description inside uploadEditorChanges', description);
     if (currentlyRecording) { return; }
     if (_recording.length > 0){
       DataPackager.uploadResponse(_code, _recording, _audioBlob, _blobLength, description);
