@@ -31,7 +31,6 @@ angular.module('fiddio')
       };
 
       scope.filterAnswersByVotes = function(answer) {
-        console.log("answer.id", answer.id, "result", answer.id == scope.solution ? Number.MAX_VALUE : answer.vote_count);
         return answer.id == scope.solution ? Number.MAX_VALUE : answer.vote_count;
       };
     }
