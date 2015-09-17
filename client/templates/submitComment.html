@@ -1,16 +1,24 @@
 <section>
   <div>
     <div ng-if="userData.authenticated">
-
-      <textarea class="form-control tealBorder"
+      <div class="row flex">
+        <div class="col-md-10">
+          <textarea class="form-control tealBorder"
                 cols="30"
                 rows="3"
                 placeholder="Leave a comment"
                 ng-model="commentBody">
       </textarea>
-      <button ng-disabled="!commentBody"
-              class="btn btn-primary btn-xs pull-right"
-              ng-click="postComment()">Comment</button>
+        </div>
+        <div class="col-md-1 col-md-offset-1 vAlign">
+          <button ng-disabled="!commentBody"
+              class="btn btn-primary btn-sm pull-right"
+              ng-click="postComment()"
+              data-toggle="tooltip"
+              tooltip data-placement="top"
+              title="Submit your comment" >Comment</button>
+        </div>
+      </div>
 
     </div>
     <div ng-if="!userData.authenticated">

@@ -4,7 +4,7 @@
       <div class="col-md-10 col-md-offset-1">
         <div class="page-header">
           <h2>Record your Answer</h2>
-          <p>Use the record button below to start recording. Then feel free to code away and explain your solution. You can pause and resume your recording as you see fit. When you're done, press the 'Stop' button to finish recording and provide a short description explaining your solution at a high level. After that press 'Submit' and you're done!</p>
+          <p>Click “Record” and begin typing out your answer and explaining the steps as you go. If you need to stop for any reason, click “Pause” to suspend the recording. When you’re ready to begin again, click “Resume.” Once you’re ready to submit your answer, click “Submit.”</p>
         </div>
       </div> <!-- end of col-md-8 -->
     </div> <!-- end of row -->
@@ -20,7 +20,7 @@
         <form novalidate style="margin-top: 8px;">
           <textarea class="form-control tealBorder" cols="30" rows="3" placeholder="Description" ng-model="answer.description"></textarea>
         </form>
-        <button class="btn btn-success btn-xs pull-right" ng-click="answer.uploadChanges()">Submit</button>
+        <button data-toggle="tooltip" tooltip data-placement="top" title="Submit your answer" class="btn btn-success btn-xs pull-right" ng-click="answer.uploadChanges()">Submit</button>
       </div> <!-- end of col-md-8 -->
     </div> <!-- end of row -->
   </div> <!-- end of container-->
