@@ -2,7 +2,7 @@
   <div>
     <div ng-if="userData.authenticated">
       <div class="row flex">
-        <div class="col-md-10">
+        <div class="col-xs-10">
           <textarea class="form-control tealBorder"
                 cols="30"
                 rows="3"
@@ -10,7 +10,7 @@
                 ng-model="commentBody">
         </textarea>
       </div>
-        <div class="col-md-1 col-md-offset-1 vAlign">
+        <div class="col-xs-1 col-xs-offset-1 vAlign">
           <button ng-disabled="!commentBody"
               class="btn btn-primary btn-sm pull-right"
               ng-click="postComment(commentBody); commentBody = undefined;"
