@@ -102,11 +102,21 @@ main {
 .extraPadding {
   padding: inherit;
 }
+
+.morePadding {
+  padding: 10px;
+}
 .fixedBg {
   background-size: cover;
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-position: center center;
+}
+
+@media (max-width: 767px) {
+  body {
+    position: initial;
+    font-size: 12px; }
 }
 /**
  * Typewriter
