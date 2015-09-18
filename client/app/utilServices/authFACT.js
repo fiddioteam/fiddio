@@ -2,7 +2,13 @@ angular.module('fiddio')
 
 .factory('Authentication', ['$rootScope', '$q','$http', '$location', function($rootScope, $q, $http, $location) {
   function loadAuth() {
-    $rootScope.userData.authenticated = $rootScope.userData.getItem('userInfo').authenticated;
+    var userInfo = $rootScope.userData.getItem('userInfo');
+    if (!userInfo) {
+      userInfo = { authenticated: false };
+      $rootScope.userData.setItem('userInfo', userInfo);
+    }
+
+    $rootScope.userData.authenticated = userInfo.authenticated;
   }
 
   function checkAuth() {
@@ -21,29 +27,8 @@ angular.module('fiddio')
     });
   }
 
-  var authMethods = ['gh', 'fb', 'mp'];
-
-  /**
-   * Returns authMethod from localStorage based on stored profile id
-   * If not available, will return null
-   * @return {string}
-   *
-   * authMethods = 'gh', 'fb', 'mp'
-   * Notes: '!memo[0]' is shorthand for memo.length > 0
-   */
-  function getProfileId() {
-    var userInfo = $rootScope.userData.getItem('userInfo');
-    for (var i = 0; i < authMethods.length; i++) {
-      var id = userInfo[authMethods[i] + '_id'];
-      if (id) { return authMethods[i]; }
-    }
-
-    return null;
-  }
-
   return {
     loadAuth: loadAuth,
-    checkAuth: checkAuth,
-    getProfileId: getProfileId
+    checkAuth: checkAuth
   };
 }]);

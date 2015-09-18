@@ -37,6 +37,7 @@
               <li class="cursorP"><a class="navLink" href ui-sref="browse-questions">Browse</a></li>
               <li class="cursorP"><a class="navLink" href ui-sref="about">About</a></li>
               <li class="cursorP"><a class="navLink" href ui-sref="faq">FAQ</a></li>
+              <li class="cursorP" ng-show="userData.authenticated"><avatar size="small" displayName="false"></avatar></li>
               <li class="cursorP" ng-show="!userData.authenticated"><a class="navLink" href ui-sref="login">Login</a></li>
               <li class="cursorP" ng-show="userData.authenticated"><a class="navLink" href ng-click="nav.logout()">Logout</a></li>
             </ul>

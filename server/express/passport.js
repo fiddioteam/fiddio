@@ -26,7 +26,7 @@ module.exports = function(app) {
     callbackURL: 'http://' + urlAbsolute + '/api/fb/callback',
     enableProof: false,
     passReqToCallback: true,
-    profileFields: ['id', 'birthday', 'email', 'first_name', 'gender', 'last_name']
+    profileFields: ['id', 'birthday', 'email', 'first_name', 'gender', 'last_name', 'picture.type(large)']
   }, db.model('User').fbAuthentication));
 
   //if (process.isProd()) {
