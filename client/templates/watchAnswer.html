@@ -2,19 +2,17 @@
   <div class="container-fluid">
     <div class="row">
       <div class="row">
-      <div class="col-md-10 col-md-offset-1">
-        <div class="page-header">
-          <div class="pull-right">
-            <h3>
+        <div class="col-xs-10 col-xs-offset-1">
+          <div class="page-header">
+            <div class="pull-right">
               <votes answer="watch.answer"></votes>
-            </h3>
             </div>
             <h3>Answer to Question {{ watch.answer.question.id }}</h3>
             <p>{{watch.answer.body}}</p>
           </div>
         </div> <!-- end of col-md-8 -->
       </div> <!-- end of row -->
-      <div class="col-md-10 col-md-offset-1">
+      <div class="col-xs-10 col-xs-offset-1">
         <sound-manager></sound-manager>
         <div
           ui-ace="watch.playbackOptions"
@@ -22,12 +20,12 @@
         </div>
 
         <div class="row flex">
-          <div class="col-md-1 vAlign">
+          <div class="col-xs-1 vAlign">
             <button class="btn btn-primary btn-sm"  ng-if="!watch.isPlaying && !watch.replay" ng-click="watch.playRecording()">Play</button>
             <button  class="btn btn-primary btn-sm" ng-if="watch.isPlaying && !watch.replay" ng-click="watch.pauseRecording()">Pause</button>
             <button class="btn btn-primary btn-sm"  ng-if="watch.replay" ng-click="watch.replayRecording()">Replay</button>
           </div>
-          <div class="col-md-11">
+          <div class="col-xs-10 col-xs-offset-1 col-sm-offset-0 col-sm-11">
             <div class="seekBase progress cursorP" seek-track style="height:30px; width: 100%; border: 1px solid #cccccc; margin: 5px 0 10px">
                 <span class="absolutePos">{{ currentPostion || '00:00'}} / {{ currentDuration || '00:00'}}</span>
                 <div class="seekLoad progress-bar-primary" ng-style="{width : ( progress + '%' ) }" style="height: 30px; width: 0;">
