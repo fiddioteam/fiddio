@@ -14,9 +14,11 @@
           ui-ace="answer.recordOptions"
           style="height: 300px;">
         </div>
-        <button class="btn btn-info btn-sm" ng-if="!answer.currentlyRecording()" ng-click="answer.startRecording()">Record</button>
-        <button class="btn btn-warning btn-sm" ng-if="answer.currentlyRecording()" ng-click="answer.pauseRecording()">Pause</button>
-        <button class="btn btn-success btn-sm" ng-disabled="answer.currentlyRecording() || !answer.hasStartedAnswering" ng-click="answer.submitRecording()">Submit</button>
+        <div class="morePadding">
+          <button class="btn btn-info btn-sm" ng-if="!answer.currentlyRecording()" ng-click="answer.startRecording()">Record</button>
+          <button class="btn btn-warning btn-sm" ng-if="answer.currentlyRecording()" ng-click="answer.pauseRecording()">Pause</button>
+          <button class="btn btn-success btn-sm pull-right" ng-disabled="answer.currentlyRecording() || !answer.hasStartedAnswering" ng-click="answer.submitRecording()">Submit</button>
+        </div>
         <form novalidate style="margin-top: 8px;">
           <textarea class="form-control tealBorder" cols="30" rows="3" placeholder="Description" ng-model="answer.description"></textarea>
         </form>
