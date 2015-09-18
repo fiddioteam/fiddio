@@ -25,9 +25,12 @@ main {
 }
 
 .browse:hover {
-  cursor: pointer;
   background-color: #408E95;
   color: #ffffff;
+}
+
+.cursorP:hover {
+  cursor: pointer;
 }
 
 .logo {
@@ -70,10 +73,6 @@ main {
 
 .vAlign {
   align-self: center;
-}
-
-.cursorP{
-  cursor: pointer;
 }
 
 .hAlign {

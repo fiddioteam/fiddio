@@ -11,7 +11,7 @@
         <span><input class="form-control tealBorder" type="search" placeholder="Search" ng-model="search"></span>
         <hr>
         <ul class="list-group">
-          <li class="list-group-item browse" ng-repeat="question in browse.questions | filter:search" ui-sref="question({ questionID: question.id })" >
+          <li class="list-group-item browse cursorP" ng-repeat="question in browse.questions | filter:search" ui-sref="question({ questionID: question.id })" >
           <div class="row">
             <div class="col-md-2">
               <div data-toggle="tooltip" tooltip data-placement="left" title="Users who've bookmarked this question" ><i class="fa fa-star"></i> {{ question.star_count }}</div>
