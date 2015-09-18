@@ -138,6 +138,10 @@ angular.module('fiddio', [
       .state('faq', {
         url: '/faq',
         templateUrl: '../templates/faq.html'
+      })
+      .state('about', {
+        url: '/about',
+        templateUrl: '../templates/about.html'
       });
 
   });
