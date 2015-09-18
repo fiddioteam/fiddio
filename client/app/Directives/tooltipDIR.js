@@ -4,6 +4,9 @@ angular.module('fiddio')
       restrict: 'A',
       link: function(scope, element, attrs){
         $(element).tooltip();
+        $(element).on('blur', function(){
+          $(element).tooltip('hide');
+        });
       }
     };
   });
