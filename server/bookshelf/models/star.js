@@ -2,7 +2,7 @@ var db      = require('../config'),
     Promise = require('bluebird');
 
 require('./user');
-require('./issue');
+require('./question');
 
 var Star = db.Model.extend({
   tableName: 'stars',
@@ -12,37 +12,45 @@ var Star = db.Model.extend({
   user: function() {
     return this.belongsTo('User');
   },
-  issue: function() {
-    return this.belongsTo('Issue');
+  question: function() {
+    return this.belongsTo('Question');
   }
 },{
-    // only one star per user
-  fetchOrCreate: function(userId, issueId, active) {
-    var options = {
-      user_id: userId,
-      issue_id: issueId
-    };
-
+  newStar: function(userId, questionId) {
+    return new this({ user_id: userId, question_id: questionId });
+  },
+  fetchStar: function(userId, questionId) {
+    return db.model('Star').newStar(userId, questionId)
+    .fetch({require: false});
+  },
+  // only one star per user
+  fetchOrCreate: function(userId, questionId, active) {
     // create the model object
     // determines if already a star in database
-    var newStar = new this(options);
+    var newstar = db.model('Star').newStar(userId, questionId);
 
-    return newStar
-    .fetch()
-    .then(function(star) {
-      var changeCount = 0;
-
-      if (star) {
-        changeCount += active || -1;
-      } else {
-        star = newStar;
-        changeCount += active;
+    return newstar
+    .fetch({ require: false })
+    .then( function(star) {
+      if (!star) {
+        star = newstar;
+        star.set('active', false);
       }
 
-      star.set('active', active);
-      star.save();
+      var upOrDown =  0 + (!star.get('active') && active) - (star.get('active') && !active);
 
-      return db.model('Issue').changeStarsbyId(issueId, changeCount);
+      star.set('active', active);
+
+      // If setting to active & already active -> 0
+      // if setting to active & already inactive -> + 1
+      // If setting to inactive & already active -> -1
+      // If setting to inactive & already inactive -> 0
+
+      //!gactive && active = 1
+      //gactive && !active = -1
+
+      return Promise.join([star.save(), db.model('Question')
+      .changeStarsbyId(questionId, upOrDown)]);
     });
   }
 });

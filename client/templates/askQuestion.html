@@ -1,0 +1,51 @@
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-10 col-xs-offset-1">
+        <div class="page-header">
+          <h2>Ask a Question</h2>
+          <p>Having trouble with your code? Ask the Fidd.io community for help!</p>
+        </div>
+      </div> <!-- end of col-md-8 -->
+    </div> <!-- end of row -->
+    <div class="row">
+      <div class="col-xs-10 col-xs-offset-1">
+        <div
+          ui-ace="ask.askOptions"
+          style="height: 300px;">
+        </div>
+      </div>
+      <div class="col-xs-10 col-xs-offset-1">
+          <form class="form-group" novalidate name="askQuestionForm">
+            <div class="morePadding">
+              <p>Give your post a title:</p>
+            </div>
+            <div class="morePadding">
+              <input type="text"
+                     placeholder="Title"
+                     class="form-control tealBorder"
+                     ng-model="ask.question.title"
+                     required/>
+            </div>
+            <div class="morePadding">
+              <p>Write a short description of the problem you're facing.</p>
+            </div>
+            <div class="morePadding">
+              <textarea class="form-control tealBorder"
+                        placeholder="Description"
+                        rows="3"
+                        ng-model="ask.question.body"
+                        required>
+              </textarea>
+            </div>
+
+            <div class="morePadding">
+              <button class="btn btn-primary pull-right" data-toggle="tooltip" tooltip data-placement="top" title="Submit your question" ng-disabled="askQuestionForm.$invalid" ng-click="ask.submitQuestion(ask.question)">Submit</button>
+            </div>
+
+          </form>
+      </div>
+    </div>  <!-- end of row -->
+  </div> <!-- end of container -->
+</section>
+

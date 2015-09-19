@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="fiddio">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
+  <link rel="shortcut icon" href="favicon.ico" >
+  <!-- injector:bower:css -->
+  <!-- endinjector -->
+  <!-- injector:css -->
+  <!-- endinjector -->
+  <title>Fidd.io</title>
+</head>
+<body>
+
+  <header>
+    <nav ng-controller="NavController as nav" class="tealBack navbar navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#fiddio-navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <i class="fa fa-bars fa-2x whiteText"></i>
+          </button>
+          <a class="navbar-brand" href ui-sref="home">
+            <i class="fa fa-home whiteText">Home</i>
+          </a>
+        </div>
+        <div class="collapse navbar-collapse" id="fiddio-navbar">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="cursorP "><a class="navLink whiteText" href ui-sref="ask">Ask</a></li>
+            <li class="cursorP "><a class="navLink whiteText" href ui-sref="browse-questions">Browse</a></li>
+            <li class="cursorP "><a class="navLink whiteText" href ui-sref="about">About</a></li>
+            <li class="cursorP "><a class="navLink whiteText" href ui-sref="faq">FAQ</a></li>
+            <li ng-show="userData.authenticated"><avatar size="small" displayName="false"></avatar></li>
+            <li class="cursorP " ng-show="!userData.authenticated"><a class="navLink whiteText" href ui-sref="login">Login</a></li>
+            <li class="cursorP " ng-show="userData.authenticated"><a class="navLink whiteText" href ng-click="nav.logout()">Logout</a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+  </header>
+
+
+  <main>
+    <ui-view></ui-view>
+  </main>
+
+  <footer class="tealBack fixed-footer footer flex">
+    <div class="container-fluid whiteText">
+      <h4>&copy; 2015 FiddioTeam</h4>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="lib/ace-builds/src-min-noconflict/ace.js"></script>
+  <!-- injector:bower:js -->
+  <!-- endinjector -->
+  <!-- injector:js -->
+  <!-- endinjector -->
+</body>
+</html>

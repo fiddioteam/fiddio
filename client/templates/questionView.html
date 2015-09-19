@@ -1,0 +1,38 @@
+<section>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <div class="row flex">
+        <div class="col-md-1 vAlign">
+          <h2 class=""><stars question-id="{{ qv.question.id }}" style="display:inline-block;"></stars></h2>
+        </div>
+          <div class="col-md-10">
+            <h3>
+              <span> {{ qv.question.title }} - {{ qv.question.owner.name }} </span>
+            </h3>
+
+            <blockquote>{{ qv.question.body }}</blockquote>
+
+          </div>
+          <div class="col-md-1 vAlign">
+            <div class="pull-right">
+              <button data-toggle="tooltip" tooltip data-placement="bottom" title="Record an answer" class="btn btn-primary btn-lg" ng-click="qv.answerQuestion()" style="display: inline-block">Answer</button>
+            </div>
+          </div>
+        </div>
+        <div
+          ui-ace="qv.displayOptions"
+          style="height: 300px;">
+        </div>
+        <h3>Comments</h3>
+        <comment-section parent-id="{{ qv.question.id }}" parent-type="question" ng-transclude>
+          <submit-comment parent-id="{{ qv.question.id }}" parent-type="question"></submit-comment>
+          <comment-list parent-id="{{ qv.question.id }}" parent-type="question"></comment-list>
+        </comment-section>
+        <h3>Answers</h3>
+        <answer-list parent-id="{{ qv.question.id }}" solution="{{ qv.question.solution }}" user-id="{{ qv.question.user_id }}" ></answer-list>
+      </div>
+    </div>
+  </div>
+</section>
+

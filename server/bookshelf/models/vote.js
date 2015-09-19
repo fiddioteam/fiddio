@@ -14,33 +14,37 @@ var Vote = db.Model.extend({
   },
   response: function() {
     return this.hasOne('Response');
+  }
+}, {
+  newVote: function(userId, responseId) {
+    return new this({ user_id: userId, response_id: responseId });
   },
-  upOrDown: function() {
-    return this.get('upOrDown');
+  fetchVote: function(userId, responseId, notRequired) {
+    return db.model('Vote')
+    .newVote(userId, responseId)
+    .fetch({
+      require: !notRequired
+    });
   },
   // only one vote per user
   fetchOrCreate: function(userId, responseId, upOrDown) {
-    var options = {
-      user: userId,
-      response: responseId
-    };
+    upOrDown = Math.min( Math.max(upOrDown, -1), 1 ); // Limit upOrDown to -1, 0, 1.
 
-    var newVote = new this(options);
+    var newvote = db.model('Vote').newVote(userId, responseId);
 
     // create the model object
     // determines if already a vote in database
-    return newVote.fetch()
+    return newvote.fetch({ require: false })
     .then(function(vote) {
       if (!vote) {
-        vote = newVote;
+        vote = newvote;
       }
 
-      var prevVote = vote.get('upOrDown');
-      vote.set('upOrDown', upOrDown);
+      var prevVote = vote.get('up_down') || 0;
+      if (prevVote === upOrDown) { upOrDown = 0; }
+      vote.set('up_down', upOrDown);
 
-      vote.save();
-
-      return db.model('Response').changeVotesbyId(responseId, prevVote, upOrDown);
+      return [vote.save(),db.model('Response').changeVotesbyId(responseId, prevVote, upOrDown)];
     });
   }
 });

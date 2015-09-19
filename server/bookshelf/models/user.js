@@ -1,14 +1,14 @@
 var db      = require('../config'),
     Promise = require('bluebird');
 
-require('./issue');
+require('./question');
 require('./star');
 
 var User = db.Model.extend({
   tableName: 'users',
   hasTimestamps: true,
-  issues: function() {
-    return this.hasMany('Issue');
+  questions: function() {
+    return this.hasMany('Question');
   },
   stars: function() {
     return this.hasMany('Star').through('Stars').withPivot('active');
@@ -17,9 +17,7 @@ var User = db.Model.extend({
   fetchUserbyId: function(id) {
     return new this({
       id: id
-    }).fetch({
-      columns: ['first_name', 'last_name']
-    });
+    }).fetch({ require: true });
   },
 
   fetchUser: function(email, notRequire) {
@@ -31,19 +29,27 @@ var User = db.Model.extend({
     });
   },
 
-  fetchUserbyFBId: function(fbid) {
+  fetchUserbyFBId: function(fbid, notRequire) {
     return new this({
       fb_id: fbid
     }).fetch({
-      require: true
+      require: !notRequire
     });
   },
 
-  fetchUserbyGHId: function(ghid) {
+  fetchUserbyGHId: function(ghid, notRequire) {
     return new this({
       gh_id: ghid
     }).fetch({
-      require: true
+      require: !notRequire
+    });
+  },
+
+  fetchUserbyMPId: function(mpid, notRequire) {
+    return new this({
+      mp_id: mpid
+    }).fetch({
+      require: !notRequire
     });
   },
 
@@ -52,82 +58,92 @@ var User = db.Model.extend({
   },
 
   serializeUser: function(user, done) {
-    if (user) {
-      done( null, user.get('email'));
-    } else {
-      done(null, false);
-    }
+    done(null, user ? user.get('email') : false);
   },
 
   deserializeUser: function(email, done) {
-    db.model('User').fetchUser(email)
-    .then(function(user) {
+    db.model('User').fetchUser(email, true)
+    .then( function(user) {
       done(null, user ? user : false);
     })
-    .catch(function(error) {
+    .catch( function(error) {
       done(error);
     });
   },
 
   fbAuthentication: function(req, accessToken, refreshToken, profile, done) {
-    var self = this;
+    if (req.user && req.user.get('fb_id') === profile.id) {
+      done(null, req.user);
+      return;
+    }
 
-    db.model('User').fetchUserbyFBId(profile.id)
+    var email = (profile.emails && profile.emails[0].value) || '';
+
+    db.model('User').fetchUserbyFBId(profile.id, true)
     .then(function(user) {
-      if (!req.user || req.user.get('email') === user.get('email')) {
-        return done(null, user);
-      }
-
-      return done(null, false);
+      return user || db.model('User').fetchUser(email, true);
     })
-    .catch(function(error) {
-      var user = req.user || db.model('User').newUser();
+    .then(function(user) {
+      return user || db.model('User').newUser({ name: profile.name.givenName + ' ' + profile.name.familyName, email: email });
+    })
+    .then(function(user) {
+      user.set('fb_id', profile.id);
+      user.set('profile_pic', profile.photos[0].value || 'https://graph.facebook.com/' + profile.id + '/picture?type=large');
 
-      if (user) {
-        user.set('fb_id', profile.id);
-        user.set('first_name', profile.name.givenName);
-        user.set('last_name', profile.name.familyName);
-        if (profile.emails && profile.emails.length > 0) {
-          user.set('email', profile.emails[0].value);
-        }
-
-        user.save();
-
-        return done(null, user);
-      }
-
-      return done(null, false);
+      return user.save();
+    })
+    .then(function(user) {
+      done(null, user);
     });
   },
 
   ghAuthentication: function(req, accessToken, refreshToken, profile, done) {
-    var self = this;
+    if (req.user && req.user.get('gh_id') === profile.id) {
+      done(null, req.user);
+      return;
+    }
 
-    db.model('User').fetchUserbyGHId(profile.id)
+    var email = (profile.emails && profile.emails[0].value) || '';
+
+    db.model('User').fetchUserbyGHId(profile.id, true)
     .then(function(user) {
-      if (!req.user || req.user.get('email') === user.get('email')) {
-        return done(null, user);
-      }
-
-      return done(null, false);
+      return user || db.model('User').fetchUser(email, true);
     })
-    .catch(function(error) {
-      var user = req.user || db.model('User').newUser();
+    .then(function(user) {
+      return user || db.model('User').newUser({ name: profile.displayName || '', email: email });
+    })
+    .then(function(user) {
+      user.set('gh_id', profile.id);
+      user.set('profile_pic', profile._json.avatar_url);
 
-      if (user) {
-        user.set('gh_id', profile.id);
-        // user.set('first_name', profile.name.givenName);
-        // user.set('last_name', profile.name.familyName);
-        // if (profile.emails && profile.emails.length > 0) {
-          // user.set('email', profile.emails[0].value);
-        //}
+      return user.save();
+    })
+    .then(function(user) {
+      done(null, user);
+    });
+  },
 
-        user.save();
+  mpAuthentication: function(req, accessToken, refreshToken, profile, done) {
+    if (req.user && req.user.get('mp_id') === profile.id) {
+      done(null, req.user);
+      return;
+    }
 
-        return done(null, user);
-      }
+    db.model('User').fetchUserbyMPId(profile.id, true)
+    .then(function(user) {
+      return user || db.model('User').fetchUser(profile.email, true);
+    })
+    .then(function(user) {
+      return user || db.model('User').newUser({ name: profile.name, email: profile.email });
+    })
+    .then(function(user) {
+      user.set('mp_id', profile.id);
+      user.set('profile_pic', profile.avatar_url);
 
-      return done(null, false);
+      return user.save();
+    })
+    .then(function(user) {
+      done(null, user);
     });
   }
 });

@@ -1,0 +1,28 @@
+<section>
+  <div>
+    <div ng-if="userData.authenticated">
+      <div class="row flex">
+        <div class="col-xs-10">
+          <textarea class="form-control tealBorder"
+                cols="30"
+                rows="3"
+                placeholder="Leave a comment"
+                ng-model="commentBody">
+        </textarea>
+      </div>
+        <div class="col-xs-1 col-xs-offset-1 vAlign">
+          <button ng-disabled="!commentBody"
+              class="btn btn-primary btn-sm pull-right"
+              ng-click="postComment(commentBody); commentBody = undefined;"
+              data-toggle="tooltip"
+              tooltip data-placement="top"
+              title="Submit your comment">Comment</button>
+        </div>
+      </div>
+
+    </div>
+    <div ng-if="!userData.authenticated">
+      <button class="btn btn-primary btn-xs pull-right" ui-sref="login">Login to Comment</button>
+    </div>
+  </div>
+</section>

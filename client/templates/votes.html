@@ -1,0 +1,7 @@
+<div>
+  <span>
+    <i class="fa fa-chevron-up cursorP" ng-class="{ 'vote-disabled': !userData.authenticated, 'vote-on': answer.vote > 0 }" ng-click="vote(1)"></i>
+    <h5 class="centerText">{{ answer.vote_count }}</h5>
+    <i class="fa fa-chevron-down cursorP" ng-class="{ 'vote-disabled': !userData.authenticated, 'vote-on': answer.vote < 0 }" ng-click="vote(-1)"></i>
+  </span>
+</div>
