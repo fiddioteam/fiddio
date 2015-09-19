@@ -1,0 +1,186 @@
+@import url(https://fonts.googleapis.com/css?family=Dosis:500);
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin: 0 0 100px;
+  font-family: 'Lato', sans-serif;
+}
+
+.fixed-footer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 100px;
+  width: 100%;
+  margin-bottom: 0;
+}
+
+main {
+  padding-top: 90px;
+  min-height: 100%;
+}
+
+.browse:hover {
+  background-color: #408E95;
+  color: #ffffff;
+}
+
+.cursorP:hover {
+  cursor: pointer;
+}
+
+.logo {
+  width: 400px;
+  max-height: 400px;
+  text-align: center;
+  margin: auto;
+}
+
+.code {
+  font-family: 'Source Code Pro', ;
+}
+
+.navLink {
+ color: #ffffff;
+ border-bottom: solid rgba(0,0,0,0);
+}
+
+.navLink:hover{
+  border-bottom: solid #ffffff;
+}
+
+.whiteText {
+  color: #ffffff;
+}
+
+.tealText {
+  color: #408E95;
+}
+
+.tealBorder {
+  border-style: solid;
+  border-color: #99d4da;
+}
+
+.vAlignChildren {
+  display: flex;
+  align-contents: center;
+}
+
+.vAlign {
+  align-self: center;
+}
+
+.hAlign {
+  margin: auto;
+}
+
+.flex {
+  display: flex;
+}
+
+.linkReset {
+  text-decoration: none;
+}
+.centerText {
+  text-align:center;
+}
+.absolutePos {
+  position: absolute;
+}
+.loginButton {
+  background-color: #99d4da;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.extraPadding {
+  padding: inherit;
+}
+
+.morePadding {
+  padding: 10px;
+}
+.fixedBg {
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+@media (max-width: 767px) {
+  body {
+    position: initial;
+    font-size: 12px; }
+}
+/**
+ * Typewriter
+ */
+@-webkit-keyframes blink-it {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes blink-it {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@-o-keyframes blink-it {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes blink-it {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Blinking class */
+.blink {
+  -webkit-animation: blink-it steps(1) 1s infinite;
+  -moz-animation: blink-it steps(1) 1s infinite;
+  -ms-animation: blink-it steps(1) 1s infinite;
+  -o-animation: blink-it steps(1) 1s infinite;
+  animation: blink-it steps(1) 1s infinite;
+}

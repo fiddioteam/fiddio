@@ -1,0 +1,41 @@
+<div>
+  <div ng-if="comments.length > 0">
+    <ul class="list-group">
+      <li ng-repeat="comment in comments" class="list-group-item">
+        <div>
+          <span class="comment-body">{{ comment.body }}</span>
+          <div class="pull-right">
+            {{ comment.owner.name }} - {{ comment.created_at | date:'short' }}
+          </div>
+        </div>
+
+        <div ng-if="comment.parent_type !== 'comment' && comment.comments.length > 0">
+          <ul class="list-group">
+            <li ng-repeat="subcomment in comment.comments" class="list-group-item">
+              <div>
+                <span class="comment-body">{{ subcomment.body }}</span>
+                <div class="pull-right">
+                  {{ subcomment.owner.name }} - {{ subcomment.created_at | date:'short' }}
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div ng-if="userData.authenticated">
+          <div ng-if="comment.reply">
+            <submit-comment parent-id="{{ comment.id }}" parent-type="comment"></submit-comment>
+          </div>
+          <div ng-if="!comment.reply">
+            <button class="btn btn-primary btn-xs" ng-click="replyToComment(comment)">Reply</button>
+          </div>
+        </div>
+
+        <div ng-if="!userData.authenticated">
+          <button class="btn btn-primary btn-xs" ui-sref="login">Login to Reply</button>
+        </div>
+
+      </li>
+    </ul>
+  </div>
+</div>

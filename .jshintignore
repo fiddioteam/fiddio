@@ -1,0 +1,10 @@
+client/app/fiddioRecorder/Mp3LameEncoder.js
+client/**/*.min.js
+test/app/fiddioRecorder/Mp3LameEncoder.js
+test/**/*.min.js
+public/app/fiddioRecorder/Mp3LameEncoder.js
+public/**/*.min.js
+test/lib/**/*.js
+test/lib/**/*.css
+public/lib/**/*.js
+public/lib/**/*.js

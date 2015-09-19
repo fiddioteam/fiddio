@@ -1,0 +1,19 @@
+<div>
+  <div ng-if="answers.length > 0">
+    <ul class="list-group">
+      <li ng-repeat="answer in answers | orderBy:filterAnswersByVotes:true" class="list-group-item browse">
+        <div class="row">
+          <div class="col-xs-2 flex">
+            <div class="hAlign"><i class="fa" ng-class="{'fa-check': solution == answer.id, 'fa-circle-o': (solution != answer.id && (userId == userData.getItem('userInfo').id))}" ng-click="markAsSolution(answer.id)"></i></div>
+            <div data-toggle="tooltip" tooltip data-placement="top" title="Number of Upvotes" class="hAlign"><i class="fa fa-chevron-up"></i> {{ answer.vote_count }}</div>
+          </div>
+          <div class="col-xs-10">
+            <span>Submitted by {{ answer.owner.name }}, {{ answer.duration | date:'mm:ss' }}</span>
+            <button class="btn btn-primary btn-sm pull-right" ui-sref="watch({ questionID: {{ answer.question_id }}, answerID: {{ answer.id }}})">Watch Answer</button>
+            <p>{{answer.body}}</p>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

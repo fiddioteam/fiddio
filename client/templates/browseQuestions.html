@@ -1,0 +1,31 @@
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-10 col-xs-offset-1">
+        <div class="page-header">
+          <h2>Browse Questions</h2>
+          <p>You can search through the list of questions submitted by other fiddio members. Click on one to view more details.</p>
+        </div>
+      </div> <!-- end of col-md-8 -->
+      <div class="col-xs-10 col-xs-offset-1">
+        <span><input class="form-control tealBorder" type="search" placeholder="Search" ng-model="search"></span>
+        <hr>
+        <ul class="list-group">
+          <li class="list-group-item browse cursorP" ng-repeat="question in browse.questions | filter:search" ui-sref="question({ questionID: question.id })" >
+          <div class="row">
+            <div class="col-xs-2">
+              <div><i data-toggle="tooltip" tooltip data-placement="right" title="Users who've bookmarked this question" class="fa fa-star"></i> {{ question.star_count }}</div>
+              <div><i data-toggle="tooltip" tooltip data-placement="right" title="Number of Answers" class="fa fa-youtube-play"></i> {{question.response_count}}</div>
+            </div>
+            <div class="col-xs-10">
+              <span>{{ question.title }}</span>
+              <div class="poster_name pull-right">{{ question.owner.name }}</div>
+            </div>
+          </div>
+          </li>
+        </ul>
+        <span ng-if="(browse.questions|filter:search).length === 0">There are no results matching your search</span>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,28 @@
+<section>
+  <div class="container">
+  <div class="row">
+      <div class="col-xs-10 col-xs-offset-1">
+        <div class="page-header">
+          <h2>Record your Answer</h2>
+          <p>Click “Record” and begin typing out your answer and explaining the steps as you go. If you need to stop for any reason, click “Pause” to suspend the recording. When you’re ready to begin again, click “Resume.” Once you’re ready to submit your answer, click “Submit.”</p>
+        </div>
+      </div> <!-- end of col-md-8 -->
+    </div> <!-- end of row -->
+    <div class="row">
+      <div class="col-xs-10 col-xs-offset-1">
+        <div
+          ui-ace="answer.recordOptions"
+          style="height: 300px;">
+        </div>
+        <div class="morePadding">
+          <button class="btn btn-info" ng-if="!answer.currentlyRecording()" ng-click="answer.startRecording()">Record</button>
+          <button class="btn btn-warning" ng-if="answer.currentlyRecording()" ng-click="answer.pauseRecording()">Pause</button>
+          <button class="btn btn-success pull-right" ng-disabled="answer.currentlyRecording() || !answer.hasStartedAnswering" ng-click="answer.submitRecording()">Submit</button>
+        </div>
+        <form novalidate style="margin-top: 8px;">
+          <textarea class="form-control tealBorder" cols="30" rows="3" placeholder="Description" ng-model="answer.description"></textarea>
+        </form>
+      </div> <!-- end of col-md-8 -->
+    </div> <!-- end of row -->
+  </div> <!-- end of container-->
+</section>
