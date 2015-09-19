@@ -46,6 +46,8 @@ main {
 
 .code {
   font-family: 'Source Code Pro', ;
+  width: 250px;
+  margin: auto;
 }
 
 .navLink {
@@ -148,6 +150,9 @@ main {
 }
 
 .avatar {
+  padding-left: 10px;
+}
+.avatar>* {
   border: 2px solid #ffffff;
 }
 
