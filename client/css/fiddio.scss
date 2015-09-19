@@ -20,12 +20,12 @@ body {
 }
 
 main {
-  padding-top: 90px;
+  padding-top: 53px;
   min-height: 100%;
 }
 
 .browse:hover {
-  background-color: #408E95;
+  background-color: #6DAEB4;
   color: #ffffff;
 }
 
@@ -38,6 +38,10 @@ main {
   max-height: 400px;
   text-align: center;
   margin: auto;
+}
+
+.TenPercentTop {
+  margin-top: 10%;
 }
 
 .code {
@@ -61,6 +65,10 @@ main {
   color: #408E95;
 }
 
+.tealBack {
+  background-color: #408E95;
+}
+
 .tealBorder {
   border-style: solid;
   border-color: #99d4da;
@@ -82,7 +90,14 @@ main {
 .flex {
   display: flex;
 }
+.btn-primary {
+  background-color: #408E95;
+  border-width: 0;
+}
 
+.btn-primary[disabled] {
+  background-color: #9FD3D8;
+}
 .linkReset {
   text-decoration: none;
 }
@@ -93,7 +108,7 @@ main {
   position: absolute;
 }
 .loginButton {
-  background-color: #99d4da;
+  background-color: #408E95;
   margin-top: 10px;
   margin-bottom: 10px;
 }
@@ -112,10 +127,33 @@ main {
   background-position: center center;
 }
 
+.transparentTeal {
+  background-color: rgba(64, 142, 149, 0.7);
+}
+.navbar-collapse.collapse.in {
+  background-color: rgba(64, 142, 149, 0.7);
+}
 @media (max-width: 767px) {
   body {
     position: initial;
     font-size: 12px; }
+}
+
+.seekBase {
+  background-color: #A6D4D8;
+}
+
+.seekLoad {
+  background-color: #28787F;
+}
+
+.avatar {
+  border: 2px solid #ffffff;
+}
+
+.avatar-small>img {
+  width: 45px;
+  height: 45px;
 }
 /**
  * Typewriter
