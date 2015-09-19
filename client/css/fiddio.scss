@@ -146,6 +146,15 @@ main {
 .seekLoad {
   background-color: #28787F;
 }
+
+.avatar {
+  border: 2px solid #ffffff;
+}
+
+.avatar-small>img {
+  width: 45px;
+  height: 45px;
+}
 /**
  * Typewriter
  */

@@ -8,8 +8,8 @@ angular.module('fiddio')
       console.log('logging out');
       $http({ method: 'GET', url: '/api/logout'})
       .then(function(response){
-        var userInfo = $rootScope.userData.getItem('userInfo');
-        userInfo.authenticated = false;
+        //var userInfo = $rootScope.userData.getItem('userInfo');
+        var userInfo = { authenticated: false };
         $rootScope.userData.setItem('userInfo', userInfo);
         $rootScope.userData.authenticated = false;
         $rootScope.$state.go('logout');
