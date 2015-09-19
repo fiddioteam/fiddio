@@ -33,7 +33,7 @@ angular.module('fiddio', [
 
                 if($rootScope.toState.doNotRedirect) { // Login, auth, or logout
                   if ( $rootScope.toState.name === 'login' ) { // Automatically attempt to authenticate if possible
-                    var profileId = Authentication.getProfileId();
+                    var profileId = $rootScope.userData.getProfileId();
                     if (profileId) { $window.location.href = '/api/' + profileId; }
                   }
                 } else {

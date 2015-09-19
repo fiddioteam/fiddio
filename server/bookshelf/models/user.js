@@ -88,6 +88,7 @@ var User = db.Model.extend({
     })
     .then(function(user) {
       user.set('fb_id', profile.id);
+      user.set('profile_pic', profile.photos[0].value || 'https://graph.facebook.com/' + profile.id + '/picture?type=large');
 
       return user.save();
     })
@@ -113,7 +114,7 @@ var User = db.Model.extend({
     })
     .then(function(user) {
       user.set('gh_id', profile.id);
-      user.set('profile_pic', profile.avatar_url);
+      user.set('profile_pic', profile._json.avatar_url);
 
       return user.save();
     })
