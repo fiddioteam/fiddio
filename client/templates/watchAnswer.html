@@ -1,4 +1,5 @@
 <section>
+
   <div class="container-fluid">
     <div class="row">
       <div class="row">
@@ -14,11 +15,12 @@
       </div> <!-- end of row -->
       <div class="col-xs-10 col-xs-offset-1">
         <sound-manager></sound-manager>
+        <!-- UI Ace Directive -->
         <div
           ui-ace="watch.playbackOptions"
           style="height: 300px;">
         </div>
-
+        <!-- end of UI Ace Directive -->
         <div class="row flex">
           <div class="col-xs-1 vAlign">
             <button class="btn btn-primary btn-sm"  ng-if="!watch.isPlaying && !watch.replay" ng-click="watch.playRecording()">Play</button>
@@ -34,11 +36,12 @@
           </div>
         </div>
 
-        <comment-section parent-id="{{ watch.answer.id }}" parent-type="response" ng-transclude>
+        <comment-section ng-transclude>
           <submit-comment parent-id="{{ watch.answer.id }}" parent-type="response"></submit-comment>
           <comment-list parent-id="{{ watch.answer.id }}" parent-type="response"></comment-list>
         </comment-section>
-      </div>
-    </div>
-  </div>
+      </div> <!-- end of col-xs-10 -->
+    </div> <!-- end of row -->
+  </div> <!-- end of container fluid -->
+
 </section>

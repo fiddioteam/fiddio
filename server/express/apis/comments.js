@@ -1,11 +1,11 @@
 var db      = require('../../bookshelf/config'),
     utility = require('../../utility'),
     url     = require('url');
-
-require('../../bookshelf/models/response');
-require('../../bookshelf/models/comment');
-require('../../bookshelf/models/question');
-require('../../bookshelf/collections/comments');
+// loads necessary Bookshelf components
+              require('../../bookshelf/models/response');
+              require('../../bookshelf/models/comment');
+              require('../../bookshelf/models/question');
+              require('../../bookshelf/collections/comments');
 
 module.exports = function(app, router) {
 
@@ -33,8 +33,13 @@ module.exports = function(app, router) {
     .fetchResponsebyId(req.body.id)
     .then( function(response) {
       if (response) {
-        return { parent_type: 'response', parent_id: response.id };
-      } else { return Promise.reject('Bad response id'); }
+        return { 
+          parent_type: 'response',
+          parent_id: response.id 
+        };
+      } else { 
+        return Promise.reject('Bad response id');
+      }
     }), req, res, next);
   }
 
@@ -43,8 +48,13 @@ module.exports = function(app, router) {
     .fetchCommentbyId(req.body.id)
     .then( function(comment) {
       if (comment) {
-        return { parent_type: 'comment', parent_id: comment.id };
-      } else { return Promise.reject('Bad comment id'); }
+        return { 
+          parent_type: 'comment',
+          parent_id: comment.id
+        };
+      } else {
+        return Promise.reject('Bad comment id');
+      }
     }), req, res, next );
   }
 
@@ -53,8 +63,13 @@ module.exports = function(app, router) {
     .fetchQuestionbyId(req.body.id)
     .then( function(question) {
       if (question) {
-        return { parent_type: 'question', parent_id: question.id };
-      } else { return Promise.reject('Bad question id'); }
+        return {
+          parent_type: 'question',
+          parent_id: question.id
+        };
+      } else {
+        return Promise.reject('Bad question id');
+      }
     }), req, res, next );
   }
 
@@ -103,5 +118,4 @@ module.exports = function(app, router) {
   router.post('/response/:response_id/comment', utility.hasSession, postCommentHandler);
   router.post('/comment/:comment_id/comment', utility.hasSession, postCommentHandler);
   router.post('/question/:question_id/comment', utility.hasSession, postCommentHandler);
-
 };

@@ -3,14 +3,14 @@ var db      = require('../../bookshelf/config'),
     fs      = Promise.promisifyAll(require('fs')),
     path    = require('path'),
     utility = require('../../utility'),
-    upload  = require('multer')({ dest: './uploads/' });
-
-require('../../bookshelf/models/user');
-require('../../bookshelf/models/response');
-require('../../bookshelf/models/comment');
-require('../../bookshelf/models/question');
-require('../../bookshelf/models/vote');
-require('../../bookshelf/collections/comments');
+    upload  = require('multer')({ dest: './audio/' });
+// loads necessary Bookshelf components
+              require('../../bookshelf/models/user');
+              require('../../bookshelf/models/response');
+              require('../../bookshelf/models/comment');
+              require('../../bookshelf/models/question');
+              require('../../bookshelf/models/vote');
+              require('../../bookshelf/collections/comments');
 
 module.exports = function(app, router) {
 
@@ -28,7 +28,6 @@ module.exports = function(app, router) {
         responseJSON = response.toJSON();
         responseJSON.vote = (vote && vote.get('up_down')) || 0;
       }
-
       res.json(responseJSON);
     });
   }
@@ -86,7 +85,6 @@ module.exports = function(app, router) {
     .fetchQuestionbyId(req.body.id)
     .then( function(question) {
       return [question, db.model('Response').newResponse({
-        //title: req.body.title,
         body: req.body.body,
         code: req.body.code,
         duration: req.body.duration,
@@ -96,16 +94,16 @@ module.exports = function(app, router) {
       }).save()];
     })
     .spread( function(question, response) {
-      return [question.addResponse(), response, fs.renameAsync(req.file.path, path.join(req.file.destination, response.id + '.mp3'))];
+      return [question.addResponse(),
+              response,
+              fs.renameAsync(req.file.path, path.join(req.file.destination, response.id + '.mp3'))];
     })
     .spread( function(question, response, error) {
       if (error) { process.verb('Error on rename', error); }
-      else {
-        res.json(response.toJSON());
-      }
+      else { res.json(response.toJSON()); }
     })
-    .catch(function(err){
-      res.sendStatus(500); // Uh oh!
+    .catch( function(err) {
+      res.sendStatus(500);
       if (process.isDev()) { res.json({ error: err }); }
     });
   }

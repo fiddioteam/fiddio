@@ -1,8 +1,19 @@
 angular.module('fiddio')
 
-.factory('PlayerFactory', [ '$window', 'DataPackager','$rootScope', 'angularPlayer', function($window, DataPackager,$rootScope, angularPlayer) {
+.factory('PlayerFactory', [
+  '$window',
+  'DataPackager',
+  '$rootScope',
+  'angularPlayer',
+  function($window, DataPackager,$rootScope, angularPlayer) {
 
-  var _aceEditor, _session, _document, _selection, _code, _lastIndex, _recording;
+  var _aceEditor,
+      _session,
+      _document,
+      _selection,
+      _code,
+      _lastIndex,
+      _recording;
 
   var editorActions = [
     insertText,
@@ -19,13 +30,13 @@ angular.module('fiddio')
   };
 
   // creates a listener for change in track progress to allow for seeking while paused
-  $rootScope.$on('track:progress', function(event, args){
+  $rootScope.$on('track:progress', function(event, args) {
     if (!angularPlayer.isPlayingStatus()) {
       smashChanges();
     }
   });
 
-  function aceLoaded(_editor){
+  function aceLoaded(_editor) {
     _recording = [];
     _lastIndex = 0;
     _aceEditor = _editor.env.editor;
@@ -42,17 +53,18 @@ angular.module('fiddio')
     _recording = recording;
   }
 
-  function playActions(){
-    // smallest possible polling interval
+  function playActions() {
+    // smallest possible polling interval that doesn't cause lag 
     var timeOutSpeed = 5;
 
     if (!_recording.length) {
       return;
     }
-    setTimeout(function(){
+
+    setTimeout( function() {
       // floors the decimal places off the time position of the recording
-      var time = angularPlayer.getPosition()|0;
-      var prevIndex = _recording[_lastIndex-1];
+      var time = angularPlayer.getPosition() | 0;
+      var prevIndex = _recording[_lastIndex - 1];
       // checks for backwards seeking using previous index marker
       if (prevIndex && prevIndex[1] > time) {
         smashChanges(_recording);
@@ -72,8 +84,8 @@ angular.module('fiddio')
 
   // accumulates all editor changes into a single addition to the editor to allow for seeking
   function smashChanges() {
-    var time = angularPlayer.getPosition()|0;
-    _aceEditor.setValue(_code,-1);
+    var time = angularPlayer.getPosition() | 0;
+    _aceEditor.setValue(_code, -1);
     _recording.some(function(timeSlice, index) {
       if (timeSlice[1] <= time) {
         editorActions[timeSlice[0]](timeSlice);
@@ -84,22 +96,22 @@ angular.module('fiddio')
     });
   }
 
-  function setCode(code){
+  function setCode(code) {
     _code = code;
   }
 
-  function setReadOnly(value){
+  function setReadOnly(value) {
     _aceEditor.setReadOnly(value);
   }
 
-  function insertText(textObj){
+  function insertText(textObj) {
     _document.insert({
       row: textObj[2],
       column: textObj[3]
     }, textObj[6].join('\n'));
   }
 
-  function removeText(textObj){
+  function removeText(textObj) {
     _document.remove({
       start: {
         row: textObj[2],
@@ -111,7 +123,7 @@ angular.module('fiddio')
     });
   }
 
-  function moveCursor(cursorObj){
+  function moveCursor(cursorObj) {
     _selection.setSelectionRange({
       start: {
         row: cursorObj[4],
@@ -135,5 +147,4 @@ angular.module('fiddio')
     setReadOnly: setReadOnly,
     setRecording: setRecording
   };
-
 }]);

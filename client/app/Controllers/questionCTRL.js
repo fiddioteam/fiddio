@@ -1,4 +1,5 @@
 angular.module('fiddio')
+
 .controller('QuestionController', [
   '$rootScope',
   'question',
@@ -14,6 +15,6 @@ angular.module('fiddio')
     QuestionDisplayFactory.setCode(vm.question.code);
 
     vm.answerQuestion = function() {
-      $rootScope.$state.go('answer',{ questionID: $rootScope.$stateParams.questionID });
+      $rootScope.$state.go('answer', { questionID: $rootScope.$stateParams.questionID });
     };
 }]);

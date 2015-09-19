@@ -1,5 +1,9 @@
 angular.module('fiddio')
-  .directive('avatar', ['$rootScope', '$timeout', function($rootScope, $timeout){
+
+.directive('avatar', [
+  '$rootScope',
+  '$timeout',
+  function($rootScope, $timeout) {
     return {
       restrict: 'E',
       templateUrl: '/templates/avatar.html',
@@ -12,16 +16,15 @@ angular.module('fiddio')
       link: function($scope, iElm, iAttrs, controller) {
         $scope.userData = $rootScope.userData;
         $scope.userInfo = $rootScope.userData.getItem('userInfo');
-
-        $scope.$watch('userData', function(){
+        $scope.$watch('userData', function() {
           // This will only get changed when authentication changes
-          $timeout(function(){
+          $timeout( function() {
             $scope.userInfo = $rootScope.userData.getItem('userInfo');
             var imgTag = iElm.find('img');
-            console.log('imgTag', imgTag);
-            iElm.find('img').attr('src',$scope.userInfo.profile_pic);
+            iElm.find('img').attr('src', $scope.userInfo.profile_pic);
           });
         });
       }
     };
-  }]);
+  }
+]);
