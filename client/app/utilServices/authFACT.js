@@ -27,7 +27,7 @@ angular.module('fiddio')
         $rootScope.userData.authenticated = userInfo.authenticated;
         return response;
       }, function(response) {
-        console.log("Error in authorization check", response.status, response.data);
+        console.error("Error in authorization check", response.status, response.data);
       });
     }
 
