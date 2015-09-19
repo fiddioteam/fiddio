@@ -1,7 +1,11 @@
 angular.module('fiddio')
-  .factory('AskFactory', [function() {
 
-    var _aceEditor, _session, _document;
+.factory('AskFactory', [
+  function() {
+
+    var _aceEditor,
+        _session,
+        _document;
 
     var askOptions = {
       useWrapMode: true,
@@ -20,7 +24,7 @@ angular.module('fiddio')
       _aceEditor.setOption('showPrintMargin', false);
     }
 
-    function getCode(){
+    function getCode() {
       return _document.getAllLines().join('\n');
     }
 
@@ -28,5 +32,4 @@ angular.module('fiddio')
       askOptions: askOptions,
       getCode: getCode
     };
-
-  }]);
+}]);

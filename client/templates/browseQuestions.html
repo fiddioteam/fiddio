@@ -1,5 +1,6 @@
 <section>
-  <div class="container">
+
+  <div class="container-fluid">
     <div class="row">
       <div class="col-xs-10 col-xs-offset-1">
         <div class="page-header">
@@ -16,16 +17,17 @@
             <div class="col-xs-2">
               <div><i data-toggle="tooltip" tooltip data-placement="right" title="Users who've bookmarked this question" class="fa fa-star"></i> {{ question.star_count }}</div>
               <div><i data-toggle="tooltip" tooltip data-placement="right" title="Number of Answers" class="fa fa-youtube-play"></i> {{question.response_count}}</div>
-            </div>
+            </div> <!-- end of col-xs-2 -->
             <div class="col-xs-10">
               <span>{{ question.title }}</span>
               <div class="poster_name pull-right">{{ question.owner.name }}</div>
-            </div>
-          </div>
+            </div> <!-- end of col-xs-10 -->
+          </div> <!-- end of row -->
           </li>
         </ul>
         <span ng-if="(browse.questions|filter:search).length === 0">There are no results matching your search</span>
-      </div>
-    </div>
-  </div>
+      </div> <!-- end of col-xs-10 -->
+    </div> <!-- end of row -->
+  </div> <!-- end of container -->
+
 </section>

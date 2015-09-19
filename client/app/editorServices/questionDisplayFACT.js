@@ -1,7 +1,12 @@
 angular.module('fiddio')
-  .factory('QuestionDisplayFactory', [function() {
 
-    var _aceEditor, _session, _document, _code;
+.factory('QuestionDisplayFactory', [
+  function() {
+
+    var _aceEditor,
+        _session,
+        _document,
+        _code;
 
     var displayOptions = {
       useWrapMode: true,
@@ -19,13 +24,14 @@ angular.module('fiddio')
       _aceEditor.setReadOnly(true);
       _aceEditor.$blockScrolling = Infinity;
       _aceEditor.setOption('showPrintMargin', false);
-      _document.insert({row: 0, column: 0}, _code);
-
+      _document.insert({ row: 0, column: 0 }, _code);
     }
-    function getCode(){
+
+    function getCode() {
       return _document.getAllLines().join('\n');
     }
-    function setCode(code){
+
+    function setCode(code) {
       _code = code;
     }
 
@@ -34,5 +40,4 @@ angular.module('fiddio')
       getCode: getCode,
       setCode: setCode
     };
-
-  }]);
+}]);

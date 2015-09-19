@@ -1,11 +1,17 @@
-var passport = require('passport'),
-    url      = require('url'),
-    db       = require('../../bookshelf/config'),
-    utility  = require('../../utility');
+var passport =  require('passport'),
+    url      =  require('url'),
+    db       =  require('../../bookshelf/config'),
+    utility  =  require('../../utility');
+// loads Bookshelf User model and Questions collection
+                require('../../bookshelf/models/user');
+                require('../../bookshelf/collections/questions');
 
-require('../../bookshelf/models/user');
-require('../../bookshelf/collections/questions');
-
+/**
+ * API routes related to users
+ * @param  {Object} app     Instance object of Express middleware
+ * @param  {Object} router  Instance object of Express router
+ * @return {void}
+ */
 module.exports = function(app, router) {
 
   router.get('/fb', passport.authenticate('facebook', {
@@ -14,14 +20,9 @@ module.exports = function(app, router) {
 
   router.get('/fb/callback', function(req, res, next) {
     passport.authenticate('facebook', function(err, user, info) {
-      if (err) {
-        return next(err);
-      }
+      if (err) { return next(err); }
       req.logIn(user, function(err) {
-        if (err) {
-          return next(err);
-        }
-
+        if (err) { return next(err); }
         res.redirect( '/#/auth' );
       });
     })(req, res, next);
@@ -33,14 +34,9 @@ module.exports = function(app, router) {
 
   router.get('/gh/callback', function(req, res, next) {
     passport.authenticate('github', function(err, user, info) {
-      if (err) {
-        return next(err);
-      }
+      if (err) { return next(err); }
       req.logIn(user, function(err) {
-        if (err) {
-          return next(err);
-        }
-
+        if (err) { return next(err); }
         res.redirect( '/#/auth' );
       });
     })(req, res, next);
@@ -50,14 +46,9 @@ module.exports = function(app, router) {
 
   router.get('/mp/callback', function(req, res, next) {
     passport.authenticate('makerpass', function(err, user, info) {
-      if (err) {
-        return next(err);
-      }
+      if (err) { return next(err); }
       req.logIn(user, function(err) {
-        if (err) {
-          return next(err);
-        }
-
+        if (err) { return next(err); }
         res.redirect( '/#/auth' );
       });
     })(req, res, next);
@@ -74,7 +65,7 @@ module.exports = function(app, router) {
     });
   }
 
-function getStarredQuestions(req, res, next) {
+  function getStarredQuestions(req, res, next) {
     db.collection('Questions')
     .fetchStarredbyUser(req.body.id)
     .then( function(questions) {
@@ -97,7 +88,13 @@ function getStarredQuestions(req, res, next) {
       res.json({ authenticated: false });
     });
   }
-
+/**
+ * Takes user_id and assigns to req.body.id if possible to universalize the parameters
+ * @param  {Object}   req  Express request object
+ * @param  {Object}   res  Express response object
+ * @param  {Function} next Express next function
+ * @return {void}          Executes next route
+ */
   function userHandler(req, res, next) {
     req.body.id = utility.getUrlParamNums(req, 'user_id').user_id;
     if (!req.body.id && req.user) { req.body.id = req.user.id; }
@@ -118,8 +115,8 @@ function getStarredQuestions(req, res, next) {
     .then( function(user) {
       res.json(user.toJSON());
     })
-    .catch(function(err){
-      res.sendStatus(500); // Uh oh!
+    .catch( function(err) {
+      res.sendStatus(500);
       if (process.isDev()) { res.json({ error: err }); }
     });
   }
@@ -130,8 +127,8 @@ function getStarredQuestions(req, res, next) {
   }
 
   router.post('/register/user', createUser);
+  
   router.get('/logout', logoutHandler);
-
   router.get('/user/info', userHandler, getUserInfo);
   router.get('/users/questions', userHandler, getQuestions);
   router.get('/user/:user_id/info', userHandler, getUserInfo);

@@ -1,5 +1,6 @@
 <section>
-  <div class="container">
+
+  <div class="container-fluid">
   <div class="row">
       <div class="col-xs-10 col-xs-offset-1">
         <div class="page-header">
@@ -15,8 +16,8 @@
           style="height: 300px;">
         </div>
         <div class="morePadding">
-          <button class="btn btn-info" ng-if="!answer.currentlyRecording()" ng-click="answer.startRecording()">Record</button>
-          <button class="btn btn-warning" ng-if="answer.currentlyRecording()" ng-click="answer.pauseRecording()">Pause</button>
+          <button class="btn btn-danger" ng-if="!answer.currentlyRecording()" ng-click="answer.startRecording()"><i class="fa fa-microphone"></i></button>
+          <button class="btn btn-warning" ng-if="answer.currentlyRecording()" ng-click="answer.pauseRecording()"><i class="fa fa-pause"></i></button>
           <button class="btn btn-success pull-right" ng-disabled="answer.currentlyRecording() || !answer.hasStartedAnswering" ng-click="answer.submitRecording()">Submit</button>
         </div>
         <form novalidate style="margin-top: 8px;">
@@ -25,4 +26,5 @@
       </div> <!-- end of col-md-8 -->
     </div> <!-- end of row -->
   </div> <!-- end of container-->
+  
 </section>

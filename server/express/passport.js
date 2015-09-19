@@ -5,7 +5,7 @@ var utility           = require('../utility'),
     MakerpassStrategy = require('passport-makerpass').Strategy,
     db                = require('../bookshelf/config');
 // load user model class
-                    require('../bookshelf/models/user');
+                        require('../bookshelf/models/user');
 
 module.exports = function(app) {
   var urlAbsolute = process.isProd() ? process.env.urlAbsolute : process.env.urlAbsoluteDev;
@@ -29,15 +29,13 @@ module.exports = function(app) {
     profileFields: ['id', 'birthday', 'email', 'first_name', 'gender', 'last_name', 'picture.type(large)']
   }, db.model('User').fbAuthentication));
 
-  //if (process.isProd()) {
-    passport.use(new MakerpassStrategy({
-      clientID: process.env.mpApiId,
-      clientSecret: process.env.mpApiSecret,
-      callbackURL: 'http://' + urlAbsolute + '/api/mp/callback',
-      enableProof: false,
-      passReqToCallback: true,
-    }, db.model('User').mpAuthentication));
-  //}
+  passport.use(new MakerpassStrategy({
+    clientID: process.env.mpApiId,
+    clientSecret: process.env.mpApiSecret,
+    callbackURL: 'http://' + urlAbsolute + '/api/mp/callback',
+    enableProof: false,
+    passReqToCallback: true,
+  }, db.model('User').mpAuthentication));
 
   passport.serializeUser(db.model('User').serializeUser);
   passport.deserializeUser(db.model('User').deserializeUser);

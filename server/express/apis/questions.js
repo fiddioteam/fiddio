@@ -1,12 +1,12 @@
 var db      = require('../../bookshelf/config'),
     utility = require('../../utility');
-
-require('../../bookshelf/models/question');
-require('../../bookshelf/models/response');
-require('../../bookshelf/models/star');
-require('../../bookshelf/models/questionWatch');
-require('../../bookshelf/collections/questions');
-require('../../bookshelf/collections/responses');
+// loads necessary Bookshelf components
+              require('../../bookshelf/models/question');
+              require('../../bookshelf/models/response');
+              require('../../bookshelf/models/star');
+              require('../../bookshelf/models/questionWatch');
+              require('../../bookshelf/collections/questions');
+              require('../../bookshelf/collections/responses');
 
 module.exports = function(app, router) {
 
@@ -55,23 +55,24 @@ module.exports = function(app, router) {
         res.json({starred: star && star.get('active')});
       });
     } else {
-      res.json({starred: false});
+      res.json({ starred: false });
     }
   }
 
   function postStar(req, res, next) {
     var star = utility.getUrlParamNums(req, 'star').star;
-    process.verb('Star', star, 'User', req.user.id, 'question_id', req.body.id);
 
-    db.model('Star').fetchOrCreate(req.user.id, req.body.id, star)
-    .spread( function(star, question) {
-      res.json({ result: true });
-    })
-    .catch( function(err) {
-      //res.sendStatus(500); // Uh oh!
-      process.verb('ERROR!', err);
-      if (process.isDev()) { res.json({ error: err }); }
-    });
+    if (req.user) {
+      db.model('Star').fetchOrCreate(req.user.id, req.body.id, star)
+      .spread( function(star, question) {
+        res.json({ result: true });
+      })
+      .catch( function(err) {
+        if (process.isDev()) { res.json({ error: err }); }
+      });
+    } else {
+      res.json({ result: false });
+    }
   }
 
   function postWatch(req, res, next) {
@@ -107,7 +108,6 @@ module.exports = function(app, router) {
   }
 
   router.get('/questions', getQuestions);
-
   router.get('/question/star', utility.hasSession, questionHandler, getStarred); // question_id is in query
   router.get('/question/responses', questionHandler, getResponses); // question_id is in query
   router.get('/question/comments', questionHandler, getComments); // question_id is in query
@@ -121,5 +121,4 @@ module.exports = function(app, router) {
   router.post('/question/watch', utility.hasSession, questionHandler, postWatch );
   router.post('/question/:question_id/star', utility.hasSession, questionHandler, postStar);
   router.post('/question/:question_id/watch', utility.hasSession, questionHandler, postWatch );
-
 };

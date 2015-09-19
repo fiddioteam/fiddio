@@ -1,10 +1,11 @@
 var url = require('url');
     _   = require('lodash');
 
-module.exports.getId = function(req) {
-  return module.exports.getUrlParamNums(req, 'id').id;
-};
-
+/**
+ * Express convenience functions to capture stringified url parameters and convert them to numbers
+ * @param  {Object} req Express request object
+ * @return {Object}     JSON object of values retrieved from string ids
+ */
 module.exports.getUrlParamNums = function(req) {
   var method = req.method; //'GET', or 'POST'
 
@@ -23,6 +24,13 @@ module.exports.getUrlParamNums = function(req) {
   }, {});
 };
 
+/**
+ * Express route intercepter that returns a 403 if the users isn't logged in
+ * @param  {Object}   req  Express request object
+ * @param  {Object}   res  Express response object
+ * @param  {Function} next Express next function
+ * @return {void}
+ */
 module.exports.hasSession = function(req, res, next) {
   if (req.user) {
     next();

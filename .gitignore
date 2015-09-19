@@ -5,7 +5,7 @@ azure.err
 iisnode.yml
 
 # Uploaded mp3s
-uploads
+audio
 
 # Environmental Variables
 .env

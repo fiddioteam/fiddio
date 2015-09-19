@@ -9,30 +9,43 @@ var dbOptions = {
   }
 };
 
-//if (process.isDev()) { dbOptions.debug = true; }
+var knex    = require('knex')(dbOptions),
+    Promise = require('bluebird');
 
-var knex = require('knex')(dbOptions);
+//if (process.isDev()) { dbOptions.debug = true; }
 
 module.exports = db = require('bookshelf')(knex);
 
 db.plugin('registry');
 
-var Promise = require('bluebird');
+/**
+ * Convenience function facilitate building db tables as needed
+ * @param  {String}   name     The name of table to create
+ * @param  {Function} callback The callback defines table schema
+ *                             and takes in knex schema object
+ * @return {Promise}           Returns a Promise for chaining;
+ *                             Promise contains an object with
+ *                             name of table and  Boolean for
+ *                             whether it was created or already existed
+ */
 var buildTable = function(name, callback) {
   return db.knex.schema.hasTable(name)
   .then(function(exists) {
     if (exists) {
       return { name: name, created: false };
     } else {
-      return db.knex.schema.createTable(name, callback)
-      .then(function(qb) {
-        if (qb) {
-          return { name: name, created: true };
-        } else {
-          return { name: name, created: false };
-        }
-      });
+      return db.knex.schema.createTable(name, callback);
     }
+  })
+  .then(function(response) {
+    if (!response.name) {
+      qb = response;
+      if (qb) {
+        return { name: name, created: true };
+      } else {
+        return { name: name, created: false };
+      }
+    } else { return response; }
   });
 };
 
@@ -43,8 +56,6 @@ var usersTable = buildTable('users', function(table) {
   table.string('gh_id').unique();
   table.string('mp_id').unique();
   table.string('name').notNullable();
-  //table.string('first_name');
-  //table.string('last_name');
   table.string('profile_pic');
   table.integer('rank_points');
   table.integer('flags');
@@ -66,10 +77,8 @@ var questionsTable = buildTable('questions', function(table) {
 
 var responsesTable = buildTable('responses', function(table) {
   table.increments('id').primary();
-  //table.string('title');
   table.string('body');
   table.text('code');
-  //table.string('audio_url');
   table.integer('user_id');
   table.integer('question_id');
   table.integer('vote_count').notNullable();

@@ -1,5 +1,10 @@
 angular.module('fiddio')
-  .directive('votes', ['$http', '$rootScope', '$timeout', function($http, $rootScope, $timeout) {
+
+.directive('votes', [
+  '$http',
+  '$rootScope',
+  '$timeout',
+  function($http, $rootScope, $timeout) {
     return {
       restrict: 'E',
       templateUrl: '/templates/votes.html',
@@ -18,7 +23,7 @@ angular.module('fiddio')
             $http({ method: 'POST',
             url: '/api/response/' + scope.answer.id + '/vote',
             data: { vote: newVote } })
-            .then(function(response) {
+            .then( function(response) {
               if (response.data.result) {
                 scope.answer.vote_count = response.data.vote_count;
               }
@@ -27,4 +32,4 @@ angular.module('fiddio')
         };
       }
     };
-  }]);
+}]);
