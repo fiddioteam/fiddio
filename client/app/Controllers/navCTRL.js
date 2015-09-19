@@ -5,6 +5,7 @@ angular.module('fiddio')
     vm.userData = $rootScope.userData;
 
     vm.logout = function() {
+      console.log('logging out');
       $http({ method: 'GET', url: '/api/logout'})
       .then(function(response){
         var userInfo = $rootScope.userData.getItem('userInfo');
