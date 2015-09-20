@@ -28,68 +28,19 @@ module.exports = function(app, router) {
     });
   }
 
-  function postFromResponse(req, res, next) {
-    postComment( db.model('Response')
-    .fetchResponsebyId(req.body.id)
-    .then( function(response) {
-      if (response) {
-        return { 
-          parent_type: 'response',
-          parent_id: response.id 
-        };
-      } else { 
-        return Promise.reject('Bad response id');
-      }
-    }), req, res, next);
-  }
-
-  function postFromComment(req, res, next) {
-    postComment( db.model('Comment')
-    .fetchCommentbyId(req.body.id)
-    .then( function(comment) {
-      if (comment) {
-        return { 
-          parent_type: 'comment',
-          parent_id: comment.id
-        };
-      } else {
-        return Promise.reject('Bad comment id');
-      }
-    }), req, res, next );
-  }
-
-  function postFromQuestion(req, res, next) {
-    postComment( db.model('Question')
-    .fetchQuestionbyId(req.body.id)
-    .then( function(question) {
-      if (question) {
+  function postComment(parent, req, res, next) {
+    parent.promise
+    .then( function(model) {
+      if (model) {
         return {
-          parent_type: 'question',
-          parent_id: question.id
+          parent_type: parent.type,
+          parent_id: model.get('id')
         };
       } else {
-        return Promise.reject('Bad question id');
+        return Promise.reject('Bad id');
       }
-    }), req, res, next );
-  }
-
-  function getCommentHandler(req, res, next) {
-    req.body.id = utility.getUrlParamNums(req, 'comment_id').comment_id;
-    next();
-  }
-
-  function postCommentHandler(req, res, next) {
-    var params = utility.getUrlParamNums(req, 'question_id', 'response_id', 'comment_id');
-
-    if (params.question_id) { req.body.id = params.question_id; postFromQuestion(req, res, next); }
-    else if (params.response_id) { req.body.id = params.response_id; postFromResponse(req, res, next); }
-    else if (params.comment_id) { req.body.id = params.comment_id; postFromComment(req, res, next); }
-    else { next(); }
-  }
-
-  function postComment(promise, req, res, next) {
-    promise.then( function(options) {
-
+    })
+    .then( function(options) {
       options.user_id = req.user.id;
       options.body = req.body.body;
       options.timeslice = req.body.timeslice;
@@ -99,15 +50,38 @@ module.exports = function(app, router) {
       .save();
     })
     .then(function(comment){
-      return comment.fetch({withRelated: 'owner'});
+      return comment.fetch({ withRelated: 'owner' });
     })
     .then( function(comment) {
       res.json(comment.toJSON());
     })
     .catch( function(err) {
-      res.sendStatus(500); // Uh oh!
+      //res.sendStatus(500); // Uh oh!
       if (process.isDev()) { res.json({ error: err }); }
     });
+  }
+
+  function getCommentHandler(req, res, next) {
+    req.body.id = utility.getUrlParamNums(req, 'comment_id').comment_id;
+    next();
+  }
+
+  function postCommentHandler(req, res, next) {
+    var params = utility.getUrlParamNums(req, 'question_id', 'response_id', 'comment_id');
+    var parent = {};
+
+    if (params.question_id) {
+      parent.promise = db.model('Question').fetchQuestionbyId(params.question_id);
+      parent.type = 'question';
+    } else if (params.response_id) {
+      parent.promise = db.model('Response').fetchResponsebyId(params.response_id);
+      parent.type = 'response';
+    } else if (params.comment_id) {
+      parent.promise = db.model('Comment').fetchCommentbyId(params.comment_id);
+      parent.type = 'comment';
+    } else { next(); return; }
+
+    postComment(parent, req, res, next);
   }
 
   router.get('/comment', getCommentHandler, getComment );

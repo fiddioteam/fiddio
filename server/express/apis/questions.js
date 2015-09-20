@@ -48,31 +48,22 @@ module.exports = function(app, router) {
   }
 
   function getStarred(req, res, next) {
-    if (req.user) {
-      var user_id = req.user.get('id');
-      db.model('Star').fetchStar(user_id, req.body.id)
-      .then(function(star) {
-        res.json({starred: star && star.get('active')});
-      });
-    } else {
-      res.json({ starred: false });
-    }
+    var user_id = (req.user && req.user.get('id')) || -1;
+    db.model('Star').fetchStar(user_id, req.body.id, true)
+    .then(function(star) {
+      res.json({starred: star && star.get('active')});
+    });
   }
 
   function postStar(req, res, next) {
     var star = utility.getUrlParamNums(req, 'star').star;
-
-    if (req.user) {
-      db.model('Star').fetchOrCreate(req.user.id, req.body.id, star)
-      .spread( function(star, question) {
-        res.json({ result: true });
-      })
-      .catch( function(err) {
-        if (process.isDev()) { res.json({ error: err }); }
-      });
-    } else {
-      res.json({ result: false });
-    }
+    db.model('Star').fetchOrCreate(req.user.id, req.body.id, star)
+    .spread( function(star, question) {
+      res.json({ result: true });
+    })
+    .catch( function(err) {
+      if (process.isDev()) { res.json({ error: err }); }
+    });
   }
 
   function postWatch(req, res, next) {
@@ -108,13 +99,13 @@ module.exports = function(app, router) {
   }
 
   router.get('/questions', getQuestions);
-  router.get('/question/star', utility.hasSession, questionHandler, getStarred); // question_id is in query
+  router.get('/question/star', questionHandler, getStarred); // question_id is in query
   router.get('/question/responses', questionHandler, getResponses); // question_id is in query
   router.get('/question/comments', questionHandler, getComments); // question_id is in query
   router.get('/question/:question_id', questionHandler, getQuestion);
   router.get('/question/:question_id/responses', questionHandler, getResponses);
   router.get('/question/:question_id/comments', questionHandler, getComments);
-  router.get('/question/:question_id/star', utility.hasSession, questionHandler, getStarred);
+  router.get('/question/:question_id/star', questionHandler, getStarred);
 
   router.post('/question', utility.hasSession, postQuestion);
   router.post('/question/star', utility.hasSession, questionHandler, postStar);

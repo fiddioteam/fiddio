@@ -19,9 +19,10 @@ var Star = db.Model.extend({
   newStar: function(userId, questionId) {
     return new this({ user_id: userId, question_id: questionId });
   },
-  fetchStar: function(userId, questionId) {
-    return db.model('Star').newStar(userId, questionId)
-    .fetch({require: false});
+  fetchStar: function(userId, questionId, notRequired) {
+    return db.model('Star')
+    .newStar(userId, questionId)
+    .fetch({ require: !notRequired });
   },
   // only one star per user
   fetchOrCreate: function(userId, questionId, active) {
