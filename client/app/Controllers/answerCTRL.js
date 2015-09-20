@@ -36,8 +36,9 @@ angular.module('fiddio')
 
     $rootScope.$on('$stateChangeStart', function(event, toState, toStateParams, fromState, fromStateParams) {
       if (fromState.name === 'answer') {
-        console.log('RecorderFactory', RecorderFactory);
-        RecorderFactory.recorder.stop();
+        if (RecorderFactory.recorder) {
+          RecorderFactory.recorder.stop();
+        }
       }
     });
 
