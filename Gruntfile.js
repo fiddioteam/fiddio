@@ -1,5 +1,9 @@
-var path = require('path');
-var fs = require('fs');
+var fs    = require('fs'),
+    path  = require('path');
+            require('dotenv').load();
+
+process.isDev = function () { return process.env.NODE_ENV === 'development'; };
+process.isProd = function () { return process.env.NODE_ENV === 'production'; };
 
 module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt);
@@ -180,7 +184,8 @@ module.exports = function(grunt) {
 
   });
 
-  grunt.registerTask('default', [ 'dev' ]);
+  grunt.registerTask('default', process.isDev() ? 'dev' : 'prod' );
+  grunt.registerTask('build', process.isDev() ? 'dev_build' : 'prod_build' );
   grunt.registerTask('restart', [ 'shell:restart' ]);
   grunt.registerTask('start', [ 'shell:start' ]);
   grunt.registerTask('stop', [ 'shell:stop' ]);
