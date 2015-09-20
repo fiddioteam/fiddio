@@ -6,7 +6,7 @@
         <div class="row">
           <div class="col-xs-2 flex">
             <div class="hAlign"><i class="fa" ng-class="{'fa-check': solution == answer.id, 'fa-circle-o': (solution != answer.id && (userId == userData.getItem('userInfo').id))}" ng-click="markAsSolution(answer.id)"></i></div>
-            <div data-toggle="tooltip" tooltip data-placement="top" title="Number of Upvotes" class="hAlign"><i class="fa fa-chevron-up"></i> {{ answer.vote_count }}</div>
+            <div data-toggle="tooltip" tooltip data-placement="top" title="Number of Votes" class="hAlign"><i class="fa fa-chevron-up"></i> {{ answer.vote_count }}</div>
           </div> <!-- col-xs-10 -->
           <div class="col-xs-10">
             <span>Submitted by {{ answer.owner.name }}, {{ answer.duration | date:'mm:ss' }}</span>
@@ -16,6 +16,6 @@
         </div> <!-- end of row -->
       </li>
     </ul>
-  </div> 
+  </div>
 
 </section>

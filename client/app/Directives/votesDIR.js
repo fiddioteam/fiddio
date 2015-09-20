@@ -17,18 +17,21 @@ angular.module('fiddio')
 
         // set up function to up- and downvote
         scope.vote = function(value) {
-          var newVote = value === scope.currentVote ? 0 : value;
+          // TODO: Error popup if not logged in
+          if ($rootScope.userData.authenticated) {
+            var newVote = value === scope.currentVote ? 0 : value;
 
-          $timeout( function() {
-            $http({ method: 'POST',
-            url: '/api/response/' + scope.answer.id + '/vote',
-            data: { vote: newVote } })
-            .then( function(response) {
-              if (response.data.result) {
-                scope.answer.vote_count = response.data.vote_count;
-              }
+            $timeout( function() {
+              $http({ method: 'POST',
+              url: '/api/response/' + scope.answer.id + '/vote',
+              data: { vote: newVote } })
+              .then( function(response) {
+                if (response.data.result) {
+                  scope.answer.vote_count = response.data.vote_count;
+                }
+              });
             });
-          });
+          }
         };
       }
     };

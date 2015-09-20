@@ -16,23 +16,28 @@ angular.module('fiddio')
         scope.starred = false;
         scope.userData = $rootScope.userData;
         // fetch current star from server and store it on $scope
-        $http({ method: 'GET', url: '/api/question/' + attr.questionId + '/star' })
-        .then( function(response) {
-          scope.starred = response.data.starred;
-        }, function(error) {
-          console.error('Error', error);
-        });
+        if ($rootScope.userData.authenticated) {
+          $http({ method: 'GET', url: '/api/question/' + attr.questionId + '/star' })
+          .then( function(response) {
+            scope.starred = response.data.starred;
+          }, function(error) {
+            console.error('Error', error);
+          });
+        }
 
         // set up function to up- and downstar
         scope.toggleStar = function() {
-          $timeout( $http({ method: 'POST',
-            url: '/api/question/' + attr.questionId + '/star',
-            data: { star: !scope.starred + 0 } 
-          }).then( function(response) {
-            scope.starred = !scope.starred;
-          }, function(error) {
-            console.error('Error', error);
-          }));
+          // TODO: Error popup if not logged in
+          if ($rootScope.userData.authenticated) {
+            $timeout( $http({ method: 'POST',
+              url: '/api/question/' + attr.questionId + '/star',
+              data: { star: !scope.starred + 0 }
+            }).then( function(response) {
+              scope.starred = !scope.starred;
+            }, function(error) {
+              console.error('Error', error);
+            }));
+          }
         };
       }
     };

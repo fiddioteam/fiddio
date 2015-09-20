@@ -17,6 +17,8 @@ var QuestionWatch = db.Model.extend({
   },
   // only one star per user
   fetchOrCreate: function(userId, questionId, active) {
+    if (userId < 0) { return Promise.reject("Invalid userId"); }
+
     var options = {
       user: userId,
       question: questionId

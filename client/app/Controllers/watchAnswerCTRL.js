@@ -9,7 +9,7 @@ angular.module('fiddio')
   function(answer, PlayerFactory, angularPlayer, $rootScope, $scope) {
     var vm = this,
         _changes;
-    
+
     vm.answer = answer;
     vm.isPlaying = false;
     vm.replay = false;
