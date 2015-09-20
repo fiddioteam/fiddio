@@ -6,7 +6,7 @@
 [![In Progress](https://badge.waffle.io/fiddioteam/fiddio.png?label=In Progress&title=In Progress)](https://waffle.io/fiddioteam/fiddio)
 [![Under Review](https://badge.waffle.io/fiddioteam/fiddio.png?label=Under Review&title=Under Review)](https://waffle.io/fiddioteam/fiddio)
 
-> __Ask. Watch. Learn. Code.___
+> __Ask. Watch. Learn. Code.__
 
 ## Team
 
