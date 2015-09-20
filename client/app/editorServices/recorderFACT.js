@@ -13,11 +13,11 @@ angular.module('fiddio')
       _recorder,
       _audioBlob,
       _blobLength,
-      _code, 
+      _code,
       _pauseTime,
       _recording = [],
       currentlyRecording = false;
-  
+
   var recordOptions = {
     useWrapMode: true,
     showGutter: true,
