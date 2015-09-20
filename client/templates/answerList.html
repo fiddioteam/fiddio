@@ -10,7 +10,7 @@
           </div> <!-- col-xs-10 -->
           <div class="col-xs-10">
             <span>Submitted by {{ answer.owner.name }}, {{ answer.duration | date:'mm:ss' }}</span>
-            <button class="btn btn-primary btn-sm pull-right" ui-sref="watch({ questionID: {{ answer.question_id }}, answerID: {{ answer.id }}})">Watch Answer</button>
+            <button class="btn btn-primary btn-sm pull-right" ui-sref="watch-answer({ questionID: {{ answer.question_id }}, answerID: {{ answer.id }}})">Watch Answer</button>
             <p>{{answer.body}}</p>
           </div> <!-- end of col-xs-10 -->
         </div> <!-- end of row -->

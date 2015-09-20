@@ -66,7 +66,7 @@ angular.module('fiddio', [
     },
     controller: 'QuestionController as qv'
   })
-  .state('watch', {
+  .state('watch-answer', {
     url: '/question/:questionID/answer/:answerID',
     templateUrl: '../templates/watchAnswer.html',
     resolve: {
