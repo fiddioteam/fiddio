@@ -36,7 +36,8 @@ angular.module('fiddio')
     getRecordingStatus: getRecordingStatus,
     setRecordingStatus: setRecordingStatus,
     uploadEditorChanges: uploadEditorChanges,
-    setCode: setCode
+    setCode: setCode,
+    recording: _recording
   };
 
 // cross browser shim for navigator.getUserMedia

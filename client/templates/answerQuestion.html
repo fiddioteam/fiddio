@@ -18,11 +18,15 @@
         <div class="morePadding">
           <button class="btn btn-danger" ng-if="!answer.currentlyRecording()" ng-click="answer.startRecording()"><i class="fa fa-microphone"></i></button>
           <button class="btn btn-warning" ng-if="answer.currentlyRecording()" ng-click="answer.pauseRecording()"><i class="fa fa-pause"></i></button>
-          <button class="btn btn-success pull-right" ng-disabled="answer.currentlyRecording() || !answer.hasStartedAnswering" ng-click="answer.submitRecording()">Submit</button>
+          <button class="btn btn-success pull-right" ng-click="answer.submitRecording()">Submit</button>
         </div>
-        <form novalidate style="margin-top: 8px;">
+        <form novalidate class="tenPxBottom tenPxTop">
           <textarea class="form-control tealBorder" cols="30" rows="3" placeholder="Description" ng-model="answer.description"></textarea>
         </form>
+        <div ng-if="answer.error.length > 0" class="alert alert-danger" role="alert">
+          <span class="fa fa-exclamation-circle"></span>
+          {{ answer.error }}
+        </div>
       </div> <!-- end of col-md-8 -->
     </div> <!-- end of row -->
   </div> <!-- end of container-->

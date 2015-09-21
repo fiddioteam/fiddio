@@ -2,7 +2,7 @@
 
   <div>
     <div ng-if="userData.authenticated">
-      <div class="row flex">
+      <div class="row flex tenPxBottom">
         <div class="col-xs-10">
           <textarea class="form-control tealBorder"
                 cols="30"
@@ -22,8 +22,10 @@
       </div> <!-- end of row -->
 
     </div> <!-- end of ng-if -->
-    <div ng-if="!userData.authenticated">
-      <button class="btn btn-primary btn-xs pull-right" ui-sref="login">Login to Comment</button>
+    <div ng-if="!userData.authenticated" class="thirtyPxHeight">
+      <div class="vAlign">
+        <button class="btn btn-primary btn-xs pull-right" ui-sref="login">Login to Comment</button>
+      </div>
     </div> <!-- end of ng-if -->
   </div> 
 
