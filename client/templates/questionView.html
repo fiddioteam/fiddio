@@ -13,7 +13,6 @@
             </h3>
 
             <blockquote>{{ qv.question.body }}</blockquote>
-
           </div>
           <div class="col-xs-1 vAlign">
             <div class="pull-right">
@@ -32,7 +31,7 @@
           <submit-comment parent-id="{{ qv.question.id }}" parent-type="question"></submit-comment>
           <comment-list parent-id="{{ qv.question.id }}" parent-type="question"></comment-list>
         </comment-section>
-        <h3>Answers</h3>
+        <h3 >Answers</h3>
         <answer-list parent-id="{{ qv.question.id }}" solution="{{ qv.question.solution }}" user-id="{{ qv.question.user_id }}" ></answer-list>
       </div> <!-- end of col-xs-10 -->
     </div> <!-- end of row -->
