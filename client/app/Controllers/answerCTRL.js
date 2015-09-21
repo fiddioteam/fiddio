@@ -4,9 +4,8 @@ angular.module('fiddio')
   'RecorderFactory',
   'PlayerFactory',
   '$rootScope',
-  '$timeout',
   'question',
-  function( RecorderFactory, PlayerFactory, $rootScope, $timeout, question) {
+  function( RecorderFactory, PlayerFactory, $rootScope, question) {
     var vm = this; // initializes the view-model var (`vm`) for use in the controllerAs syntax
 
     //vm.hasStartedAnswering = false;
