@@ -9,4 +9,5 @@ require('dotenv').load();
 
 var db = require('./bookshelf/config');
 
+console.log('Express server listening on port 8000');
 module.exports = app = require('./express/express');
