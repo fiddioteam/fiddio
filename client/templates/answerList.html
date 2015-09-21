@@ -1,5 +1,5 @@
 <section>
-
+  <h4 ng-if="answers.length < 1"> Be the first to answer this question!</h4>
   <div ng-if="answers.length > 0">
     <ul class="list-group">
       <li ng-repeat="answer in answers | orderBy:filterAnswersByVotes:true" class="list-group-item browse">
