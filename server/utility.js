@@ -46,7 +46,7 @@ module.exports.hasSession = function(req, res, next) {
  */
 module.exports.removeKeys = function(target, keyList, recurse) {
   return _.transform(target, function(r, v, k, t) {
-    if (!_.some(keyList, function(check) { return check === k; })) {
+    if (_.indexOf(keyList, k) === -1) {
       if (_.isPlainObject(v) && recurse) {
         r[k] = module.exports.removeKeys(t[k], keyList, recurse);
       } else { r[k] = v; }
