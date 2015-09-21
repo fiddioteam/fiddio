@@ -26,7 +26,7 @@ module.exports = function(app, router) {
     .spread( function(response, vote) {
       var responseJSON = {};
       if (response) {
-        responseJSON = response.toJSON();
+        responseJSON = response.toJSON({ strip: true });
         responseJSON.vote = (vote && vote.get('up_down')) || 0;
       }
       res.json(responseJSON);
@@ -37,7 +37,7 @@ module.exports = function(app, router) {
     db.collection('Comments')
     .fetchbyResponseId(req.body.id)
     .then( function(comments) {
-      res.json({ comments: comments.toJSON() });
+      res.json({ comments: comments.toJSON({ strip: true }) });
     });
   }
 
@@ -100,7 +100,7 @@ module.exports = function(app, router) {
     })
     .spread( function(question, response, error) {
       if (error) { process.verb('Error on rename', error); }
-      else { res.json(response.toJSON()); }
+      else { res.json(response.toJSON({ strip: true })); }
     })
     .catch( function(err) {
       res.sendStatus(500);

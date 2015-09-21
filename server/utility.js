@@ -36,3 +36,20 @@ module.exports.hasSession = function(req, res, next) {
     next();
   } else { res.sendStatus(403); }
 };
+
+/**
+ * Removes keys that are listed. Can recurse and perform the removal on nested objects with keyName
+ * @param  {Object}   target   The object targeted for key filtering
+ * @param  {Array}    keyList  Array of keys to remove
+ * @param  {Boolean}  recurse  If true, will recurse through nested objects
+ * @return {void}
+ */
+module.exports.removeKeys = function(target, keyList, recurse) {
+  return _.transform(target, function(r, v, k, t) {
+    if (!_.some(keyList, function(check) { return check === k; })) {
+      if (_.isPlainObject(v) && recurse) {
+        r[k] = module.exports.removeKeys(t[k], keyList, recurse);
+      } else { r[k] = v; }
+    }
+  });
+};

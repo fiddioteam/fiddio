@@ -58,7 +58,7 @@ module.exports = function(app, router) {
     db.collection('Questions')
     .fetchbyUser(req.body.id)
     .then( function(questions) {
-      res.json({ questions: questions.toJSON() });
+      res.json({ questions: questions.toJSON({ strip: true }) });
     })
     .catch( function(err) {
       res.sendStatus(400); // Bad Request!
@@ -69,7 +69,7 @@ module.exports = function(app, router) {
     db.collection('Questions')
     .fetchStarredbyUser(req.body.id)
     .then( function(questions) {
-      res.json({ questions: questions.toJSON() });
+      res.json({ questions: questions.toJSON({ strip: true }) });
     })
     .catch( function(err) {
       res.sendStatus(400); // Bad Request!
@@ -127,7 +127,7 @@ module.exports = function(app, router) {
   }
 
   router.post('/register/user', createUser);
-  
+
   router.get('/logout', logoutHandler);
   router.get('/user/info', userHandler, getUserInfo);
   router.get('/users/questions', userHandler, getQuestions);

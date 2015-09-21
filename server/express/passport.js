@@ -18,8 +18,6 @@ module.exports = function(app) {
     passReqToCallback: true
   }, db.model('User').ghAuthentication));
 
-  process.verb('http://' + urlAbsolute + '/api/fb/callback');
-
   passport.use(new FacebookStrategy({
     clientID: process.isDev() ? process.env.fbApiIdDev : process.env.fbApiId,
     clientSecret: process.isDev() ? process.env.fbApiSecretDev : process.env.fbApiSecret,

@@ -13,7 +13,7 @@ module.exports = function(app, router) {
   function getQuestion(req, res, next) {
     db.model('Question').fetchQuestionbyId(req.body.id)
     .then( function(question) {
-      res.json(question.toJSON());
+      res.json(question.toJSON({ strip: true }));
     })
     .catch( function(err) {
       res.sendStatus(400); // Bad Request
@@ -23,14 +23,14 @@ module.exports = function(app, router) {
   function getQuestions(req, res, next) {
     db.collection('Questions').fetchQuestionsHead()
     .then( function(questions) {
-      res.json({ questions: questions.toJSON() });
+      res.json({ questions: questions.toJSON({ strip: true }) });
     });
   }
 
   function getResponses(req, res, next) {
     db.collection('Responses').fetchbyQuestionId(req.body.id)
     .then( function(responses) {
-      res.json({ responses: responses.toJSON() });
+      res.json({ responses: responses.toJSON({ strip: true }) });
     })
     .catch( function(err) {
       res.sendStatus(400); // Bad Request
@@ -40,7 +40,7 @@ module.exports = function(app, router) {
   function getComments(req, res, next) {
     db.collection('Comments').fetchbyQuestionId(req.body.id)
     .then( function(comments) {
-      res.json({ comments: comments.toJSON() });
+      res.json({ comments: comments.toJSON({ strip: true }) });
     })
     .catch( function(err) {
       res.sendStatus(400); // Bad Request
@@ -86,7 +86,7 @@ module.exports = function(app, router) {
       code: req.body.code,
       user_id: req.user.id,
     }).save().then( function(question) {
-      res.json(question.toJSON());
+      res.json(question.toJSON({ strip: true }));
     }).catch(function(err){
       res.sendStatus(500); // Uh oh!
       if (process.isDev()) { res.json({ error: err }); }
