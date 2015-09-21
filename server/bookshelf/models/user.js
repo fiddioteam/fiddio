@@ -1,5 +1,6 @@
 var db      = require('../config'),
-    Promise = require('bluebird');
+    Promise = require('bluebird'),
+    utility = require('../../utility');
 
 require('./question');
 require('./star');
@@ -7,6 +8,13 @@ require('./star');
 var User = db.Model.extend({
   tableName: 'users',
   hasTimestamps: true,
+  serialize: function(options) {
+    var attrs = db.Model.prototype.serialize.call(this, options);
+    if (options && options.strip) {
+      attrs = utility.removeKeys(attrs, ['email', 'fb_id', 'mp_id', 'gh_id'], true);
+    }
+    return attrs;
+  },
   questions: function() {
     return this.hasMany('Question');
   },

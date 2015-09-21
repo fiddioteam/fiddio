@@ -13,7 +13,7 @@ module.exports = function(app, router) {
     db.model('Comment')
     .fetchCommentbyId(req.body.id)
     .then( function(comment) {
-      res.json(comment.toJSON());
+      res.json(comment.toJSON({ strip: true }));
     })
     .catch( function(err) {
       res.sendStatus(400); // Bad Request!
@@ -24,7 +24,7 @@ module.exports = function(app, router) {
     db.collection('Comments')
     .fetchbyCommentId(req.body.id)
     .then( function(comments) {
-      res.json({ comments: comments.toJSON() });
+      res.json({ comments: comments.toJSON({ strip: true }) });
     });
   }
 
@@ -53,7 +53,7 @@ module.exports = function(app, router) {
       return comment.fetch({ withRelated: 'owner' });
     })
     .then( function(comment) {
-      res.json(comment.toJSON());
+      res.json(comment.toJSON({ strip: true }));
     })
     .catch( function(err) {
       //res.sendStatus(500); // Uh oh!
