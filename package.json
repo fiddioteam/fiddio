@@ -4,11 +4,11 @@
   "description": "code fiddles meet \"video\"",
   "main": "server/server.js",
   "scripts": {
-    "test": "grunt dev_build --verbose"
+    "test": "grunt build --verbose"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fiddio/fiddio.git"
+    "url": "git+https://github.com/fiddioteam/fiddio.git"
   },
   "keywords": [
     "code",
@@ -19,9 +19,9 @@
   "author": "Kamron Batman, Femi Saliu, Erik Eppel, Thomas Greenhalgh",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/fiddio/fiddio/issues"
+    "url": "https://github.com/fiddio/fiddioteam/issues"
   },
-  "homepage": "https://github.com/fiddio/fiddio#readme",
+  "homepage": "https://github.com/fiddioteam/fiddio#readme",
   "dependencies": {
     "bluebird": "^2.9.34",
     "body-parser": "^1.13.3",
