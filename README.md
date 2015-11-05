@@ -1,7 +1,7 @@
 # [Fidd.io](http://fidd.io)
-[![Build Status](https://travis-ci.org/fiddioteam/fiddio.svg?branch=dev)](https://travis-ci.org/fiddioteam/fiddio)
-[![Dependency Status](https://david-dm.org/fiddioteam/fiddio/dev.svg)](https://david-dm.org/fiddioteam/fiddio)
-[![devDependency Status](https://david-dm.org/fiddioteam/fiddio/dev/dev-status.svg)](https://david-dm.org/fiddioteam/fiddio#info=devDependencies)<br>
+[![Build Status](https://travis-ci.org/fiddioteam/fiddio.svg?branch=master)](https://travis-ci.org/fiddioteam/fiddio)
+[![Dependency Status](https://david-dm.org/fiddioteam/fiddio/master.svg)](https://david-dm.org/fiddioteam/fiddio)
+[![devDependency Status](https://david-dm.org/fiddioteam/fiddio/master/dev-status.svg)](https://david-dm.org/fiddioteam/fiddio#info=devDependencies)<br>
 [![Ready](https://badge.waffle.io/fiddioteam/fiddio.png?label=ready&title=Ready)](https://waffle.io/fiddioteam/fiddio)
 [![In Progress](https://badge.waffle.io/fiddioteam/fiddio.png?label=In Progress&title=In Progress)](https://waffle.io/fiddioteam/fiddio)
 [![Under Review](https://badge.waffle.io/fiddioteam/fiddio.png?label=Under Review&title=Under Review)](https://waffle.io/fiddioteam/fiddio)
