@@ -20,7 +20,6 @@ angular.module('fiddio')
           // This will only get changed when authentication changes
           $timeout( function() {
             $scope.userInfo = $rootScope.userData.getItem('userInfo');
-            var imgTag = iElm.find('img');
             iElm.find('img').attr('src', $scope.userInfo.profile_pic);
           });
         });
